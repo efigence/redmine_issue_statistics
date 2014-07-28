@@ -1,6 +1,7 @@
 # encoding: utf-8
 require 'redmine'
 require "redmine_issue_statistics"
+require "redmine_issue_statistics/version"
 Redmine::Plugin.register :redmine_issue_statistics do
   name 'Redmine Issue Statistics plugin'
   author "Marcin Świątkiewicz"
