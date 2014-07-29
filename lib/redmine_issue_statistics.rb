@@ -1,3 +1,5 @@
+  require "redmine_issue_statistics/version"
+  require 'redmine_issue_statistics/calculate_statistics'
   module RedmineIssueStatistics
 
   # [:pl, :en]

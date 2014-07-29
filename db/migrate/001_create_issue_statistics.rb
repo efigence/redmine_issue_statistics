@@ -1,7 +1,7 @@
 class CreateIssueStatistics < ActiveRecord::Migration
   def change
     create_table :issue_statistics do |t|
-     t.integer "object_id", :null => false #user_id/project
+     t.integer "object_id", :null => false #user_id/project_id
      t.integer "object_type", :null => false #project/user
      t.integer "total" #all belongs to user/project
      t.integer "opened" 
