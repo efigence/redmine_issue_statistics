@@ -6,7 +6,7 @@ module RedmineIssueStatistics
       def self.included(base) # :nodoc:
         base.class_eval do
           unloadable
-          has_one :issue_statistics, :as => :statisticable
+          has_many :issue_statistics, :as => :statisticable
         end
       end
     end

@@ -41,8 +41,7 @@ module RedmineIssueStatistics
       closed = @results[:closed]
       if opened != 0 && closed != 0
         ratio = opened/closed.to_f
-        ratio_limit = ratio.round(2)
-        @results[:opened_to_closed] = ratio_limit
+        @results[:opened_to_closed] = ratio * 100
       elsif opened == 0 && closed != 0
         @results[:opened_to_closed] = 100
       else

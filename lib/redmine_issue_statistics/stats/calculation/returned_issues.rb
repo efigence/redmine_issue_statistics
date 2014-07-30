@@ -15,15 +15,15 @@ module RedmineIssueStatistics
     end
 
     def returned_issues(statisticable)
-      @results[:returned] = 0
-      # statisticable.issues.each do |issue|
-      #   issue.journals.each do |journal|
-      #     journal.details.where(prop_key: "status_id").each do |detail|
-      #       if detail.old_val
-      #       end
-      #     end
-      #   end
-      # end
+      returned = 0
+      statisticable.issues.each do |issue|
+        issue.journals.each do |journal|
+          journal.details.where(prop_key: "status_id").each do |detail|
+            # if detail.old_val
+            # end
+          end
+        end
+      end
     end
 
   end

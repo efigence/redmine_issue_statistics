@@ -26,12 +26,20 @@ module RedmineIssueStatistics
       end
     end
 
+   def existing_stats principal
+      IssueStatistic.where(statisticable_id: principal.id, statisticable_type: principal.class.name).first
+    end
+
+    def new_stat principal
+      s = IssueStatistic.new
+      s.statisticable_id = principal.id
+      s.statisticable_type = principal.class.name
+      s
+    end
+
     def save_results principal
-      stat = IssueStatistic.new( merged_results )
-      stat.statisticable_id = principal.id
-      stat.statisticable_type = principal.class.name
-      puts stat.inspect
-      stat.save
+      stat = existing_stats(principal) || new_stat(principal) 
+      stat.update_attributes merged_results
     end
   end
 end
