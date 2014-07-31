@@ -5,8 +5,8 @@ module RedmineIssueStatistics
 
   class CalculateStatistic
     def calculate
-      calculate_stats_for_project
-      # calculate_stats_for_principal
+      #calculate_stats_for_project
+      calculate_stats_for_principal
     end
 
     private

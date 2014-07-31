@@ -7,8 +7,9 @@ module RedmineIssueStatistics
 
     attr_reader :results
     
-    def calculate
-      Principal.find_each do |principal|
+    def calculate 
+      #Principal.find_each do |principal|
+      Principal.where(id: 95).each do |principal|
         @results = []
         @results << BaseCalculation.new.calculate(principal)
         @results << ReturnedIssues.new.calculate(principal)
@@ -26,7 +27,7 @@ module RedmineIssueStatistics
       end
     end
 
-   def existing_stats principal
+    def existing_stats principal
       IssueStatistic.where(statisticable_id: principal.id, statisticable_type: principal.class.name).first
     end
 
