@@ -8,8 +8,8 @@ module RedmineIssueStatistics
     attr_reader :results
     
     def calculate 
-      #Principal.find_each do |principal|
-      Principal.where(id: 95).each do |principal|
+      Principal.find_each do |principal|
+      #Principal.where(id: 680).each do |principal|
         @results = []
         @results << BaseCalculation.new.calculate(principal)
         @results << ReturnedIssues.new.calculate(principal)

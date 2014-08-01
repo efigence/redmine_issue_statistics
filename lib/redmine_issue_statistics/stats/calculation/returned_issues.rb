@@ -1,4 +1,3 @@
-
 module RedmineIssueStatistics
   class ReturnedIssues
     attr_reader :results
