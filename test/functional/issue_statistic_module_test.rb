@@ -5,7 +5,12 @@ include RedmineIssueStatistics
 class IssueStatisticTest < ActiveSupport::TestCase
   self.fixture_path = File.join(File.dirname(__FILE__), '../fixtures')
 
-  fixtures :issues, :journals, :journal_details, :users, :projects
+  fixtures :issues,
+           :journals, 
+           :journal_details,  
+           :users,
+           :projects,
+           :time_entries
 
 
   test 'initial_test_fixtures' do
@@ -71,6 +76,16 @@ class IssueStatisticTest < ActiveSupport::TestCase
       assert_not_equal stat_project.closed, nil, 'closed Should not be null'
       assert_not_equal stat_project.opened, nil, 'opened Should not be null'
       assert_equal 1, stat_project.returned, 'Wrong returnd count'
+    end
+  end
+
+  test 'AVG time per issue' do
+    assert_difference 'IssueStatistic.count', +2 do
+      RedmineIssueStatistics::CalculateStatistic.new.calculate
+      stat_project =  IssueStatistic.where(statisticable_type: "project").first
+      assert_equal 170.0, stat_project.avg_issue_time, 'Wrong avg_issue_time for project!' 
+      stat_user = IssueStatistic.where(statisticable_type: "user").first
+      assert_equal 170.0, stat_user.avg_issue_time, 'Wrong avg_issue_timem for user!'
     end
   end
 end
