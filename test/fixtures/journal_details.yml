@@ -7,11 +7,11 @@ journal_details_001:
   prop_key: status_id
   journal_id: 1
 journal_details_002: 
-  old_value: "40"
+  old_value: "10"
   property: attr
   id: 2
-  value: "30"
-  prop_key: done_ratio
+  value: "1"
+  prop_key: status_id
   journal_id: 1
 journal_details_003:
   old_value:

@@ -63,7 +63,7 @@ class IssueStatisticTest < ActiveSupport::TestCase
 
       RedmineIssueStatistics::CalculateStatistic.new.calculate
       stat = IssueStatistic.last
-      assert_equal 2, stat.returned, 'Wrong returned count!'
+      assert_equal 1, stat.returned, 'Wrong returned count!'
     end
   end
 
@@ -75,7 +75,7 @@ class IssueStatisticTest < ActiveSupport::TestCase
       assert_not_equal stat_project.returned, nil, 'returned Should not be null'
       assert_not_equal stat_project.closed, nil, 'closed Should not be null'
       assert_not_equal stat_project.opened, nil, 'opened Should not be null'
-      assert_equal 1, stat_project.returned, 'Wrong returnd count'
+      assert_equal 1, stat_project.returned, 'Wrong returned count'
     end
   end
 

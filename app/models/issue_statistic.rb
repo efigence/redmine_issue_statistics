@@ -6,5 +6,5 @@ class IssueStatistic < ActiveRecord::Base
   
   belongs_to :statisticable, :polymorphic => true
   # belongs_to :project
-  # belongs_to :user
+  # belongs_to :principal
 end

@@ -18,11 +18,13 @@ module RedmineIssueStatistics
       if statisticable.issues.any?
         statisticable.issues.each do |issue|
           issue.journals.each do |journal|
-          journal.details.where(prop_key: "status_id").each do |detail|
-            value = nil
-              value = ["1", "2", "8"].find{ |x| x == detail.value} 
-              unless value.nil?
-                returned += 1
+            journal.details.where(prop_key: "status_id").each do |detail|
+              if detail.old_value != "1"
+                value = ["1", "2", "8"].find{ |x| x == detail.value} 
+                unless value.nil?
+                  returned += 1
+                  break
+                end
               end
             end
           end
