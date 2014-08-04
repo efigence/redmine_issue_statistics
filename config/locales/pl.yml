@@ -1,2 +1,9 @@
 pl:
   label_issue_statistics: Statystyki zagadnienia
+  field_total: Łącznie
+  field_opened: Otwartych
+  field_closed: Zamkniętych
+  field_ratio_c_o: Wykonanych
+  field_returned: Powracających
+  field_avg: Średni czas zagadnienia
+  field_type: Typ

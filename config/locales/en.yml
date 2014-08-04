@@ -1,3 +1,10 @@
 # English strings go here for Rails i18n
 en:
   label_issue_statistics: Issue statistics
+  field_total: Total
+  field_opened: Opened
+  field_closed: Closed
+  field_ratio_c_o: Ratio
+  field_returned: Returned
+  field_avg: AVG issue time
+  field_type: Type

@@ -1,1 +1,33 @@
-<h2>IssueStatisticsController#index</h2>
+<% if @issue_statistics.empty? %>
+  <p class="nodata"><%= l(:label_no_data) %></p>
+<% else %>
+<table class="list issues">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th><%=;(:field_type)%></th>
+      <th><%=l(:field_total)%></th>
+      <th><%=l(:field_opened)%></th>
+      <th><%=l(:field_closed)%></th>
+      <th><%=l(:field_ratio_c_o)%></th>
+      <th><%=l(:field_returned)%></th>
+      <th><%=l(:field_avg)%></th>
+    </tr>
+  </thead>
+
+<tbody>
+  <% @issue_statistics.each do |stat| %> 
+  <tr>
+    <td><%= stat.id %></td>
+    <td><%= stat.statisticable_type %></td>
+    <td><%= stat.total %></td>
+    <td><%= stat.opened %></td>
+    <td><%= stat.closed %></td>
+    <td><%= stat.opened_to_closed %></td>
+    <td><%= stat.returned %></td>
+    <td><%= stat.avg_issue_time %></td>
+  <% end %>
+  </tr>
+</tbody>
+</table>
+<% end %>

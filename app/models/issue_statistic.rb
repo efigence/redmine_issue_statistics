@@ -5,5 +5,6 @@ class IssueStatistic < ActiveRecord::Base
                    :returned, :from_close_to, :avg_issue_time
   
   belongs_to :statisticable, :polymorphic => true
-
+  # belongs_to :project
+  # belongs_to :user
 end

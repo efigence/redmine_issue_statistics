@@ -19,6 +19,7 @@ class IssueStatisticTest < ActiveSupport::TestCase
     assert_equal 6, JournalDetail.count, 'should be 6'
     assert_equal 0, IssueStatistic.count, 'should be 0'
     assert_equal 1, Project.count, 'should be 1'
+    assert_equal 2, TimeEntry.count, 'should be 2'
   end
 
   test 'statistic_table_should_be_increment_by_two' do
@@ -67,7 +68,6 @@ class IssueStatisticTest < ActiveSupport::TestCase
   end
 
   test 'returned_issues_for_project' do
-    assert_equal 0, IssueStatistic.count, 'Should be 0!'
     assert_difference 'IssueStatistic.count', +2 do
       RedmineIssueStatistics::CalculateStatistic.new.calculate
       stat_project = IssueStatistic.where(statisticable_type: "project").first
