@@ -5,14 +5,16 @@ module RedmineIssueStatistics
 
   class CalculateStatisticForProject
 
-    attr_reader :results
+    attr_reader :results, :period
     
-    def calculate
+    def calculate periods
       Project.find_each do |project|
-        @results = []
-        @results << BaseCalculation.new.calculate(project)
-        @results << ReturnedIssues.new.calculate(project)
-        save_results project
+        periods.each do |period|
+          @results = []
+          @results << BaseCalculation.new.calculate(project, period)
+          @results << ReturnedIssues.new.calculate(project, period)
+          save_results project, period
+        end
         return
       end
     end
@@ -26,8 +28,8 @@ module RedmineIssueStatistics
       end
     end
 
-    def existing_stats project
-      IssueStatistic.where(statisticable_id: project.id, statisticable_type: project.class.name).first
+    def existing_stats project, period
+      IssueStatistic.where(statisticable_id: project.id, statisticable_type: project.class.name, period: period).first
     end
 
     def new_stat project
@@ -37,8 +39,9 @@ module RedmineIssueStatistics
       s
     end
 
-    def save_results project
-      stat = existing_stats(project) || new_stat(project) 
+    def save_results project, period
+      stat = existing_stats(project, period) || new_stat(project) 
+      stat.period = period
       stat.update_attributes merged_results
     end
   end

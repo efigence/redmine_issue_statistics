@@ -11,12 +11,16 @@ module RedmineIssueStatistics
 
     private
 
+    def periods
+      @periods ||= %w(week month year all)
+    end
+
     def calculate_stats_for_project
-      CalculateStatisticForProject.new.calculate
+      CalculateStatisticForProject.new.calculate periods
     end
 
     def calculate_stats_for_principal
-      CalculateStatisticForPrincipal.new.calculate
+      CalculateStatisticForPrincipal.new.calculate periods
     end
   end
 end

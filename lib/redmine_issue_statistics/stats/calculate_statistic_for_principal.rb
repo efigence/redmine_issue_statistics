@@ -5,15 +5,17 @@ module RedmineIssueStatistics
   
   class CalculateStatisticForPrincipal
 
-    attr_reader :results
+    attr_reader :results, :period
     
-    def calculate 
+    def calculate periods
       Principal.find_each do |principal|
       #Principal.where(id: 95).each do |principal|
-        @results = []
-        @results << BaseCalculation.new.calculate(principal)
-        @results << ReturnedIssues.new.calculate(principal)
-        save_results principal
+        periods.each do |period|
+          @results = []
+          @results << BaseCalculation.new.calculate(principal, period)
+          @results << ReturnedIssues.new.calculate(principal, period)
+          save_results principal, period
+        end
         return
       end
     end
@@ -27,8 +29,8 @@ module RedmineIssueStatistics
       end
     end
 
-    def existing_stats principal
-      IssueStatistic.where(statisticable_id: principal.id, statisticable_type: principal.class.name).first
+    def existing_stats principal, period
+      IssueStatistic.where(statisticable_id: principal.id, statisticable_type: principal.class.name, period: period).first
     end
 
     def new_stat principal
@@ -38,9 +40,13 @@ module RedmineIssueStatistics
       s
     end
 
-    def save_results principal
-      stat = existing_stats(principal) || new_stat(principal) 
+    def save_results principal, period
+      stat = existing_stats(principal, period) || new_stat(principal) 
+      stat.period = period
       stat.update_attributes merged_results
     end
   end
-end
+end    
+
+
+

@@ -23,13 +23,13 @@ class IssueStatisticTest < ActiveSupport::TestCase
   end
 
   test 'statistic_table_should_be_increment_by_two' do
-    assert_difference 'IssueStatistic.count', +2 do
+    assert_difference 'IssueStatistic.count', +8 do
       RedmineIssueStatistics::CalculateStatistic.new.calculate 
     end
   end
 
   test 'base_calculation_on_new_and_on_update' do
-    assert_difference 'IssueStatistic.count', +2 do
+    assert_difference 'IssueStatistic.count', +8 do
       RedmineIssueStatistics::CalculateStatistic.new.calculate
       stat_1 = IssueStatistic.last
       RedmineIssueStatistics::CalculateStatistic.new.calculate
@@ -68,7 +68,7 @@ class IssueStatisticTest < ActiveSupport::TestCase
   end
 
   test 'returned_issues_for_project' do
-    assert_difference 'IssueStatistic.count', +2 do
+    assert_difference 'IssueStatistic.count', +8 do
       RedmineIssueStatistics::CalculateStatistic.new.calculate
       stat_project = IssueStatistic.where(statisticable_type: "project").first
       assert_not_equal stat_project.total, nil, 'total Should not be null'
@@ -80,7 +80,7 @@ class IssueStatisticTest < ActiveSupport::TestCase
   end
 
   test 'AVG time per issue' do
-    assert_difference 'IssueStatistic.count', +2 do
+    assert_difference 'IssueStatistic.count', +8 do
       RedmineIssueStatistics::CalculateStatistic.new.calculate
       stat_project =  IssueStatistic.where(statisticable_type: "project").first
       assert_equal 170.0, stat_project.avg_issue_time, 'Wrong avg_issue_time for project!' 
