@@ -9,7 +9,7 @@
   <hr />
 
 <% @periods.each do |period| %>
-<h3><%= period %></h3>
+<h3><%= l(period.to_sym) %></h3>
 <table class="list issues">
   <thead>
     <tr>
@@ -21,6 +21,7 @@
       <th><%=l(:field_closed)%></th>
       <th><%=l(:field_ratio_c_o)%>(%)</th>
       <th><%=l(:field_returned)%></th>
+      <th><%=l(:field_comment_max)%></th>
       <th><%=l(:field_avg)%></th>
     </tr>
   </thead>
@@ -41,6 +42,7 @@
         <td><%= stat.closed %></td>
         <td><%= progress_bar(stat.opened_to_closed.round(2),:width => '80px', :class => 'progress', :legend => "#{stat.opened_to_closed.round(2)}%") %></td>
         <td><%= stat.returned %></td>
+        <td><%= stat.comment_max %></td>
         <td><%= stat.avg_issue_time.round(2) %></td>
         <% end %>
         <% end %>

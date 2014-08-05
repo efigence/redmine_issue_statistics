@@ -6,7 +6,7 @@ module RedmineIssueStatistics
       @periods_datetime = nil
       @period = period
 
-      returned_issues statisticable
+      returned_issues_and_comment_max statisticable
       return @results
     end
 
@@ -34,11 +34,17 @@ module RedmineIssueStatistics
       @results = {}
     end
 
-    def returned_issues(statisticable)
+    def returned_issues_and_comment_max(statisticable)
     returned = 0
+    
+    tab = []
       if statisticable.issues.any?
         statisticable.issues.each do |issue|
+          comment = 0
           issue.journals.where('created_on >= ?', period_to_datetime).each do |journal|
+            if journal.notes != ""
+               comment += 1
+            end
             journal.details.where(prop_key: "status_id").each do |detail|
               if detail.old_value != "1"
                 value = ["1", "2", "8"].find{ |x| x == detail.value} 
@@ -48,8 +54,10 @@ module RedmineIssueStatistics
                 end
               end
             end
+           tab << comment
           end
         end
+        @results[:comment_max] = tab.max
         @results[:returned] = returned
       end
     end

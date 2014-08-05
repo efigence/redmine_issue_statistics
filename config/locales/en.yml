@@ -13,3 +13,8 @@ en:
   stats_all: All
   stats_user: For Users
   stats_project: For Projects
+  field_comment_max: Most comments
+  week: Week
+  month: Month
+  year: Year
+  all: All

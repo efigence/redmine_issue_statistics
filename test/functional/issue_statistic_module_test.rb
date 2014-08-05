@@ -15,7 +15,7 @@ class IssueStatisticTest < ActiveSupport::TestCase
 
   test 'initial_test_fixtures' do
     assert_equal 1, User.count, 'should be 1'
-    assert_equal 5, Journal.count, 'should be 5'
+    assert_equal 6, Journal.count, 'should be 5'
     assert_equal 6, JournalDetail.count, 'should be 6'
     assert_equal 0, IssueStatistic.count, 'should be 0'
     assert_equal 1, Project.count, 'should be 1'
@@ -88,4 +88,30 @@ class IssueStatisticTest < ActiveSupport::TestCase
       assert_equal 170.0, stat_user.avg_issue_time, 'Wrong avg_issue_timem for user!'
     end
   end
+
+  test 'Comment max' do
+    assert_difference 'IssueStatistic.count', +8 do
+      RedmineIssueStatistics::CalculateStatistic.new.calculate
+      stat = IssueStatistic.where(period: 'week').first
+      stat_month = IssueStatistic.where(period: 'month').first
+      stat_year = IssueStatistic.where(period: 'year').first
+      assert_equal 5, stat.comment_max, 'Wrong most comment count for week!'
+      assert_equal 6, stat_month.comment_max, 'Wrong most comment count for month' 
+      assert_equal 6, stat_year.comment_max, 'Wrong most comment count for year' 
+    end
+  end
+
+  test 'week, month, year, all' do
+    assert_difference 'IssueStatistic.count', +8 do
+      RedmineIssueStatistics::CalculateStatistic.new.calculate
+      stat_week = IssueStatistic.where(period: 'week').first
+      stat_month = IssueStatistic.where(period: 'month').first
+      stat_year = IssueStatistic.where(period: 'year').first
+      stat_all = IssueStatistic.where(period: 'all').first
+      assert_equal 1, stat_week.returned, "Wrong returned count for stat_week"
+      assert_equal 1, stat_month.returned, "Wrong returned count for stat_month"
+      assert_equal 1, stat_year.returned, "Wrong returned count for stat_year"
+      assert_equal 1, stat_all.returned, "Wrong returned count for stat_all"
+    end
+  end  
 end
