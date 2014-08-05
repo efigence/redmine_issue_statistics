@@ -7,3 +7,5 @@ pl:
   field_returned: Powracających
   field_avg: Średni czas zagadnienia
   field_type: Typ
+  field_assign: Przypisany do
+  view_statistics: Statystyki

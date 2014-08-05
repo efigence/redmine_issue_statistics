@@ -1,12 +1,14 @@
 <% if @issue_statistics.empty? %>
   <p class="nodata"><%= l(:label_no_data) %></p>
 <% else %>
+<% @periods.each do |period| %>
+<h3><%= period %></h3>
 <table class="list issues">
   <thead>
     <tr>
       <th>#</th>
       <th><%=l(:field_type)%></th>
-      <th>Who: </th>
+      <th><%=l(:field_assign)%> </th>
       <th><%=l(:field_total)%></th>
       <th><%=l(:field_opened)%></th>
       <th><%=l(:field_closed)%></th>
@@ -18,22 +20,26 @@
 
   <tbody>
     <% @issue_statistics.each do |stat| %> 
-    <tr>
-      <td><%= stat.id %></td>
-      <td><%= stat.statisticable_type %></td>
-      <% if stat.statisticable_type == "User" %>
-      <td><%= User.find(stat.statisticable_id).name %> </td>
-      <% else %>
-      <td><%= Project.find(stat.statisticable_id).name %> </td>
-      <% end %>
-      <td><%= stat.total %></td>
-      <td><%= stat.opened %></td>
-      <td><%= stat.closed %></td>
-      <td><%= progress_bar(stat.opened_to_closed.round(2),:width => '80px', :class => 'progress', :legend => "#{stat.opened_to_closed.round(2)}%") %></td>
-      <td><%= stat.returned %></td>
-      <td><%= stat.avg_issue_time.round(2) %></td>
-    <% end %>
-    </tr>
-  </tbody>
-</table>
-<% end %>
+    <% if stat.period == period %>
+      <tr>
+        <td><%= stat.id %></td>
+        <td><%= stat.statisticable_type %></td>
+        <% if stat.statisticable_type == "User" %>
+        <td><%= User.find(stat.statisticable_id).name %> </td>
+        <% else %>
+        <td><%= Project.find(stat.statisticable_id).name %> </td>
+        <% end %>
+        <td><%= stat.total %></td>
+        <td><%= stat.opened %></td>
+        <td><%= stat.closed %></td>
+        <td><%= progress_bar(stat.opened_to_closed.round(2),:width => '80px', :class => 'progress', :legend => "#{stat.opened_to_closed.round(2)}%") %></td>
+        <td><%= stat.returned %></td>
+        <td><%= stat.avg_issue_time.round(2) %></td>
+        <% end %>
+        <% end %>
+      </tr>
+    </tbody>
+  </table>
+  <% end %>
+<% end %> 
+

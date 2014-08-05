@@ -9,6 +9,10 @@ Redmine::Plugin.register :redmine_issue_statistics do
   version '0.0.1'
   url 'https://github.com/efigence/redmine_issue_statistics'
   author_url 'http://www.efigence.com/'
+
+  permission :view_statistics, :issue_statistics => :index
+  menu :admin_menu, :issue_statistics, {:controller => 'issue_statistics', :action => 'index'}, :caption => 'Statistics'
+
 end
 
 Rails.configuration.to_prepare do
