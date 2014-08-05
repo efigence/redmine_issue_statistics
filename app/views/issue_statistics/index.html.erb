@@ -1,11 +1,11 @@
 <% if @issue_statistics.empty? %>
   <p class="nodata"><%= l(:label_no_data) %></p>
 <% else %>
-<h2><%=l(:view_statistics_from)%> <%= IssueStatistic.first.updated_at.to_date%> </h2>
+<h2><%=l(:view_statistics_from)%> <%= IssueStatistic.last.updated_at.to_date %> </h2>
 <h3><%= link_to l(:stats_all) , issue_statistics_index_path %>
     <%= link_to l(:stats_user), issue_statistics_users_stats_path, :class => 'icon icon-user' %>
     <%= link_to l(:stats_project), issue_statistics_projects_stats_path, :class => 'icon icon-projects' %>
-    </h3>
+</h3>
   <hr />
 
 <% @periods.each do |period| %>
@@ -43,7 +43,7 @@
         <td><%= progress_bar(stat.opened_to_closed.round(2),:width => '80px', :class => 'progress', :legend => "#{stat.opened_to_closed.round(2)}%") %></td>
         <td><%= stat.returned %></td>
         <td><%= stat.comment_max %></td>
-        <td><%= stat.avg_issue_time.round(2) %></td>
+        <td><%= stat.avg_issue_time.round(2) %> h</td>
         <% end %>
         <% end %>
       </tr>
