@@ -9,3 +9,7 @@ en:
   field_type: Type
   field_assign: Assigned to
   view_statistics: Statistics
+  view_statistics_from: Statistics from
+  stats_all: All
+  stats_user: For Users
+  stats_project: For Projects
