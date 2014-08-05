@@ -36,10 +36,9 @@ module RedmineIssueStatistics
 
     def returned_issues_and_comment_max(statisticable)
     returned = 0
-    
     tab = []
       if statisticable.issues.any?
-        statisticable.issues.each do |issue|
+        statisticable.issues.where('created_on >= ?', period_to_datetime).each do |issue|
           comment = 0
           issue.journals.where('created_on >= ?', period_to_datetime).each do |journal|
             if journal.notes != ""
