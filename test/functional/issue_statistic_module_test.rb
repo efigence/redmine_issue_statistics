@@ -10,7 +10,8 @@ class IssueStatisticTest < ActiveSupport::TestCase
            :journal_details,  
            :users,
            :projects,
-           :time_entries
+           :time_entries,
+           :members
 
 
   test 'initial_test_fixtures' do
@@ -22,14 +23,14 @@ class IssueStatisticTest < ActiveSupport::TestCase
     assert_equal 2, TimeEntry.count, 'should be 2'
   end
 
-  test 'statistic_table_should_be_increment_by_two' do
-    assert_difference 'IssueStatistic.count', +8 do
+  test 'statistic_table_should_be_increment' do
+    assert_difference 'IssueStatistic.count', +12 do
       RedmineIssueStatistics::CalculateStatistic.new.calculate 
     end
   end
 
   test 'base_calculation_on_new_and_on_update' do
-    assert_difference 'IssueStatistic.count', +8 do
+    assert_difference 'IssueStatistic.count', +12 do
       RedmineIssueStatistics::CalculateStatistic.new.calculate
       stat_1 = IssueStatistic.last
       RedmineIssueStatistics::CalculateStatistic.new.calculate
@@ -68,7 +69,7 @@ class IssueStatisticTest < ActiveSupport::TestCase
   end
 
   test 'returned_issues_for_project' do
-    assert_difference 'IssueStatistic.count', +8 do
+    assert_difference 'IssueStatistic.count', +12 do
       RedmineIssueStatistics::CalculateStatistic.new.calculate
       stat_project = IssueStatistic.where(statisticable_type: "project").first
       assert_not_equal stat_project.total, nil, 'total Should not be null'
@@ -80,7 +81,7 @@ class IssueStatisticTest < ActiveSupport::TestCase
   end
 
   test 'AVG time per issue' do
-    assert_difference 'IssueStatistic.count', +8 do
+    assert_difference 'IssueStatistic.count', +12 do
       RedmineIssueStatistics::CalculateStatistic.new.calculate
       stat_project =  IssueStatistic.where(statisticable_type: "project").first
       assert_equal 170.0, stat_project.avg_issue_time, 'Wrong avg_issue_time for project!' 
@@ -90,19 +91,19 @@ class IssueStatisticTest < ActiveSupport::TestCase
   end
 
   test 'Comment max' do
-    assert_difference 'IssueStatistic.count', +8 do
+    assert_difference 'IssueStatistic.count', +12 do
       RedmineIssueStatistics::CalculateStatistic.new.calculate
       stat = IssueStatistic.where(period: 'week').first
       stat_month = IssueStatistic.where(period: 'month').first
       stat_year = IssueStatistic.where(period: 'year').first
-      assert_equal 5, stat.comment_max, 'Wrong most comment count for week!'
-      assert_equal 6, stat_month.comment_max, 'Wrong most comment count for month' 
-      assert_equal 6, stat_year.comment_max, 'Wrong most comment count for year' 
+      assert_equal 0, stat.comment_max, 'Wrong comment count for week!'
+      assert_equal 1, stat_month.comment_max, 'Wrong most comment count for month' 
+      assert_equal 1, stat_year.comment_max, 'Wrong most comment count for year' 
     end
   end
 
   test 'week, month, year, all' do
-    assert_difference 'IssueStatistic.count', +8 do
+    assert_difference 'IssueStatistic.count', +12 do
       RedmineIssueStatistics::CalculateStatistic.new.calculate
       stat_week = IssueStatistic.where(period: 'week').first
       stat_month = IssueStatistic.where(period: 'month').first
@@ -113,5 +114,23 @@ class IssueStatisticTest < ActiveSupport::TestCase
       assert_equal 1, stat_year.returned, "Wrong returned count for stat_year"
       assert_equal 1, stat_all.returned, "Wrong returned count for stat_all"
     end
-  end  
+  end
+  
+  test 'Statistics for principal per project' do
+    RedmineIssueStatistics::CalculateStatistic.new.calculate
+    stat_week = IssueStatistic.where("period = ? AND relate_type = ?", "week", "User").first
+    stat_month = IssueStatistic.where("period = ? AND relate_type = ?", "month", "User").first
+    stat_year = IssueStatistic.where("period = ? AND relate_type = ?", "year", "User").first
+    stat_all = IssueStatistic.where("period = ? AND relate_type = ?", "all", "User").first
+    assert_equal 1, stat_week.total, "Wrong total count in stat_week!"
+    assert_equal 1, stat_month.total, "Wrong total count in stat_month!"
+    assert_equal 1, stat_year.total, "Wrong total count in stat_year!"
+    assert_equal 1, stat_all.total, "Wrong total count in stat_all!"
+    assert_equal 0, stat_week.comment_max, "Wrong comment count in stat_week!"
+    assert_equal 1, stat_month.comment_max, "Wrong comment count in stat_month!"
+    assert_equal 1, stat_year.comment_max, "Wrong comment count in stat_year!"
+    assert_equal 1, stat_all.comment_max, "Wrong comment count in stat_all!"
+    assert_equal 1, stat_all.returned, "Wrong returned count in stat_all!"
+  end
+
 end

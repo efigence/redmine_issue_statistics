@@ -3,9 +3,11 @@ module RedmineIssueStatistics
   class BaseCalculation
     attr_reader :results, :period
 
-    def calculate statisticable, period
+    def calculate statisticable, period, scope = nil
       @periods_datetime = nil
       @period = period
+      @scope = scope
+      @query = statisticable.issues.where('created_on >= ?', period_to_datetime)
 
       calculate_total_issues_for statisticable
       calculate_opened_issues_for statisticable
@@ -39,17 +41,26 @@ module RedmineIssueStatistics
       @results = {}
     end
 
+    def project_scope
+      if @scope
+        @query = @query.where(project_id: @scope)
+      end
+    end
+    
     def calculate_total_issues_for(statisticable)
-      @results[:total] = statisticable.issues.where('created_on >= ?', period_to_datetime).count
+      project_scope
+      @results[:total] = @query.count
     end
 
     def calculate_opened_issues_for(statisticable)
-      @results[:opened] = statisticable.issues.where('created_on >= ?', period_to_datetime).open.count
+      project_scope
+      @results[:opened] = @query.open.count
     end
 
     def calculate_closed_issues_for(statisticable)
       closed = 0
-      statisticable.issues.where('created_on >= ?', period_to_datetime).each do |issue|
+      project_scope
+      @query.each do |issue|
         if issue.closed?  
           closed += 1
         end  
@@ -71,7 +82,8 @@ module RedmineIssueStatistics
     end
 
     def calculate_avg_issue_time_for(statisticable)
-      spent_hours_sum = statisticable.issues.where('created_on >= ?', period_to_datetime).map(&:spent_hours).reduce(:+)
+      project_scope
+      spent_hours_sum = @query.map(&:spent_hours).reduce(:+)
       total = @results[:total]
       @results[:avg_issue_time] = total > 0 ? spent_hours_sum/total : 0
     end
