@@ -1,8 +1,6 @@
 class IssueStatisticsController < ApplicationController
   unloadable
- # before_filter :authorize, :only => :index
-  before_filter :get_periods
-
+  before_filter :get_periods, :authenticate
   def index
   	@issue_statistics = IssueStatistic.all
   end
@@ -21,5 +19,9 @@ class IssueStatisticsController < ApplicationController
   
   def get_periods
     @periods ||= %w(week month year all)
+  end
+
+  def authenticate 
+    User.current.admin? || authorize
   end
 end

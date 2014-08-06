@@ -11,7 +11,7 @@ Redmine::Plugin.register :redmine_issue_statistics do
   author_url 'http://www.efigence.com/'
 
   permission :view_statistics, :issue_statistics => [:index, :users_stats, :projects_stats]
-  menu :admin_menu, :issue_statistics, {:controller => 'issue_statistics', :action => 'index'}, :caption => 'Statistics'
+  menu :top_menu, :issue_statistics, {:controller => 'issue_statistics', :action => 'index'}, :caption => 'Statistics'
 
 end
 

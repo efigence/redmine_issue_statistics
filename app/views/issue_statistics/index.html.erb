@@ -33,9 +33,9 @@
         <td><%= stat.id %></td>
         <td><%= stat.statisticable_type %></td>
         <% if stat.statisticable_type == "User" %>
-          <td><%= User.find(stat.statisticable_id).name %> </td>
+          <td><%= link_to "#{User.find(stat.statisticable_id).name}", users_path %> </td>
         <% else %>
-          <td><%= Project.find(stat.statisticable_id).name %> </td>
+          <td><%= link_to "#{Project.find(stat.statisticable_id).name}", projects_path %> </td>
         <% end %>
         <td><%= stat.total %></td>
         <td><%= stat.opened %></td>
