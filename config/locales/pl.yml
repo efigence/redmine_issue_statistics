@@ -13,7 +13,8 @@ pl:
   stats_all: Wszystkie
   stats_user: Dla Użytkowników
   stats_project: Dla Projektów
-  field_comment_max: Najwięcej komentarzy
+  stats_project_user: Użytkownik Dla Projektu
+  field_comment_max: Komentarzy > 5
   week: Tydzień
   month: Miesiąc
   year: Rok

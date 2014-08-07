@@ -64,7 +64,8 @@ class IssueStatisticTest < ActiveSupport::TestCase
 
       RedmineIssueStatistics::CalculateStatistic.new.calculate
       stat = IssueStatistic.last
-      assert_equal 1, stat.returned, 'Wrong returned count!'
+      #puts stat.inspect
+      assert_equal 2, stat.returned, 'Wrong returned count!'
     end
   end
 

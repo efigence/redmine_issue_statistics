@@ -1,0 +1,32 @@
+<%= render :partial => 'issue_statistics/links' %>
+<% if @issue_statistics.empty? %>
+  <p class="nodata"><%= l(:label_no_data) %></p>
+<% else %>
+<% @issue_statistics.group('statisticable_id').each do |project| %>
+<h3><%= link_to "#{Project.find(project.statisticable_id).name}", projects_path %><h3>
+<hr />
+  <% @periods.each do |period| %>
+  <h3><%= l(period.to_sym) %></h3>
+  <table class="list issues">
+    <%= render :partial => 'issue_statistics/thead' %>
+    <tbody>
+      <% @issue_statistics.where(statisticable_id: project.statisticable_id, period: period).each do |stat| %> 
+        <tr>
+          <td><%= stat.id %></td>
+          <td><%= stat.relate_type %></td>
+          <td><%= link_to "#{User.find(stat.relate_id).name}", users_path %> </td>
+          <td><%= stat.total %></td>
+          <td><%= stat.opened %></td>
+          <td><%= stat.closed %></td>
+          <td><%= progress_bar(stat.opened_to_closed.round(2),:width => '80px', :class => 'progress', :legend => "#{stat.opened_to_closed.round(2)}%") %></td>
+          <td><%= link_to "#{stat.returned}" %></td>
+          <td><%= stat.comment_max %></td>
+          <td><%= stat.avg_issue_time.round(2) %> h</td>
+          <% end %>
+        </tr>
+      </tbody>
+    </table>
+    <% end %>
+    <hr />
+  <% end %> 
+<% end %>

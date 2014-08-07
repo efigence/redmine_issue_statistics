@@ -1,34 +1,13 @@
-
-<h2><%=l(:view_statistics_from)%> <%= IssueStatistic.last.updated_at.to_date %> </h2>
-<h3><%= link_to l(:stats_all) , statistics_path %>
-    <%= link_to l(:stats_user), statistics_users_path, :class => 'icon icon-user' %>
-    <%= link_to l(:stats_project), statistics_projects_path, :class => 'icon icon-projects' %>
-</h3>
-  <hr />
+<%= render :partial => 'issue_statistics/links' %>
 <% if @issue_statistics.empty? %>
   <p class="nodata"><%= l(:label_no_data) %></p>
 <% else %>
 <% @periods.each do |period| %>
 <h3><%= l(period.to_sym) %></h3>
 <table class="list issues">
-  <thead>
-    <tr>
-      <th>#</th>
-      <th><%=l(:field_type)%></th>
-      <th><%=l(:field_assign)%> </th>
-      <th><%=l(:field_total)%></th>
-      <th><%=l(:field_opened)%></th>
-      <th><%=l(:field_closed)%></th>
-      <th><%=l(:field_ratio_c_o)%>(%)</th>
-      <th><%=l(:field_returned)%></th>
-      <th><%=l(:field_comment_max)%></th>
-      <th><%=l(:field_avg)%></th>
-    </tr>
-  </thead>
-
+ <%= render :partial => 'issue_statistics/thead' %>
   <tbody>
-    <% @issue_statistics.each do |stat| %> 
-    <% if stat.period == period %>
+    <% @issue_statistics.where(period: period).each do |stat| %> 
       <tr>
         <td><%= stat.id %></td>
         <td><%= stat.statisticable_type %></td>
@@ -44,7 +23,6 @@
         <td><%= link_to "#{stat.returned}" %></td>
         <td><%= stat.comment_max %></td>
         <td><%= stat.avg_issue_time.round(2) %> h</td>
-        <% end %>
         <% end %>
       </tr>
     </tbody>

@@ -15,6 +15,11 @@ class IssueStatisticsController < ApplicationController
     render :index
   end
 
+  def principal_stats_per_project
+    @issue_statistics = IssueStatistic.where(relate_type: "User")
+     render :principal_project
+  end
+
   private
   
   def get_periods
