@@ -17,7 +17,7 @@ class IssueStatisticsController < ApplicationController
   end
 
   def principal_stats_per_project
-    @issue_statistics = IssueStatistic.where(relate_type: "User").paginate(:page => params[:page])
+    @issue_statistics = IssueStatistic.where(relate_type: "User").order('statisticable_id, statisticable_type, relate_id').paginate(:page => params[:page])
      render :index
   end
 
