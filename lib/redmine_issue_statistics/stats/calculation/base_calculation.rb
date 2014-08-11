@@ -1,6 +1,8 @@
 #redmine_issue_statistics/stats/calculation/base_calculation
+require_relative "./basic_calculation"
+
 module RedmineIssueStatistics
-  class BaseCalculation
+  class BaseCalculation < BasicCalculation
     attr_reader :results, :period
 
     def calculate statisticable, period, scope = nil
@@ -18,24 +20,6 @@ module RedmineIssueStatistics
     end
 
     private 
-
-    def period_to_datetime
-      unless @periods_datetime
-        period = nil
-        case @period
-        when 'week'
-          period = 1.week.ago
-        when 'month'
-          period = 1.month.ago
-        when 'year'
-          period = 1.year.ago
-        when 'all'
-          period = 1000.years.ago
-        end
-        @periods_datetime = period
-      end
-      @periods_datetime ||= period
-    end
 
     def initialize
       @results = {}
