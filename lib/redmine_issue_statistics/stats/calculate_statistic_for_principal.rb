@@ -13,7 +13,9 @@ module RedmineIssueStatistics
         periods.each do |period|
           @results = []
           @results << BaseCalculation.new.calculate(principal, period)
+
           @results << ReturnedIssues.new.calculate(principal, period)
+          
           save_results principal, period
         end
         return
@@ -43,10 +45,7 @@ module RedmineIssueStatistics
     def save_results principal, period
       stat = existing_stats(principal, period) || new_stat(principal) 
       stat.period = period
-      stat.update_attributes merged_results
+      stat.update_attributes merged_results 
     end
   end
-end    
-
-
-
+end

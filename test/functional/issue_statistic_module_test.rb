@@ -14,7 +14,7 @@ class IssueStatisticTest < ActiveSupport::TestCase
            :members
 
 
-  test 'initial_test_fixtures' do
+  test 'initial fixtures' do
     assert_equal 1, User.count, 'should be 1'
     assert_equal 6, Journal.count, 'should be 5'
     assert_equal 6, JournalDetail.count, 'should be 6'
@@ -23,13 +23,13 @@ class IssueStatisticTest < ActiveSupport::TestCase
     assert_equal 2, TimeEntry.count, 'should be 2'
   end
 
-  test 'statistic_table_should_be_increment' do
+  test 'IssueStatistic should be saved' do
     assert_difference 'IssueStatistic.count', +12 do
       RedmineIssueStatistics::CalculateStatistic.new.calculate 
     end
   end
 
-  test 'base_calculation_on_new_and_on_update' do
+  test 'Base calculation' do
     assert_difference 'IssueStatistic.count', +12 do
       RedmineIssueStatistics::CalculateStatistic.new.calculate
       stat_1 = IssueStatistic.last
@@ -44,7 +44,7 @@ class IssueStatisticTest < ActiveSupport::TestCase
     end
   end
 
-  test 'returend_issues_count_on_status_change_in_journal_for_principal' do
+  test 'Returned issues calculation and on jorunal change' do
     assert_difference 'JournalDetail.count', +2 do
       detail_on_test = JournalDetail.new
       detail_on_test.journal_id = 1
@@ -91,15 +91,15 @@ class IssueStatisticTest < ActiveSupport::TestCase
     end
   end
 
-  test 'Comment max' do
+  test 'Comment count greater then 5' do
     assert_difference 'IssueStatistic.count', +12 do
       RedmineIssueStatistics::CalculateStatistic.new.calculate
       stat = IssueStatistic.where(period: 'week').first
       stat_month = IssueStatistic.where(period: 'month').first
       stat_year = IssueStatistic.where(period: 'year').first
       assert_equal 0, stat.comment_max, 'Wrong comment count for week!'
-      assert_equal 1, stat_month.comment_max, 'Wrong most comment count for month' 
-      assert_equal 1, stat_year.comment_max, 'Wrong most comment count for year' 
+      assert_equal 1, stat_month.comment_max, 'Wrong comment count for month!' 
+      assert_equal 1, stat_year.comment_max, 'Wrong comment count for year!' 
     end
   end
 
@@ -132,6 +132,18 @@ class IssueStatisticTest < ActiveSupport::TestCase
     assert_equal 1, stat_year.comment_max, "Wrong comment count in stat_year!"
     assert_equal 1, stat_all.comment_max, "Wrong comment count in stat_all!"
     assert_equal 1, stat_all.returned, "Wrong returned count in stat_all!"
+  end
+
+  test 'Recalculete statistic for returned issues ratio' do
+    RedmineIssueStatistics::CalculateStatistic.new.calculate
+    stat_week = IssueStatistic.where("period = ? AND relate_type = ?", "week", "User").first
+    stat_month = IssueStatistic.where("period = ? AND relate_type = ?", "month", "User").first
+    stat_year = IssueStatistic.where("period = ? AND relate_type = ?", "year", "User").first
+    stat_all = IssueStatistic.where("period = ? AND relate_type = ?", "all", "User").first 
+    assert_equal 100.0, stat_week.returned_ratio
+    assert_equal 100.0, stat_month.returned_ratio
+    assert_equal 100.0, stat_year.returned_ratio
+    assert_equal 100.0, stat_all.returned_ratio
   end
 
 end

@@ -31,3 +31,6 @@
   <hr />
 <% end %> 
 
+<% content_for :header_tags do %>
+    <%= javascript_include_tag 'highcharts', :plugin => 'redmine_issue_statistics' %>
+<% end %>

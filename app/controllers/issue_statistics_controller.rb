@@ -3,21 +3,24 @@ class IssueStatisticsController < ApplicationController
   before_filter :get_periods, :authenticate
   def index
   	@issue_statistics = IssueStatistic.where(relate_type: nil)
+    render :index2
   end
   
   def users_stats
-    @issue_statistics = IssueStatistic.where(statisticable_type: 'User', relate_type: nil)
-    render :index
+    @issue_statistics = IssueStatistic.where(statisticable_type: 'User', relate_type: nil).where('period != ?', "all")
+   # render :index
+    render :index2
   end
 
   def projects_stats
     @issue_statistics = IssueStatistic.where(statisticable_type: 'Project', relate_type: nil)
-    render :index
+   # render :index
+    render :index2
   end
 
   def principal_stats_per_project
     @issue_statistics = IssueStatistic.where(relate_type: "User")
-     render :principal_project
+     render :index2
   end
 
   private
