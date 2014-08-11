@@ -5,9 +5,9 @@ class IssueStatistic < ActiveRecord::Base
                    :returned, :from_close_to, :avg_issue_time, :comment_max, :returned_ratio
   
   belongs_to :statisticable, :polymorphic => true
-
+  self.per_page = 4
   def recalculate_returned_ratio
-    if self.returned != 0
+    if self.returned != 0 && self.returned != nil
       self.returned_ratio = (self.returned/self.total.to_f) * 100
     else 
       self.returned_ratio = 0

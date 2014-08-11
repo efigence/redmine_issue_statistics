@@ -4,6 +4,7 @@ GEM
     awesome_print (1.2.0)
     hirb (0.7.2)
     rake (10.1.1)
+    will_paginate (3.0.7)
 
 PLATFORMS
   ruby
@@ -12,3 +13,4 @@ DEPENDENCIES
   awesome_print
   hirb
   rake (~> 10.1.1)
+  will_paginate (~> 3.0)
