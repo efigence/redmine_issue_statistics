@@ -13,6 +13,11 @@ class IssueStatisticTest < ActiveSupport::TestCase
            :time_entries,
            :members
 
+  
+  def setup
+    IssueStatistic.destroy_all
+    #----fixtures in controller_test crashed assertion that's why!
+  end
 
   test 'initial fixtures' do
     assert_equal 1, User.count, 'should be 1'

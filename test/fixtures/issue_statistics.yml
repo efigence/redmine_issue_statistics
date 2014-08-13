@@ -5,18 +5,18 @@ IssueStatistics_001:
   statisticable_type: Project
   relate_id: 
   relate_type: 
-  total: 10
-  opened: 7
-  closed: 3
-  opened_to_closed: 0.7
-  returned: 3
-  returned_ratio: 0.33
-  avg_issue_time: 1.4
+  total: 1
+  opened: 1
+  closed: 0
+  opened_to_closed: 0
+  returned:
+  returned_ratio: 0
+  avg_issue_time: 0
   created_at: 2014-08-13 10:39:56.000000000 Z
   updated_at: 2014-08-13 10:39:56.000000000 Z
   period: week
-  comment_max: 2
-  old_issues: 1
+  comment_max: 0
+  old_issues: 0
 IssueStatistics_002:
   id: 2
   statisticable_id: 2

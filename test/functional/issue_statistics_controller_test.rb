@@ -6,7 +6,8 @@ class IssueStatisticsControllerTest < ActionController::TestCase
   self.fixture_path = File.join(File.dirname(__FILE__), '../fixtures')
 
   fixtures :issue_statistics,
-           :users
+           :users,
+           :issues
 
   include Redmine::I18n
 
@@ -47,36 +48,43 @@ class IssueStatisticsControllerTest < ActionController::TestCase
     get :total_issues, statisticable_id: 1, period: 'week'
     assert_response :success
     assert_template 'results'
+    assert_equal 1, assigns(:results).count, "There is no opened issues!"
   end
 
   test 'project_opened_issues' do
     get :opened_issues, statisticable_id: 1, period: 'week'
     assert_response :success
     assert_template 'results'
+    assert_equal 1, assigns(:results).count, "There is no opened issues!"
   end
 
   test 'project_closed_issues' do
     get :closed_issues, statisticable_id: 1, period: 'week'
     assert_response :success
-    assert_template 'results' 
+    assert_template 'results'
+    assert_equal 0, assigns(:results).count, "There should not be cloased issues!"
   end
 
   test 'project_returned_issues' do
     get :returned_issues, statisticable_id: 1, period: 'week'
     assert_response :success
     assert_template 'results'
+    puts assigns(:results)
+    #assert_equal 0, assigns(:results).count, "There should not returned issues!"
   end
 
   test 'project_most_commented_issues' do
     get :most_commented_issues, statisticable_id: 1, period: 'week'
     assert_response :success
     assert_template 'results'
+    assert_equal 0, assigns(:results).count, "There should not be most commented issues!"
   end
 
   test 'project_older_issues' do
     get :older_issues, statisticable_id: 1, period: 'week'
     assert_response :success
     assert_template 'results'
+    assert_equal 0, assigns(:results).count, "There should not be older then week issues!"
   end
 
   test 'principal_total_issues' do
