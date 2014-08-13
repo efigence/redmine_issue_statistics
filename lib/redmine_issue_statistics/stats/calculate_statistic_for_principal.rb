@@ -9,13 +9,11 @@ module RedmineIssueStatistics
     
     def calculate periods
     Principal.find_each do |principal|
-     #Principal.where(id: 607).each do |principal|
+    # Principal.where(id: 607).each do |principal|
         periods.each do |period|
           @results = []
           @results << BaseCalculation.new.calculate(principal, period)
-
           @results << ReturnedIssues.new.calculate(principal, period)
-          
           save_results principal, period
         end
         #return

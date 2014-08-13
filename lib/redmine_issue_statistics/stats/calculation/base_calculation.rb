@@ -1,5 +1,6 @@
 #redmine_issue_statistics/stats/calculation/base_calculation
 require_relative "./basic_calculation"
+require_relative "../queries"
 
 module RedmineIssueStatistics
   class BaseCalculation < BasicCalculation
@@ -9,8 +10,9 @@ module RedmineIssueStatistics
       @periods_datetime = nil
       @period = period
       @scope = scope
-      @query = statisticable.issues.where('created_on >= ?', period_to_datetime)
-
+      
+      @query = Queries.base_query statisticable, period_to_datetime
+      
       calculate_total_issues_for statisticable
       calculate_opened_issues_for statisticable
       calculate_closed_issues_for statisticable

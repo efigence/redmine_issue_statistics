@@ -1,0 +1,31 @@
+<h2>Results [<%= @results.count %>]</h2>
+<% if @results.empty? %>
+  
+  <p class="nodata"><%= l(:label_no_data) %></p>
+<% else %>
+
+<h4><%= @periods_datetime.to_date %> - <%= Date.today %></h4>
+
+<table class="list issues">
+  <thead>
+  <tr>
+    <th>#</th>
+    <th><%=l(:field_tracker)%></th>
+    <th><%=l(:field_subject)%></th>
+    <th><%=l(:field_updated_on)%></th>
+    <th><%=l(:field_created_on)%></th>
+  </tr>
+  </thead>
+  <tbody>
+    <% @results.each do |result| %>
+      <tr>
+        <td><%= result.id %></td>
+        <td><%= Tracker.find(result.tracker_id).name %></td>
+        <td><%= link_to "#{result.subject}", issue_path(result) %></td>
+        <td><%= result.updated_on %></td>
+        <td><%= result.created_on %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<% end %>
