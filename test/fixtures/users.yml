@@ -7,7 +7,7 @@ user_001:
   salt: 67eb4732624d5a7753dcea7ce0bb7d7d
   hashed_password: bfbe06043353a677d0215b26a5800d128d5413bc
   updated_on: 2006-07-19 22:42:15 +02:00
-  admin: false
+  admin: true
   mail: jsmith@somenet.foo
   lastname: Smith
   firstname: John

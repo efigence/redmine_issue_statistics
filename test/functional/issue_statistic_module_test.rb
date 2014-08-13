@@ -64,7 +64,6 @@ class IssueStatisticTest < ActiveSupport::TestCase
 
       RedmineIssueStatistics::CalculateStatistic.new.calculate
       stat = IssueStatistic.last
-      #puts stat.inspect
       assert_equal 2, stat.returned, 'Wrong returned count!'
     end
   end
@@ -144,6 +143,12 @@ class IssueStatisticTest < ActiveSupport::TestCase
     assert_equal 100.0, stat_month.returned_ratio
     assert_equal 100.0, stat_year.returned_ratio
     assert_equal 100.0, stat_all.returned_ratio
+  end
+
+  test 'Old tasks' do
+    RedmineIssueStatistics::CalculateStatistic.new.calculate
+    stat_week = IssueStatistic.where("period = ? AND relate_type = ?", "week", "User").first
+    assert_equal 0, stat_week.old_issues, "Wrong older then week issues count"
   end
 
 end

@@ -2,7 +2,7 @@ class IssueStatisticsController < ApplicationController
   unloadable
 
   before_filter :get_periods, :authenticate
-  before_filter :set_period, :only => [:total_issues, :opened_issues, :returned_issues, :most_commented_issues, :closed_issues]
+  before_filter :set_period, :only => [:total_issues, :opened_issues, :returned_issues, :most_commented_issues, :closed_issues, :older_issues]
 
   include RedmineIssueStatistics
  
@@ -63,10 +63,25 @@ class IssueStatisticsController < ApplicationController
     render :results
   end
 
+  def older_issues
+    if !!params[:relate_id]
+      @results = Queries.old_issues_query(Principal.find(params[:relate_id]), @periods_datetime)
+    else
+      @results = Queries.old_issues_query(IssueStatistic.where(statisticable_id: params[:statisticable_id]).first.statisticable, @periods_datetime)
+    end
+    render :results
+  end
+
   private
 
   def base
-    Queries.base_query(IssueStatistic.where(statisticable_id: (params[:statisticable_id])).first.statisticable, @periods_datetime)
+    if !!params[:relate_id]
+      query = Queries.base_query( Principal.find(params[:relate_id]) , @periods_datetime)
+      query = Queries.project_scope( query, params[:statisticable_id] )
+    else
+      query = Queries.base_query(IssueStatistic.where(statisticable_id: params[:statisticable_id]).first.statisticable, @periods_datetime)  
+    end
+    query
   end
 
   def set_period

@@ -6,6 +6,10 @@ module RedmineIssueStatistics
         statisticable.issues.where('issues.created_on >= ?', period_to_datetime)
       end
 
+      def old_issues_query statisticable, period_to_datetime
+        Issue.where('assigned_to_id = ? AND created_on < ? ', statisticable.id, period_to_datetime).open
+      end 
+      
       def project_scope query, project_id
         if project_id
           query = query.where(project_id: project_id)

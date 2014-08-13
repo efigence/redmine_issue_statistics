@@ -8,8 +8,8 @@ module RedmineIssueStatistics
     attr_reader :results, :period
     
     def calculate periods
-      Project.find_each do |project|
-     # Project.where(id: 382).each do |project|
+     Project.find_each do |project|
+     #Project.where(id: 4).each do |project|
         periods.each do |period|
           calculate_with_params(project, period)
           save_results project, period

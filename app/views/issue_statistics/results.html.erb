@@ -20,7 +20,7 @@
     <% @results.each do |result| %>
       <tr>
         <td><%= result.id %></td>
-        <td><%= Tracker.find(result.tracker_id).name %></td>
+        <td><%= result.tracker_id %></td>
         <td><%= link_to "#{result.subject}", issue_path(result) %></td>
         <td><%= result.updated_on %></td>
         <td><%= result.created_on %></td>
