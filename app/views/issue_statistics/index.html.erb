@@ -231,7 +231,8 @@
                               {
                                 name: "Last week " + ratio_week + "%",
                                 y: ratio_week,
-                                url: 'http://localhost:3000/issue_statistics/returned_issues/<%= stat_per_user %>/week'
+                                url: 'http://localhost:3000/issue_statistics/returned_issues/<%= stat_per_user %>/week',
+
                               },
                           ["", difference_week]
                       ],
@@ -336,7 +337,6 @@
               },
               series: [
               {
-                      //name: 'WEEK',
                       colors: ['#F7BB83', '#D99077'],
                       data: [
                               {
@@ -347,15 +347,17 @@
                               {
                                 name: "Last week opened",
                                 y: difference_week,
-                                url: 'http://localhost:3000/issue_statistics/opened_issues/<%= stat_per_user %>/week'
+                                url: 'http://localhost:3000/issue_statistics/opened_issues/<%= stat_per_user %>/week',
+                                dataLabels: {
+                                        enabled: true,
+                                        color: '#D99077'
+                                }
                               }
                       ],
                       color: 'black',
-                      // startAngle: 0,
                       distance: -30
                   },
                   {
-                      //name: 'MONTH',
                       colors: ['#F7BB83', '#D99077'],
                       data: [ 
                               {
@@ -366,16 +368,18 @@
                               {
                                 name: "Last month opened",
                                 y: difference_month,
-                                url: 'http://localhost:3000/issue_statistics/opened_issues/<%= stat_per_user %>/month'
+                                url: 'http://localhost:3000/issue_statistics/opened_issues/<%= stat_per_user %>/month',
+                                dataLabels: {
+                                        enabled: true,
+                                        color: '#D99077'
+                                }
                               }
                             ],
                       size: '65%',
-                      // startAngle: 90,
                       innerSize: '62%',
 
                   },
                   {
-                    //  name: 'YEAR',
                       colors: ['#F7BB83', '#D99077'],
                       data: [
                               {
@@ -386,15 +390,17 @@
                               {
                                 name: "Last year opened",
                                 y: difference_year,
-                                url: 'http://localhost:3000/issue_statistics/opened_issues/<%= stat_per_user %>/year'
+                                url: 'http://localhost:3000/issue_statistics/opened_issues/<%= stat_per_user %>/year',
+                                dataLabels: {
+                                        enabled: true,
+                                        color: '#D99077'
+                                }
                               }
                             ],
                       size: '55%',
-                      // startAngle: 180,
                       innerSize: '52%',
                   },
                   {
-                      //name: 'ALL',
                       colors: ['#F7BB83', '#D99077'],
                       data: [
                               {
@@ -405,11 +411,14 @@
                               {
                                 name: "All opened",
                                 y: difference_all,
-                                url: 'http://localhost:3000/issue_statistics/opened_issues/<%= stat_per_user %>/all'
+                                url: 'http://localhost:3000/issue_statistics/opened_issues/<%= stat_per_user %>/all',
+                                dataLabels: {
+                                        enabled: true,
+                                        color: '#D99077'
+                                }
                               }
                             ],
                       size: '45%',
-                      // startAngle: 270,
                       innerSize: '42%',
                   }]
           });
