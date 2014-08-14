@@ -5,27 +5,33 @@
 <% else %>
 
 <h4><%= @periods_datetime.to_date %> - <%= Date.today %></h4>
-
+<div class="autoscroll">
+<%= form_tag({}) do %>
 <table class="list issues">
   <thead>
   <tr>
     <th>#</th>
     <th><%=l(:field_tracker)%></th>
     <th><%=l(:field_subject)%></th>
+    <th><%=l(:field_assigned_to)%></th>
     <th><%=l(:field_updated_on)%></th>
     <th><%=l(:field_created_on)%></th>
   </tr>
   </thead>
   <tbody>
-    <% @results.each do |result| %>
-      <tr>
-        <td><%= result.id %></td>
-        <td><%= result.tracker_id %></td>
-        <td><%= link_to "#{result.subject}", issue_path(result) %></td>
-        <td><%= result.updated_on %></td>
-        <td><%= result.created_on %></td>
+    <% @results.each do |issue| %>
+      <tr class="hascontextmenu <%= cycle('odd', 'even') %> <%= issue.css_classes %>">
+        <td class="checkbox" ><%= check_box_tag 'ids[]', issue.id, false, :id => nil, :style => "display: none;" %> <%= issue.id %></td>
+        <td class="tracker"><%= issue.tracker.name %></td>
+        <td class="subject"><%= link_to_issue(issue) %></td>
+        <td><%= issue.assigned_to_id && issue.assigned_to.name %></td>
+        <td><%= format_object issue.updated_on %></td>
+        <td><%= format_object issue.created_on %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 <% end %>
+<% end %>
+</div>
+<%= context_menu issues_context_menu_path %>
