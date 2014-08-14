@@ -9,7 +9,7 @@ IssueStatistics_001:
   opened: 1
   closed: 0
   opened_to_closed: 0
-  returned:
+  returned: 1
   returned_ratio: 0
   avg_issue_time: 0
   created_at: 2014-08-13 10:39:56.000000000 Z

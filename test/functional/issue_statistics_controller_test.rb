@@ -48,78 +48,83 @@ class IssueStatisticsControllerTest < ActionController::TestCase
     get :total_issues, statisticable_id: 1, period: 'week'
     assert_response :success
     assert_template 'results'
-    assert_equal 1, assigns(:results).count, "There is no opened issues!"
+    assert_equal 1, assigns(:results).count, "!"
   end
 
   test 'project_opened_issues' do
     get :opened_issues, statisticable_id: 1, period: 'week'
     assert_response :success
     assert_template 'results'
-    assert_equal 1, assigns(:results).count, "There is no opened issues!"
+    assert_equal 1, assigns(:results).count, "This Project should have 1 opened issue!"
   end
 
   test 'project_closed_issues' do
     get :closed_issues, statisticable_id: 1, period: 'week'
     assert_response :success
     assert_template 'results'
-    assert_equal 0, assigns(:results).count, "There should not be cloased issues!"
+    assert_equal 0, assigns(:results).count, "This Project should not have cloased issues!"
   end
 
   test 'project_returned_issues' do
     get :returned_issues, statisticable_id: 1, period: 'week'
     assert_response :success
     assert_template 'results'
-    puts assigns(:results)
-    #assert_equal 0, assigns(:results).count, "There should not returned issues!"
+    assert_equal 1, assigns(:results).count, "This Project should have 1 returned issue!"
   end
 
   test 'project_most_commented_issues' do
     get :most_commented_issues, statisticable_id: 1, period: 'week'
     assert_response :success
     assert_template 'results'
-    assert_equal 0, assigns(:results).count, "There should not be most commented issues!"
+    assert_equal 0, assigns(:results).count, "This Project should not have any commented issues > 5"
   end
 
   test 'project_older_issues' do
     get :older_issues, statisticable_id: 1, period: 'week'
     assert_response :success
     assert_template 'results'
-    assert_equal 0, assigns(:results).count, "There should not be older then week issues!"
+    assert_equal 0, assigns(:results).count, "This Project should not have older then week issues!"
   end
 
   test 'principal_total_issues' do
     get :total_issues, statisticable_id: 2, period: 'week'
     assert_response :success
     assert_template 'results'
+    assert_equal 1, assigns(:results).count, "This Principal should have 1 issue!"
   end
 
   test 'principal_opened_issues' do
     get :opened_issues, statisticable_id: 2, period: 'week'
     assert_response :success
     assert_template 'results'
+    assert_equal 1, assigns(:results).count, "This Principal should have 1 opened issue!"
   end
 
   test 'principal_closed_issues' do
     get :closed_issues, statisticable_id: 2, period: 'week'
     assert_response :success
-    assert_template 'results' 
+    assert_template 'results'
+    assert_equal 0, assigns(:results).count, "This Principal should not have closed issues!"
   end
 
   test 'principal_returned_issues' do
     get :returned_issues, statisticable_id: 2, period: 'week'
     assert_response :success
     assert_template 'results'
+    assert_equal 1, assigns(:results).count, "This Principal should have 1 returned issue!"
   end
 
   test 'principal_most_commented_issues' do
     get :most_commented_issues, statisticable_id: 2, period: 'week'
     assert_response :success
     assert_template 'results'
+    assert_equal 0, assigns(:results).count, "This Principal should not have commented issue! > 5"
   end
 
   test 'principal_older_issues' do
     get :older_issues, statisticable_id: 2, period: 'week'
     assert_response :success
     assert_template 'results'
+    assert_equal 0, assigns(:results).count, "This Principal should not have older issue then week!"
   end
 end

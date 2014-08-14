@@ -211,7 +211,9 @@
                     point: {
                         events: {
                             click: function (event) {
-                                window.location.href = event.point.url;
+                                if (event.point.url){
+                                  window.location.href = event.point.url;
+                                }
                             }
                         }
                     }
