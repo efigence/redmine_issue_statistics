@@ -3,11 +3,15 @@ module RedmineIssueStatistics
     class << self
 
       def base_query statisticable, period_to_datetime
-        statisticable.issues.where('issues.created_on >= ?', period_to_datetime)
+        statisticable.issues.
+          where(project_id: open_projects).
+          where('issues.created_on >= ?', period_to_datetime)
       end
 
       def old_issues_query statisticable, period_to_datetime
-        Issue.where('assigned_to_id = ? AND created_on < ? ', statisticable.id, period_to_datetime).open
+        Issue.
+        where(project_id: open_projects).
+        where('assigned_to_id = ? AND created_on < ? ', statisticable.id, period_to_datetime).open
       end 
       
       def project_scope query, project_id
@@ -27,6 +31,12 @@ module RedmineIssueStatistics
 
       def comment_query issue, period_to_datetime
         Journal.where("journalized_id = ? AND notes != ? AND created_on >= ?", issue, "", period_to_datetime)
+      end
+
+      private
+
+      def open_projects
+        @@open_projects ||= Project.where(status: Project::STATUS_ACTIVE).select('id').pluck(:id)
       end
     end
   end
