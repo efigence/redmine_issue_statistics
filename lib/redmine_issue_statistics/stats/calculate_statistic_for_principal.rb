@@ -8,15 +8,13 @@ module RedmineIssueStatistics
     attr_reader :results, :period
     
     def calculate periods
-   #Principal.find_each do |principal|
-     Principal.where(id: 95).each do |principal|
+      Principal.find_each do |principal|
         periods.each do |period|
           @results = []
           @results << BaseCalculation.new.calculate(principal, period)
           @results << ReturnedIssues.new.calculate(principal, period)
           save_results principal, period
         end
-        #return
       end
     end
 

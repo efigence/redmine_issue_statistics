@@ -20,10 +20,6 @@ class IssueStatisticsControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:issue_statistics)
     assert_template 'index'
-    assert_select 'a[href="/issue_statistics/index"]'
-    assert_select 'a[href="/issue_statistics/users_stats"]'
-    assert_select 'a[href="/issue_statistics/projects_stats"]'
-    assert_select 'a[href="/issue_statistics/principal_stats_per_project"]'
   end
 
   test 'users_stats' do
