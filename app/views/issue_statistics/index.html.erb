@@ -25,6 +25,8 @@
         <% str[:returned_ratio].push stat.returned_ratio %>
         <% str[:old_issues] ||= [] %>
         <% str[:old_issues].push stat.old_issues %>
+        <% str[:opened_to_closed] ||= [] %>
+        <% str[:opened_to_closed].push stat.opened_to_closed %>
       <% end %>
       <script type="text/javascript" charset="utf-8">
         $(function () {
@@ -175,6 +177,7 @@
           });
         });
       </script>
+       <div id="<%= stat_per_user %>" style="width: 700px; height: 300px; position: relative; margin: auto;"></div>
       <script type="text/javascript" charset="utf-8">
         $(function () {
           var ratio_all = Math.round(<%= raw str[:returned_ratio].last.to_json %> * 100 )/ 100;
@@ -188,6 +191,7 @@
           $('#<%= stat_per_user %>donut').highcharts({ 
               chart: {
                   type: 'pie',
+                  name: 'Returned Issues',
                   options3d: {
                   enabled: false,
                   alpha: 0
@@ -284,14 +288,140 @@
           });
         });
       </script>
-    <div id="<%= stat_per_user %>" style="width: 700px; height: 300px;"></div>
-    <div id="<%= stat_per_user %>donut" style="width: 700px; height: 300px;"></div>
+    <div id="<%= stat_per_user %>donut" style="width: 700px; height: 300px; position: relative; float: left;"></div>
+     <script type="text/javascript" charset="utf-8">
+        $(function () {
+          var ratio_all = Math.round(<%= raw str[:opened_to_closed].last.to_json %> * 100 )/ 100;
+          var difference_all = 100 - ratio_all;
+          var ratio_year = Math.round(<%= raw str[:opened_to_closed].last(2).first.to_json %> * 100 )/ 100;
+          var difference_year = 100 - ratio_year;
+          var ratio_month = Math.round(<%= raw str[:opened_to_closed].first(2).last.to_json %> * 100 )/ 100;
+          var difference_month = 100 - ratio_month;
+          var ratio_week = Math.round(<%= raw str[:opened_to_closed].first.to_json %> * 100 )/ 100;
+          var difference_week = 100 - ratio_week;
+          $('#<%= stat_per_user %>donut_open_to_close').highcharts({ 
+              chart: {
+                  type: 'pie',
+                  name: 'Open to Close Issues',
+                  options3d: {
+                  enabled: false,
+                  alpha: 0
+                  }
+              },
+
+              title: {
+                  text: ''
+              },tooltip: {
+                  enabled: false
+              },
+              credits: {
+                text: ''
+              },
+              plotOptions: {
+                  pie: {
+                      innerSize: 170,
+                  },
+                  series: {
+                    cursor: 'pointer',
+                    point: {
+                        events: {
+                            click: function (event) {
+                                if (event.point.url){
+                                  window.location.href = event.point.url + '<%= relate_id && "?relate_id=#{relate_id}" %>';
+                                }
+                            }
+                        }
+                    }
+                  } 
+              },
+              series: [
+              {
+                      //name: 'WEEK',
+                      colors: ['#F7BB83', '#D99077'],
+                      data: [
+                              {
+                                name: "Last week closed",
+                                y: ratio_week,
+                                url: 'http://localhost:3000/issue_statistics/closed_issues/<%= stat_per_user %>/week'
+                              },
+                              {
+                                name: "Last week opened",
+                                y: difference_week,
+                                url: 'http://localhost:3000/issue_statistics/opened_issues/<%= stat_per_user %>/week'
+                              }
+                      ],
+                      color: 'black',
+                      // startAngle: 0,
+                      distance: -30
+                  },
+                  {
+                      //name: 'MONTH',
+                      colors: ['#F7BB83', '#D99077'],
+                      data: [ 
+                              {
+                                name: "Last Month closed",
+                                y: ratio_month,
+                                url: 'http://localhost:3000/issue_statistics/closed_issues/<%= stat_per_user %>/month'
+                              },
+                              {
+                                name: "Last month opened",
+                                y: difference_month,
+                                url: 'http://localhost:3000/issue_statistics/opened_issues/<%= stat_per_user %>/month'
+                              }
+                            ],
+                      size: '65%',
+                      // startAngle: 90,
+                      innerSize: '62%',
+
+                  },
+                  {
+                    //  name: 'YEAR',
+                      colors: ['#F7BB83', '#D99077'],
+                      data: [
+                              {
+                                name: "Last year closed",
+                                y: ratio_year,
+                                url: 'http://localhost:3000/issue_statistics/closed_issues/<%= stat_per_user %>/year'
+                              },
+                              {
+                                name: "Last year opened",
+                                y: difference_year,
+                                url: 'http://localhost:3000/issue_statistics/opened_issues/<%= stat_per_user %>/year'
+                              }
+                            ],
+                      size: '55%',
+                      // startAngle: 180,
+                      innerSize: '52%',
+                  },
+                  {
+                      //name: 'ALL',
+                      colors: ['#F7BB83', '#D99077'],
+                      data: [
+                              {
+                                name: "All closed",
+                                y: ratio_all,
+                                url: 'http://localhost:3000/issue_statistics/closed_issues/<%= stat_per_user %>/all'
+                              },
+                              {
+                                name: "All opened",
+                                y: difference_all,
+                                url: 'http://localhost:3000/issue_statistics/opened_issues/<%= stat_per_user %>/all'
+                              }
+                            ],
+                      size: '45%',
+                      // startAngle: 270,
+                      innerSize: '42%',
+                  }]
+          });
+        });
+      </script>
+      <div id="<%= stat_per_user %>donut_open_to_close" style="width: 700px; height: 300px; position: relative; float: right;"></div>
     <hr />
     <% end %>
   <% end %>
 <% content_for :header_tags do %>
     <%= javascript_include_tag 'highcharts', :plugin => 'redmine_issue_statistics' %>
 <% end %>
-<div id="paginacja" class="pagination">
+<div id="paginacja" class="pagination" style="text-align: center;">
    <%= will_paginate @issue_statistics %>
 </div>
