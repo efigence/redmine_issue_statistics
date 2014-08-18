@@ -1,0 +1,6 @@
+div#content > div{
+  float: left;
+}
+div#content > div.clear{
+  clear: both;
+}
