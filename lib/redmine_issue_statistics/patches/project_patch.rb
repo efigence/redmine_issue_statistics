@@ -19,5 +19,5 @@ module RedmineIssueStatistics
 end
 
 unless Project.included_modules.include?(RedmineIssueStatistics::Patches::ProjectPatch)
-  Project.include RedmineIssueStatistics::Patches::ProjectPatch
+  Project.send :include, RedmineIssueStatistics::Patches::ProjectPatch
 end

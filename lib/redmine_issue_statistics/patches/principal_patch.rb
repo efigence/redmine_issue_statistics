@@ -22,8 +22,8 @@ end
 
 # NOTE: it's too late to do it on principal
 unless User.included_modules.include?(RedmineIssueStatistics::Patches::PrincipalPatch)
-  User.include RedmineIssueStatistics::Patches::PrincipalPatch
+  User.send :include, RedmineIssueStatistics::Patches::PrincipalPatch
 end
 unless Group.included_modules.include?(RedmineIssueStatistics::Patches::PrincipalPatch)
-  Group.include RedmineIssueStatistics::Patches::PrincipalPatch
+  Group.send :include, RedmineIssueStatistics::Patches::PrincipalPatch
 end
