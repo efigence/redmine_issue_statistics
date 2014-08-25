@@ -23,19 +23,19 @@ class IssueStatisticsControllerTest < ActionController::TestCase
   end
 
   test 'users_stats' do
-    get :users_stats
+    get :index, user_id: 1
     assert_response :success
     assert_template 'index'
   end
   
   test 'projects_stats' do
-    get :projects_stats
+    get :index, project_id: 1
     assert_response :success
     assert_template 'index'
   end
   
   test 'principal_stats_per_project' do
-    get :principal_stats_per_project
+    get :index, user_id: 1, project_id: 1
     assert_response :success
     assert_template 'index'
   end

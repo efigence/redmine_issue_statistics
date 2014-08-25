@@ -15,8 +15,11 @@ en:
   stats_user: For Users
   stats_project: For Projects
   stats_project_user: User Per Project
-  field_comment_max: Comment > 5
+  field_comment_max: More then 5 comments
   week: Week
   month: Month
   year: Year
   all: All
+  field_week: Weekly
+  field_month: Monthly
+  field_year: Yearly

@@ -14,24 +14,29 @@ class IssueStatisticsController < ApplicationController
     elsif !params[:project_id].blank?
       projects_stats()
     else
-      # all
       all()
+    end
+
+    respond_to do |format|
+      format.html do
+        render :index
+      end
+      format.json do 
+        render :json => @issue_statistics.to_json
+      end
     end
   end
 
   def all    
   	@issue_statistics = IssueStatistic.where(relate_type: nil).paginate(:page => params[:page])
-    render :index
   end
   
   def users_stats
     @issue_statistics = IssueStatistic.where(statisticable_type: 'User', relate_type: nil, statisticable_id: params[:user_id]).paginate(:page => params[:page])
-    render :index
   end
 
   def projects_stats
     @issue_statistics = IssueStatistic.where(statisticable_type: 'Project', relate_type: nil, statisticable_id: params[:project_id]).paginate(:page => params[:page])
-    render :index
   end
 
   def principal_stats_per_project
@@ -40,7 +45,6 @@ class IssueStatisticsController < ApplicationController
       where(statisticable_type: 'Project', statisticable_id: params[:project_id]).
       order('statisticable_id, statisticable_type, relate_id').
       paginate(:page => params[:page])
-    render :index
   end
 
   def total_issues
@@ -124,4 +128,11 @@ class IssueStatisticsController < ApplicationController
   def authenticate 
     User.current.admin? || authorize
   end
+
+  # def restrict_access 
+  #   authenticate_or_request_with_http_token do |token, options|
+  #     Token.find_by(value: token)
+  #   end
+  # end
+
 end

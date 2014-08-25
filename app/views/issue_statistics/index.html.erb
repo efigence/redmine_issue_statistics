@@ -254,7 +254,7 @@
                       colors: ['#f7a35c', '#C4BCC3'],
                       data: [
                               {
-                                name: "Last week " + ratio_week + "%",
+                                name: "<%=l(:field_week)%> " + ratio_week + "%",
                                 y: ratio_week,
                                 url: 'http://localhost:3000/issue_statistics/returned_issues/<%= stat_per_user %>/week',
 
@@ -270,7 +270,7 @@
                       colors: ['#f7a35c', '#C4BCC3'],
                       data: [
                               {
-                                name: "Last Month " + ratio_month + "%",
+                                name: "<%=l(:field_month)%> " + ratio_month + "%",
                                 y: ratio_month,
                                 url: 'http://localhost:3000/issue_statistics/returned_issues/<%= stat_per_user %>/month'
                               },
@@ -286,7 +286,7 @@
                       colors: ['#f7a35c', '#C4BCC3'],
                       data: [
                               {
-                                name: "Last year " + ratio_year + "%",
+                                name: "<%=l(:field_year)%> " + ratio_year + "%",
                                 y: ratio_year,
                                 url: 'http://localhost:3000/issue_statistics/returned_issues/<%= stat_per_user %>/year'
                               },
@@ -296,12 +296,11 @@
                       startAngle: 180,
                       innerSize: '52%',
                   },
-                  {
-                      name: 'ALL',
+                  {   
                       colors: ['#f7a35c', '#C4BCC3'],
                       data: [
                               {
-                                name: "All " + ratio_all + "%",
+                                name: "<%=l(:all)%> " + ratio_all + "%",
                                 y: ratio_all,
                                 url: 'http://localhost:3000/issue_statistics/returned_issues/<%= stat_per_user %>/all'
                               },
@@ -367,12 +366,12 @@
                       colors: ['#F7BB83', '#D99077'],
                       data: [
                               {
-                                name: "Last week closed",
+                                name: "<%=l(:field_week)%> <%=l(:field_closed)%>",
                                 y: ratio_week,
                                 url: 'http://localhost:3000/issue_statistics/closed_issues/<%= stat_per_user %>/week'
                               },
                               {
-                                name: "Last week opened",
+                                name: "<%=l(:field_week)%> <%=l(:field_opened)%>",
                                 y: difference_week,
                                 url: 'http://localhost:3000/issue_statistics/opened_issues/<%= stat_per_user %>/week',
                                 dataLabels: {
@@ -388,12 +387,12 @@
                       colors: ['#F7BB83', '#D99077'],
                       data: [
                               {
-                                name: "Last Month closed",
+                                name: "<%=l(:field_month)%> <%=l(:field_closed)%>",
                                 y: ratio_month,
                                 url: 'http://localhost:3000/issue_statistics/closed_issues/<%= stat_per_user %>/month'
                               },
                               {
-                                name: "Last month opened",
+                                name: "<%=l(:field_month)%> <%=l(:field_opened)%>",
                                 y: difference_month,
                                 url: 'http://localhost:3000/issue_statistics/opened_issues/<%= stat_per_user %>/month',
                                 dataLabels: {
@@ -410,12 +409,12 @@
                       colors: ['#F7BB83', '#D99077'],
                       data: [
                               {
-                                name: "Last year closed",
+                                name: "<%=l(:field_year)%> <%=l(:field_closed)%>",
                                 y: ratio_year,
                                 url: 'http://localhost:3000/issue_statistics/closed_issues/<%= stat_per_user %>/year'
                               },
                               {
-                                name: "Last year opened",
+                                name: "<%=l(:field_year)%> <%=l(:field_opened)%>",
                                 y: difference_year,
                                 url: 'http://localhost:3000/issue_statistics/opened_issues/<%= stat_per_user %>/year',
                                 dataLabels: {
@@ -431,12 +430,12 @@
                       colors: ['#F7BB83', '#D99077'],
                       data: [
                               {
-                                name: "All closed",
+                                name: "<%=l(:all)%> <%=l(:field_closed)%>",
                                 y: ratio_all,
                                 url: 'http://localhost:3000/issue_statistics/closed_issues/<%= stat_per_user %>/all'
                               },
                               {
-                                name: "All opened",
+                                name: "<%=l(:all)%> <%=l(:field_opened)%>",
                                 y: difference_all,
                                 url: 'http://localhost:3000/issue_statistics/opened_issues/<%= stat_per_user %>/all',
                                 dataLabels: {

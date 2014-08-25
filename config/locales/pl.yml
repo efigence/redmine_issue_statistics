@@ -20,3 +20,6 @@ pl:
   month: Miesiąc
   year: Rok
   all: Wszystko
+  field_week: Tygodniowo
+  field_month: Miesięcznie
+  field_year: Rocznie
