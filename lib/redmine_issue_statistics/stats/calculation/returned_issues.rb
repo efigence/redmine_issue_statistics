@@ -28,7 +28,7 @@ module RedmineIssueStatistics
         @query = Queries.project_scope @query, @scope
         @query.each do |issue|
           comments = Queries.comment_query(issue.id, period_to_datetime).count
-          @comment_count += 1 if comments > 5
+          @comment_count += 1 if comments > Setting.plugin_redmine_issue_statistics['comment_settings'].to_i
         end
         @results[:comment_max] = @comment_count
       end

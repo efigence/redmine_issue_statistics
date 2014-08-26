@@ -11,12 +11,12 @@ class IssueStatisticTest < ActiveSupport::TestCase
            :users,
            :projects,
            :time_entries,
-           :members
+           :members,
+           :settings
 
   
   def setup
     IssueStatistic.destroy_all
-    #----fixtures in controller_test crashed assertion that's why!
   end
 
   test 'initial fixtures' do

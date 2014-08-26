@@ -59,7 +59,7 @@
             },
             title: { text: '<%= statisticable.name %>  <%= relate_id && User.find(relate_id).name  %>'  },
             xAxis: {
-              categories: <%= raw periods.to_json %>
+              categories: <%= raw periods.map{ |el| t("periods.#{el}", default: el)}.to_json %>
             },
             yAxis: {
               title: { text: '' },
