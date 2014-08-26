@@ -23,3 +23,7 @@ pl:
   field_week: Tygodniowo
   field_month: Miesięcznie
   field_year: Rocznie
+  comment_info: "Liczba komentarzy w zagadnieniu, która określa, że to zagadnienie może być niezrozumiałe"
+  returned_info: "Liczba powróceń zagadnienia, która określa, że z tym zagadnieniem jest coś nie tak"
+  returned_count: Liczba powrotów zagadnienia
+  comments_count: Liczba komentarzy w zagadnieniu

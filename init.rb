@@ -13,7 +13,8 @@ Redmine::Plugin.register :redmine_issue_statistics do
   permission :view_statistics, :issue_statistics => [:index, :users_stats, :projects_stats]
   menu :top_menu, :issue_statistics, {:controller => 'issue_statistics', :action => 'index'}, :caption => 'Statistics'
 
-  settings :default => {'empty' => true}, :partial => 'settings/comment_settings'
+  #settings {'empty' => true}, :partial => 'settings/comment_settings'
+  settings :default =>  {'empty' => true}, :partial => 'settings/issue_statistics_settings'
 end
 
 Rails.configuration.to_prepare do

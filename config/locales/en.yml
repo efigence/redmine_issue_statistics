@@ -28,3 +28,7 @@ en:
   field_week: Weekly
   field_month: Monthly
   field_year: Yearly
+  comment_info: Here you can set the number of comments for the issue which specifies that this issue can be confusing
+  returned_info: Here you can set the number of returned issues which defines that with this issue is something wrong
+  returned_count: Number of returns issue
+  comments_count: Number of comments in issue

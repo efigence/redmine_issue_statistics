@@ -1,0 +1,10 @@
+<p>
+  <label for="comment_settings"><%=l(:comments_count)%></label>
+  <%= text_field_tag 'settings[comment_settings]', @settings['comment_settings'] %><br/>
+  <em class="info"><%=l(:comment_info)%></em>
+</p>
+<p>
+  <label for="returned"><%=l(:returned_count)%></label>
+  <%= text_field_tag 'settings[returned]', @settings['returned'] %><br/>
+  <em class="info"><%=l(:returned_info)%></em>
+</p>
