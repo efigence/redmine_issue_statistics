@@ -38,3 +38,11 @@ pl:
   returned_table_to_info: "Zmina statusu na: "
   setting_returned_issues_info: Określ w jaki sposób mają być znajdowane zagadnienia powracające
   example_returned_issue: "Przykład: Jeśli ustawisz status na 'new' i 'in progress' oraz status z na 'closed' wtedy znajdzie wszystkie zamknięte zagadnienia, które zostały wznowione"
+  closed_in_week: Zamknięte w tygodniu
+  opened_in_week: Otwarte w tygodniu
+  closed_in_month: Zamknięte w miesiącu
+  opened_in_month: Otwarte w miesiącu
+  closed_in_year: Zamknięte w roku
+  opened_in_year: Otwarte w roku
+  closed_all: Wszystkie zamknięte
+  opened_all: Wszystkie otwarte

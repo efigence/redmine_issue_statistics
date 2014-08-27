@@ -40,3 +40,11 @@ en:
   returned_table_to_info: "Change status to: "
   setting_returned_issues_info: Set how you want to find returned issues
   example_returned_issue: "Example: If you select status to as 'new' and 'in progress' and select status from as 'closed' then find all closed issues which has been resumed"
+  closed_in_week: Closed in week
+  opened_in_week: Opened in week
+  closed_in_month: Closed in month
+  opened_in_month: Opened in month
+  closed_in_year: Closed in year
+  opened_in_year: Opened in year
+  closed_all: Closed all
+  opened_all: Opened all

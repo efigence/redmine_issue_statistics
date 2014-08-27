@@ -51,15 +51,17 @@
         <% str[:opened_to_closed] ||= [] %>
         <% str[:opened_to_closed].push stat.opened_to_closed %>
       <% end %>
+      <h3><%= statisticable.name %>  <%= relate_id && User.find(relate_id).name  %></h3>
+      <% periods.each_with_index do |period, pidx| %>
       <script type="text/javascript" charset="utf-8">
         $(function () {
           new Highcharts.Chart({
-            chart: { renderTo: '<%= stat_per_user %>',
-                     type: 'column'
+            chart: { renderTo: '<%= stat_per_user %><%= period %>',
+                     type: 'column',
             },
-            title: { text: '<%= statisticable.name %>  <%= relate_id && User.find(relate_id).name  %>'  },
+            title: { text: ''  },
             xAxis: {
-              categories: <%= raw periods.map{ |el| t("periods.#{el}", default: el)}.to_json %>
+              categories: [<%= raw period.to_json %>]
             },
             yAxis: {
               title: { text: '' },
@@ -67,8 +69,9 @@
             credits: {
               text: ''
             },
-           plotOptions: {
+            plotOptions: {
                   series: {
+                    showInLegend: false,
                     cursor: 'pointer',
                     point: {
                         events: {
@@ -82,118 +85,43 @@
             series: [{
               name: '<%=l(:field_total)%>',
               data: [{
-                      y: <%= raw str[:total].first.to_json  %>,
-                      url: 'http://localhost:3000/issue_statistics/total_issues/<%= stat_per_user %>/week'
-                    },
-                    {
-                      y: <%= raw str[:total].last(3).first.to_json  %>,
-                      url: 'http://localhost:3000/issue_statistics/total_issues/<%= stat_per_user %>/month'
-                    },
-                    {
-                      y: <%= raw str[:total].last(2).first.to_json  %>,
-                      url: 'http://localhost:3000/issue_statistics/total_issues/<%= stat_per_user %>/year'
-                    }
-                    ,
-                    {
-                      y: <%= raw str[:total].last.to_json  %>,
-                      url: 'http://localhost:3000/issue_statistics/total_issues/<%= stat_per_user %>/all'
+                      y: <%= raw str[:total][pidx].to_json  %>,
+                      url: 'http://localhost:3000/issue_statistics/total_issues/<%= stat_per_user %>/'+ <%= raw period.to_json %>
                     }]
             },
             {
               name: '<%=l(:field_opened)%>',
               data: [{
-                      y: <%= raw str[:opened].first.to_json  %>,
-                      url: 'http://localhost:3000/issue_statistics/opened_issues/<%= stat_per_user %>/week'
-                    },
-                    {
-                      y: <%= raw str[:opened].last(3).first.to_json  %>,
-                      url: 'http://localhost:3000/issue_statistics/opened_issues/<%= stat_per_user %>/month'
-                    },
-                    {
-                      y: <%= raw str[:opened].last(2).first.to_json  %>,
-                      url: 'http://localhost:3000/issue_statistics/opened_issues/<%= stat_per_user %>/year'
-                    }
-                    ,
-                    {
-                      y: <%= raw str[:opened].last.to_json  %>,
-                      url: 'http://localhost:3000/issue_statistics/opened_issues/<%= stat_per_user %>/all'
+                      y: <%= raw str[:opened][pidx].to_json  %>,
+                      url: 'http://localhost:3000/issue_statistics/opened_issues/<%= stat_per_user %>/'+ <%= raw period.to_json %>
                     }]
             },
             {
               name: '<%=l(:field_closed)%>',
               data: [{
-                      y: <%= raw str[:closed].first.to_json  %>,
-                      url: 'http://localhost:3000/issue_statistics/closed_issues/<%= stat_per_user %>/week'
-                    },
-                    {
-                      y: <%= raw str[:closed].last(3).first.to_json  %>,
-                      url: 'http://localhost:3000/issue_statistics/closed_issues/<%= stat_per_user %>/month'
-                    },
-                    {
-                      y: <%= raw str[:closed].last(2).first.to_json  %>,
-                      url: 'http://localhost:3000/issue_statistics/closed_issues/<%= stat_per_user %>/year'
-                    }
-                    ,
-                    {
-                      y: <%= raw str[:closed].last.to_json  %>,
-                      url: 'http://localhost:3000/issue_statistics/closed_issues/<%= stat_per_user %>/all'
+                      y: <%= raw str[:closed][pidx].to_json  %>,
+                      url: 'http://localhost:3000/issue_statistics/closed_issues/<%= stat_per_user %>/'+ <%= raw period.to_json %>
                     }]
             },
             {
               name: '<%=l(:field_returned)%>',
                data: [{
-                      y: <%= raw str[:returned].first.to_json  %>,
-                      url: 'http://localhost:3000/issue_statistics/returned_issues/<%= stat_per_user %>/week'
-                    },
-                    {
-                      y: <%= raw str[:returned].last(3).first.to_json  %>,
-                      url: 'http://localhost:3000/issue_statistics/returned_issues/<%= stat_per_user %>/month'
-                    },
-                    {
-                      y: <%= raw str[:returned].last(2).first.to_json  %>,
-                      url: 'http://localhost:3000/issue_statistics/returned_issues/<%= stat_per_user %>/year'
-                    },
-                    {
-                      y: <%= raw str[:returned].last.to_json  %>,
-                      url: 'http://localhost:3000/issue_statistics/returned_issues/<%= stat_per_user %>/all'
+                      y: <%= raw str[:returned][pidx].to_json  %>,
+                      url: 'http://localhost:3000/issue_statistics/returned_issues/<%= stat_per_user %>/'+ <%= raw period.to_json %>
                     }]
             },
             {
               name: '<%= l(:field_comment_max) %>',
               data: [{
-                      y: <%= raw str[:comment_max].first.to_json  %>,
-                      url: 'http://localhost:3000/issue_statistics/most_commented_issues/<%= stat_per_user %>/week'
-                    },
-                    {
-                      y: <%= raw str[:comment_max].last(3).first.to_json  %>,
-                      url: 'http://localhost:3000/issue_statistics/most_commented_issues/<%= stat_per_user %>/month'
-                    },
-                    {
-                      y: <%= raw str[:comment_max].last(2).first.to_json  %>,
-                      url: 'http://localhost:3000/issue_statistics/most_commented_issues/<%= stat_per_user %>/year'
-                    },
-                    {
-                      y: <%= raw str[:comment_max].last.to_json  %>,
-                      url: 'http://localhost:3000/issue_statistics/most_commented_issues/<%= stat_per_user %>/all'
+                      y: <%= raw str[:comment_max][pidx].to_json  %>,
+                      url: 'http://localhost:3000/issue_statistics/most_commented_issues/<%= stat_per_user %>/'+ <%= raw period.to_json %>
                     }]
             },
             {
               name: '<%= l(:field_old_issues) %>',
               data: [{
-                      y: <%= raw str[:old_issues].first.to_json  %>,
-                      url: 'http://localhost:3000/issue_statistics/older_issues/<%= stat_per_user %>/week'
-                    },
-                    {
-                      y: <%= raw str[:old_issues].last(3).first.to_json  %>,
-                      url: 'http://localhost:3000/issue_statistics/older_issues/<%= stat_per_user %>/month'
-                    },
-                    {
-                      y: <%= raw str[:old_issues].last(2).first.to_json  %>,
-                      url: 'http://localhost:3000/issue_statistics/older_issues/<%= stat_per_user %>/year'
-                    },
-                    {
-                      y: <%= raw str[:old_issues].last.to_json  %>,
-                      url: 'http://localhost:3000/issue_statistics/older_issues/<%= stat_per_user %>/all'
+                      y: <%= raw str[:old_issues][pidx].to_json  %>,
+                      url: 'http://localhost:3000/issue_statistics/older_issues/<%= stat_per_user %>/' + <%= raw period.to_json %>
                     }]
             }
             ]
@@ -201,8 +129,9 @@
         });
       </script>
       <div>
-        <div id="<%= stat_per_user %>" style="width: 1000px; height: 300px; position: relative; margin: auto;"></div>
+        <div id="<%= stat_per_user %><%=  period %>" style="width: 250px; height: 300px; position: relative; margin: auto;"></div>
       </div>
+      <% end %>
       <script type="text/javascript" charset="utf-8">
         $(function () {
           var ratio_all = Math.round(<%= raw str[:returned_ratio].last.to_json %> * 100 )/ 100;
@@ -366,86 +295,90 @@
                       colors: ['#F7BB83', '#D99077'],
                       data: [
                               {
-                                name: "<%=l(:field_week)%> <%=l(:field_closed)%>",
+                                name: "<%=l(:closed_in_week)%>",
                                 y: ratio_week,
                                 url: 'http://localhost:3000/issue_statistics/closed_issues/<%= stat_per_user %>/week'
                               },
                               {
-                                name: "<%=l(:field_week)%> <%=l(:field_opened)%>",
+                                name: "<%=l(:opened_in_week)%>",
                                 y: difference_week,
                                 url: 'http://localhost:3000/issue_statistics/opened_issues/<%= stat_per_user %>/week',
                                 dataLabels: {
                                         enabled: true,
-                                        color: '#D99077'
+                                        color: '#f95b24'
                                 }
                               }
                       ],
                       color: 'black',
-                      distance: -30
+                      distance: -30,
+                      startAngle: 0
                   },
                   {
                       colors: ['#F7BB83', '#D99077'],
                       data: [
                               {
-                                name: "<%=l(:field_month)%> <%=l(:field_closed)%>",
+                                name: "<%=l(:closed_in_month)%>",
                                 y: ratio_month,
                                 url: 'http://localhost:3000/issue_statistics/closed_issues/<%= stat_per_user %>/month'
                               },
                               {
-                                name: "<%=l(:field_month)%> <%=l(:field_opened)%>",
+                                name: "<%=l(:opened_in_month)%>",
                                 y: difference_month,
                                 url: 'http://localhost:3000/issue_statistics/opened_issues/<%= stat_per_user %>/month',
                                 dataLabels: {
                                         enabled: true,
-                                        color: '#D99077'
+                                        color: '#f95b24'
                                 }
                               }
                             ],
                       size: '65%',
                       innerSize: '62%',
+                      startAngle: 45
 
                   },
                   {
                       colors: ['#F7BB83', '#D99077'],
                       data: [
                               {
-                                name: "<%=l(:field_year)%> <%=l(:field_closed)%>",
+                                name: "<%=l(:closed_in_year)%>",
                                 y: ratio_year,
                                 url: 'http://localhost:3000/issue_statistics/closed_issues/<%= stat_per_user %>/year'
                               },
                               {
-                                name: "<%=l(:field_year)%> <%=l(:field_opened)%>",
+                                name: "<%=l(:opened_in_year)%>",
                                 y: difference_year,
                                 url: 'http://localhost:3000/issue_statistics/opened_issues/<%= stat_per_user %>/year',
                                 dataLabels: {
                                         enabled: true,
-                                        color: '#D99077'
+                                        color: '#f95b24'
                                 }
                               }
                             ],
                       size: '55%',
                       innerSize: '52%',
+                      startAngle: 90
                   },
                   {
                       colors: ['#F7BB83', '#D99077'],
                       data: [
                               {
-                                name: "<%=l(:all)%> <%=l(:field_closed)%>",
+                                name: "<%=l(:closed_all)%>",
                                 y: ratio_all,
                                 url: 'http://localhost:3000/issue_statistics/closed_issues/<%= stat_per_user %>/all'
                               },
                               {
-                                name: "<%=l(:all)%> <%=l(:field_opened)%>",
+                                name: "<%=l(:opened_all)%>",
                                 y: difference_all,
                                 url: 'http://localhost:3000/issue_statistics/opened_issues/<%= stat_per_user %>/all',
                                 dataLabels: {
                                         enabled: true,
-                                        color: '#D99077'
+                                        color: '#f95b24'
                                 }
                               }
                             ],
                       size: '45%',
                       innerSize: '42%',
+                      startAngle: 130
                   }]
           });
         });
