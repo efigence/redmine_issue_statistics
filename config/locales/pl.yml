@@ -8,14 +8,19 @@ pl:
   field_avg: Średni czas zagadnienia
   field_type: Typ
   field_assign: Przypisany do
-  field_old_issues: Starsze taski
+  field_old_issues: Starsze zagadnienia
   view_statistics: Statystyki
   view_statistics_from: Statystyki z
   stats_all: Wszystkie
   stats_user: Dla Użytkowników
   stats_project: Dla Projektów
   stats_project_user: Użytkownik Dla Projektu
-  field_comment_max: Komentarzy > 5
+  field_comment_max: Najbardziej komentowane
+  periods:
+    week: Tydzień
+    month: Miesiąc
+    year: Rok
+    all: Wszystko
   week: Tydzień
   month: Miesiąc
   year: Rok
@@ -27,3 +32,8 @@ pl:
   returned_info: "Liczba powróceń zagadnienia, która określa, że z tym zagadnieniem jest coś nie tak"
   returned_count: Liczba powrotów zagadnienia
   comments_count: Liczba komentarzy w zagadnieniu
+  per_page: Liczba statystyk na stronie
+  per_page_info: "(4 - jedna statystyka, 8 - dwie statystyki, ...)"
+  returned_table_from_info: "Wybierz statusy, które określaja stara wartość w dzienniku"
+  returned_table_to_info: "Wybierz statusy, które określaja nową wartość w dzienniku"
+  setting_returned_issues_info: Określ w jaki sposób mają być znajdowane zagadnienia powracające

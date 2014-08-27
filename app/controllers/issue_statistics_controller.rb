@@ -28,15 +28,21 @@ class IssueStatisticsController < ApplicationController
   end
 
   def all    
-  	@issue_statistics = IssueStatistic.where(relate_type: nil).paginate(:page => params[:page])
+  	@issue_statistics = IssueStatistic.
+                                    where(relate_type: nil).
+                                    paginate(:page => params[:page], :per_page => per_page )
   end
   
   def users_stats
-    @issue_statistics = IssueStatistic.where(statisticable_type: 'User', relate_type: nil, statisticable_id: params[:user_id]).paginate(:page => params[:page])
+    @issue_statistics = IssueStatistic.
+                                    where(statisticable_type: 'User', relate_type: nil, statisticable_id: params[:user_id]).
+                                    paginate(:page => params[:page], :per_page => per_page)
   end
 
   def projects_stats
-    @issue_statistics = IssueStatistic.where(statisticable_type: 'Project', relate_type: nil, statisticable_id: params[:project_id]).paginate(:page => params[:page])
+    @issue_statistics = IssueStatistic.
+                                    where(statisticable_type: 'Project', relate_type: nil, statisticable_id: params[:project_id]).
+                                    paginate(:page => params[:page], :per_page => per_page)
   end
 
   def principal_stats_per_project
@@ -44,7 +50,7 @@ class IssueStatisticsController < ApplicationController
       where(relate_type: "User", relate_id: params[:user_id]).
       where(statisticable_type: 'Project', statisticable_id: params[:project_id]).
       order('statisticable_id, statisticable_type, relate_id').
-      paginate(:page => params[:page])
+      paginate(:page => params[:page], :per_page => per_page)
   end
 
   def total_issues
@@ -79,7 +85,7 @@ class IssueStatisticsController < ApplicationController
     @results = []
     base.each do |issue|    
       comments = Queries.comment_query(issue.id, @periods_datetime).count
-      @results << Issue.find(issue.id) if comments > 5
+      @results << Issue.find(issue.id) if comments > Setting.plugin_redmine_issue_statistics['comment_settings'].to_i
     end
     render :results
   end
@@ -135,4 +141,9 @@ class IssueStatisticsController < ApplicationController
   #   end
   # end
 
+  def per_page
+    @per_page ||= Setting.plugin_redmine_issue_statistics['per_page'].to_i * 4
+  end
+
 end
+# self.per_page =  Setting.plugin_redmine_issue_statistics['per_page'].to_i

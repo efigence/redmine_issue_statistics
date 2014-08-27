@@ -155,5 +155,4 @@ class IssueStatisticTest < ActiveSupport::TestCase
     stat_week = IssueStatistic.where("period = ? AND relate_type = ?", "week", "User").first
     assert_equal 0, stat_week.old_issues, "Wrong older then week issues count"
   end
-
 end

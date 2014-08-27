@@ -8,3 +8,44 @@
   <%= text_field_tag 'settings[returned]', @settings['returned'] %><br/>
   <em class="info"><%=l(:returned_info)%></em>
 </p>
+<p>
+  <label for="per_page"><%=l(:per_page)%></label>
+  <%= text_field_tag 'settings[per_page]', @settings['per_page'] %><br/>
+</p><hr>
+<p>
+<h3><%=l(:setting_returned_issues_info) %></h3>
+  <table>
+    <tr>
+      <th>
+        <em class="info"><%=l(:returned_table_to_info)%> |</em>        
+      </th>
+      <th>
+        <em class="info"><%= l(:returned_table_from_info) %></em>        
+      </th>
+    </tr>
+    <% IssueStatus.all.each do |m| %>
+      <tr>
+        <td>
+          <p>
+            <label class="floating">
+              <%= check_box_tag 'settings[returned_table_to][]', m.id, (@settings['returned_table_to'] || []).include?(m.id.to_s), :class => "uniq_check #{m.id}" %>
+              <%= l_or_humanize(m, :prefix => "m") %>
+            </label>
+          </p>
+        </td>
+        <td>
+          <p>
+            <label class="floating">
+              <%= check_box_tag 'settings[returned_table_from][]', m.id, (@settings['returned_table_from'] || []).include?(m.id.to_s), :class => "uniq_check #{m.id}" %>
+              <%= l_or_humanize(m, :prefix => "m") %>
+            </label>
+          </p>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+</p>
+
+<% content_for :header_tags do %>
+  <%= javascript_include_tag 'configuration_checkbox', :plugin => 'redmine_issue_statistics' %>
+<% end %>

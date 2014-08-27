@@ -26,9 +26,9 @@ module RedmineIssueStatistics
         query.
           select('journalized_id').
           group('journalized_id').
-          having('count(journalized_id) > ?', Setting.plugin_redmine_issue_statistics['returned'].to_i).
+          having('count(journalized_id) >= ?', Setting.plugin_redmine_issue_statistics['returned'].to_i).
           joins(journals: :details).
-          where('old_value != ? AND value IN(?) AND prop_key = ?', 1, ["1","2","8"], "status_id").all
+          where('old_value IN(?) AND value IN(?) AND prop_key = ?', Setting.plugin_redmine_issue_statistics['returned_table_from'], Setting.plugin_redmine_issue_statistics['returned_table_to'], "status_id").all
       end
 
       def comment_query issue, period_to_datetime
@@ -42,8 +42,4 @@ module RedmineIssueStatistics
       end
     end
   end
-end       
-          # select('journalized_id, old_value, value').
-          # joins(journals: :details).
-          # where('old_value != ? AND value IN(?) AND prop_key = ?', 1, ["1","2","8"], "status_id").all
-
+end

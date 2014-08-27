@@ -7,7 +7,7 @@ class IssueStatistic < ActiveRecord::Base
   
   belongs_to :statisticable, :polymorphic => true
 
-  self.per_page = 4
+
 
   def recalculate_returned_ratio
     if self.returned != 0 && self.returned != nil

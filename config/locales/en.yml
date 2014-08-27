@@ -15,7 +15,7 @@ en:
   stats_user: For Users
   stats_project: For Projects
   stats_project_user: User Per Project
-  field_comment_max: More then 5 comments
+  field_comment_max: The most commented
   periods:
     week: Week
     month: Month
@@ -28,7 +28,14 @@ en:
   field_week: Weekly
   field_month: Monthly
   field_year: Yearly
-  comment_info: Here you can set the number of comments for the issue which specifies that this issue can be confusing
-  returned_info: Here you can set the number of returned issues which defines that with this issue is something wrong
-  returned_count: Number of returns issue
   comments_count: Number of comments in issue
+  comment_info: Here you can set the number of comments for the issue which specifies that this issue can be confusing
+  returned_count: Number of returns issue
+  returned_info: Here you can set the number of returned issues which defines that with this issue is something wrong
+  per_page: Numer of statistics on page
+  per_page_info: "(4 - one statistic, 8 - two statistics, ...)"
+  returned_table_from: From status
+  returned_table_from_info: "Select statuses, which should specify the old value in journal"
+  returned_table_to: To status
+  returned_table_to_info: "Select statuses, which should specify the new value in the journal"
+  setting_returned_issues_info: Set how you want to find returned issues

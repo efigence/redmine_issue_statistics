@@ -4,4 +4,7 @@ settings_001:
   name: plugin_redmine_issue_statistics
   value: 
     comment_settings: 5
+    returned: 1
+    returned_table_to: ["1","2","4","8"]
+    returned_table_from: ["3", "5", "7", "9", "10", "11", "12"]
   updated_on: 2007-03-23 14:11:04 +01:00
