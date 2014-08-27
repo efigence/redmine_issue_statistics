@@ -17,10 +17,10 @@
   <table>
     <tr>
       <th>
-        <em class="info"><%=l(:returned_table_to_info)%> |</em>        
+        <em class="info"><%=l(:returned_table_to_info)%></em>
       </th>
       <th>
-        <em class="info"><%= l(:returned_table_from_info) %></em>        
+        <em class="info"><%= l(:returned_table_from_info) %></em>
       </th>
     </tr>
     <% IssueStatus.all.each do |m| %>
@@ -44,6 +44,7 @@
       </tr>
     <% end %>
   </table>
+  <em class="info"><%= l(:example_returned_issue) %></em>
 </p>
 
 <% content_for :header_tags do %>

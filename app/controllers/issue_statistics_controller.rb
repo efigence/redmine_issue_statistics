@@ -144,6 +144,4 @@ class IssueStatisticsController < ApplicationController
   def per_page
     @per_page ||= Setting.plugin_redmine_issue_statistics['per_page'].to_i * 4
   end
-
 end
-# self.per_page =  Setting.plugin_redmine_issue_statistics['per_page'].to_i

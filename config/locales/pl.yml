@@ -34,6 +34,7 @@ pl:
   comments_count: Liczba komentarzy w zagadnieniu
   per_page: Liczba statystyk na stronie
   per_page_info: "(4 - jedna statystyka, 8 - dwie statystyki, ...)"
-  returned_table_from_info: "Wybierz statusy, które określaja stara wartość w dzienniku"
-  returned_table_to_info: "Wybierz statusy, które określaja nową wartość w dzienniku"
+  returned_table_from_info: "Zmina statusu z: "
+  returned_table_to_info: "Zmina statusu na: "
   setting_returned_issues_info: Określ w jaki sposób mają być znajdowane zagadnienia powracające
+  example_returned_issue: "Przykład: Jeśli ustawisz status na 'new' i 'in progress' oraz status z na 'closed' wtedy znajdzie wszystkie zamknięte zagadnienia, które zostały wznowione"

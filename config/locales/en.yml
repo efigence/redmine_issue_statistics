@@ -35,7 +35,8 @@ en:
   per_page: Numer of statistics on page
   per_page_info: "(4 - one statistic, 8 - two statistics, ...)"
   returned_table_from: From status
-  returned_table_from_info: "Select statuses, which should specify the old value in journal"
+  returned_table_from_info: "Change status from: "
   returned_table_to: To status
-  returned_table_to_info: "Select statuses, which should specify the new value in the journal"
+  returned_table_to_info: "Change status to: "
   setting_returned_issues_info: Set how you want to find returned issues
+  example_returned_issue: "Example: If you select status to as 'new' and 'in progress' and select status from as 'closed' then find all closed issues which has been resumed"
