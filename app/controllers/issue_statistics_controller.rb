@@ -1,11 +1,15 @@
 class IssueStatisticsController < ApplicationController
   unloadable
-
-  before_filter :get_periods, :authenticate
+  before_filter :scope_my_groups_data, :only => [:index]
+  before_filter :get_periods, :permitted_or_api_request?
   before_filter :set_period, :only => [:total_issues, :opened_issues, :returned_issues, :most_commented_issues, :closed_issues, :older_issues]
 
   include RedmineIssueStatistics
- 
+  
+  def is_admin? 
+    User.current.admin?
+  end
+  
   def index
     if !params[:user_id].blank? && !params[:project_id].blank?
       principal_stats_per_project()
@@ -26,31 +30,42 @@ class IssueStatisticsController < ApplicationController
       end
     end
   end
-
-  def all    
-  	@issue_statistics = IssueStatistic.
-                                    where(relate_type: nil).
-                                    paginate(:page => params[:page], :per_page => per_page )
-  end
   
+  def avalible_data
+    if is_admin?
+      @issue_statistics = IssueStatistic.paginate(:page => params[:page], :per_page => per_page)
+    else
+      @issue_statistics = IssueStatistic.
+                                      where('(statisticable_id IN(?) AND statisticable_type = ? )
+                                          OR (statisticable_id IN(?) AND statisticable_type = ? AND relate_id IS NULL)
+                                          OR statisticable_id IN(?) AND statisticable_type = ? AND relate_id IN(?)',
+                                          @users_tab, 'User',
+                                          @projects_tab, 'Project',
+                                          @projects_tab, 'Project', @users_tab).
+                                          order('relate_id')
+    end
+  end
+
+  def all
+    @issue_statistics = avalible_data.paginate(:page => params[:page], :per_page => per_page)
+  end
+
   def users_stats
-    @issue_statistics = IssueStatistic.
-                                    where(statisticable_type: 'User', relate_type: nil, statisticable_id: params[:user_id]).
-                                    paginate(:page => params[:page], :per_page => per_page)
+    @issue_statistics = avalible_data.where(statisticable_type: 'User', relate_type: nil, statisticable_id: params[:user_id]).
+                                      paginate(:page => params[:page], :per_page => per_page)
   end
 
   def projects_stats
-    @issue_statistics = IssueStatistic.
-                                    where(statisticable_type: 'Project', relate_type: nil, statisticable_id: params[:project_id]).
-                                    paginate(:page => params[:page], :per_page => per_page)
+    @issue_statistics = avalible_data.where(statisticable_type: 'Project', relate_type: nil, statisticable_id: params[:project_id]).
+                                      paginate(:page => params[:page], :per_page => per_page)
   end
 
   def principal_stats_per_project
-    @issue_statistics = IssueStatistic.
-      where(relate_type: "User", relate_id: params[:user_id]).
-      where(statisticable_type: 'Project', statisticable_id: params[:project_id]).
-      order('statisticable_id, statisticable_type, relate_id').
-      paginate(:page => params[:page], :per_page => per_page)
+    @issue_statistics = avalible_data.
+                                      where(relate_type: "User", relate_id: params[:user_id]).
+                                      where(statisticable_type: 'Project', statisticable_id: params[:project_id]).
+                                      order('statisticable_id, statisticable_type, relate_id').
+                                      paginate(:page => params[:page], :per_page => per_page)
   end
 
   def total_issues
@@ -131,17 +146,41 @@ class IssueStatisticsController < ApplicationController
     @periods ||= %w(week month year all)
   end
 
-  def authenticate 
-    User.current.admin? || authorize
-  end
-
-  # def restrict_access 
-  #   authenticate_or_request_with_http_token do |token, options|
-  #     Token.find_by(value: token)
-  #   end
-  # end
-
   def per_page
     @per_page ||= Setting.plugin_redmine_issue_statistics['per_page'].to_i * 4
+  end
+
+  def permitted_or_api_request?
+    deny_access unless api_request? && proper_auth_key? || User.current.admin? || has_access?
+  end
+
+  def proper_auth_key?
+    request.headers['Authorization'] == Setting.plugin_redmine_issue_statistics[:auth_key]
+  end
+
+  def has_access?
+    !(user_ids & groups_with_access).blank?
+  end
+
+  def user_ids
+    User.current.groups.select('id').collect{|el| el.id.to_s}
+  end
+
+  def groups_with_access
+    Setting.plugin_redmine_issue_statistics[:groups] || []
+  end
+
+  def scope_my_groups_data
+    users_tab, projects_tab = [], []
+    User.current.groups.each do |group|
+      group.users.each do |user|
+        users_tab << user.id
+        user.projects.each do |project|
+          projects_tab << project.id
+        end
+      end
+    end
+    @users_tab = users_tab.uniq.sort
+    @projects_tab = projects_tab.uniq.sort
   end
 end

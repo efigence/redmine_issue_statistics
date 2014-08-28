@@ -23,7 +23,7 @@
 <% end %>
 <hr />
 <% if @issue_statistics.empty? %>
-  <p class="nodata"><%= l(:label_no_data) %></p>
+  <p class="nodata"><%= l(:label_no_data_or_access_denide) %></p>
 <% else %>
    <% @issue_statistics.group_by(&:statisticable_id).each do |stat_per_user, tab| %>
       <% periods = [] %>
@@ -389,6 +389,9 @@
     <hr />
     <% end %>
   <% end %>
+<div id="paginacja" class="pagination" style="text-align: center;">
+   <%= will_paginate @issue_statistics %>
+</div>
 <% content_for :header_tags do %>
   <%= stylesheet_link_tag 'chosen.css', :plugin => 'redmine_issue_statistics', :media => 'all' %>
   <%= stylesheet_link_tag 'application.css', :plugin => 'redmine_issue_statistics', :media => 'all' %>
@@ -396,6 +399,3 @@
   <%= javascript_include_tag 'highcharts', :plugin => 'redmine_issue_statistics' %>
   <%= javascript_include_tag 'app', :plugin => 'redmine_issue_statistics' %>
 <% end %>
-<div id="paginacja" class="pagination" style="text-align: center;">
-   <%= will_paginate @issue_statistics %>
-</div>

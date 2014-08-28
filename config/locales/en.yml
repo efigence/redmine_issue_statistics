@@ -48,3 +48,5 @@ en:
   opened_in_year: Opened in year
   closed_all: Closed all
   opened_all: Opened all
+  auth_stats_token: Authorization token
+  label_no_data_or_access_denide: No data to display or you don't have access to this page

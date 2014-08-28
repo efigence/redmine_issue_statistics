@@ -43,7 +43,7 @@ module RedmineIssueStatistics
       IssueStatistic.where(statisticable_id: project.id, statisticable_type: project.class.name, period: period).first
     end
 
-    def params_to_save(value)
+    def params_to_save value
       s = IssueStatistic.new
       s.statisticable_id = value.id
       s.statisticable_type = value.class.name

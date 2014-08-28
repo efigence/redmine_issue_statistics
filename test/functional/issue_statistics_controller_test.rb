@@ -7,7 +7,9 @@ class IssueStatisticsControllerTest < ActionController::TestCase
 
   fixtures :issue_statistics,
            :users,
-           :issues
+           :groups_users,
+           :issues,
+           :settings
 
   include Redmine::I18n
 
@@ -122,5 +124,11 @@ class IssueStatisticsControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'results'
     assert_equal 0, assigns(:results).count, "This Principal should not have older issue then week!"
+  end
+
+  test 'search by user in different group' do
+    get :index, user_id: 4
+    assert_response :success
+    assert_equal true, assigns(:issue_statistics).empty?
   end
 end
