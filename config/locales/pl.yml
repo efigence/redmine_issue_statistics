@@ -16,6 +16,7 @@ pl:
   stats_project: Dla Projektów
   stats_project_user: Użytkownik Dla Projektu
   field_comment_max: Najbardziej komentowane
+  period: Okres
   periods:
     week: Tydzień
     month: Miesiąc
@@ -46,4 +47,4 @@ pl:
   opened_in_year: Otwarte w roku
   closed_all: Wszystkie zamknięte
   opened_all: Wszystkie otwarte
-  label_no_data_or_access_denide: Brak danych lub nie masz do nich dostępu
+  label_no_data_or_access_denied: Brak danych lub nie masz do nich dostępu

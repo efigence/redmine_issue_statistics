@@ -16,6 +16,7 @@ en:
   stats_project: For Projects
   stats_project_user: User Per Project
   field_comment_max: The most commented
+  period: Period
   periods:
     week: Week
     month: Month
@@ -49,4 +50,4 @@ en:
   closed_all: Closed all
   opened_all: Opened all
   auth_stats_token: Authorization token
-  label_no_data_or_access_denide: No data to display or you don't have access to this page
+  label_no_data_or_access_denied: No data to display or you don't have access to this page

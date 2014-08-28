@@ -1,0 +1,44 @@
+<%= form_tag statistics_path, :method => 'get' do %>
+  <% if User.current.admin? %>
+  <table id="filters-table">
+    <tr>
+      <td>
+        <%=l(:field_user)%> :
+      </td>
+      <td>
+        <%= select_tag :user_id, options_from_collection_for_select(Principal.sorted, :id, :name, params[:user_id]), include_blank: true, class: 'chosen' %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <%=l(:field_project)%> :
+      </td>
+      <td>
+        <%= select_tag :project_id, project_tree_options_for_select(Project.active, selected: Project.where(id: params[:project_id]).first), include_blank: true, class: 'chosen' %>
+      </td>
+    </tr>
+  </table>
+  <% else %>
+  <table id="filters-table">
+    <tr>
+      <td>
+        <%=l(:field_user)%> :
+      </td>
+      <td>
+        <%= select_tag :user_id, options_from_collection_for_select(Principal.where('id IN (?)', @users_tab).sorted, :id, :name, params[:user_id]), include_blank: true, class: 'chosen' %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <%=l(:field_project)%> :
+      </td>
+      <td>
+        <%= select_tag :project_id, project_tree_options_for_select(Project.where('id IN (?)', @projects_tab).active, selected: Project.where(id: params[:project_id]).first), include_blank: true, class: 'chosen' %>
+      </td>
+    </tr>
+  </table>
+  <% end %>
+  <p class="buttons">
+    <%= submit_tag "Search", :name => nil %>
+  </p>
+<% end %>

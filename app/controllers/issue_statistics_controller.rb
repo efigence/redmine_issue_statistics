@@ -5,7 +5,7 @@ class IssueStatisticsController < ApplicationController
   before_filter :set_period, :only => [:total_issues, :opened_issues, :returned_issues, :most_commented_issues, :closed_issues, :older_issues]
 
   include RedmineIssueStatistics
-  
+
   def is_admin? 
     User.current.admin?
   end
@@ -41,13 +41,12 @@ class IssueStatisticsController < ApplicationController
                                           OR statisticable_id IN(?) AND statisticable_type = ? AND relate_id IN(?)',
                                           @users_tab, 'User',
                                           @projects_tab, 'Project',
-                                          @projects_tab, 'Project', @users_tab).
-                                          order('relate_id')
+                                          @projects_tab, 'Project', @users_tab)
     end
   end
 
   def all
-    @issue_statistics = avalible_data.paginate(:page => params[:page], :per_page => per_page)
+    @issue_statistics = avalible_data.order('relate_id').paginate(:page => params[:page], :per_page => per_page)
   end
 
   def users_stats
@@ -171,16 +170,18 @@ class IssueStatisticsController < ApplicationController
   end
 
   def scope_my_groups_data
-    users_tab, projects_tab = [], []
-    User.current.groups.each do |group|
-      group.users.each do |user|
-        users_tab << user.id
-        user.projects.each do |project|
-          projects_tab << project.id
+    unless is_admin?
+      users_tab, projects_tab = [], []
+      User.current.groups.each do |group|
+        group.users.each do |user|
+          users_tab << user.id
+          user.projects.each do |project|
+            projects_tab << project.id
+          end
         end
       end
+      @users_tab = users_tab.uniq.sort
+      @projects_tab = projects_tab.uniq.sort
     end
-    @users_tab = users_tab.uniq.sort
-    @projects_tab = projects_tab.uniq.sort
   end
 end
