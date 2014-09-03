@@ -8,7 +8,6 @@ class IssueStatistic < ActiveRecord::Base
   belongs_to :statisticable, :polymorphic => true
 
 
-
   def recalculate_returned_ratio
     if self.returned != 0 && self.returned != nil
       self.returned_ratio = (self.returned/self.total.to_f) * 100

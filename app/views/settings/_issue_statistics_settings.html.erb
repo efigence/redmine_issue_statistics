@@ -58,7 +58,8 @@
 <h3><%= l(:auth_stats_token) %></h3>
 <p>
   <%= text_field_tag "settings[[auth_key]]", Setting.plugin_redmine_issue_statistics[:auth_key], class: "basictxt", id: "auth_key", :autocomplete => 'off' %>
-<em class="info">In terminal: curl --header "Authorization: <%= Setting.plugin_redmine_issue_statistics[:auth_key] %><%= "\" #{statistics_url}.json" %></p></em>
+<em class="info">In terminal:<b> curl -x "" --header "Authorization: <%= Setting.plugin_redmine_issue_statistics[:auth_key] %>" 
+<%= "#{statistics_url}.json" %></b></em>
 </p>
 <hr>
 <% content_for :header_tags do %>

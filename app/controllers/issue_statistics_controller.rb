@@ -1,7 +1,10 @@
 class IssueStatisticsController < ApplicationController
   unloadable
+  
+  skip_before_filter :check_if_login_required, if: :api_request?
+
   before_filter :scope_my_groups_data, :only => [:index]
-  before_filter :get_periods, :permitted_or_api_request?
+  before_filter :get_periods, :permitted_to_api?
   before_filter :set_period, :only => [:total_issues, :opened_issues, :returned_issues, :most_commented_issues, :closed_issues, :older_issues]
 
   include RedmineIssueStatistics
@@ -26,14 +29,14 @@ class IssueStatisticsController < ApplicationController
         render :index
       end
       format.json do 
-        render :json => @issue_statistics.to_json
+        render :json => @issue_statistics.paginate(:page => params[:page], :per_page => per_page).to_json
       end
     end
   end
   
   def avalible_data
     if is_admin?
-      @issue_statistics = IssueStatistic.paginate(:page => params[:page], :per_page => per_page)
+      @issue_statistics = IssueStatistic.where("")
     else
       @issue_statistics = IssueStatistic.
                                       where('(statisticable_id IN(?) AND statisticable_type = ? )
@@ -46,7 +49,7 @@ class IssueStatisticsController < ApplicationController
   end
 
   def all
-    @issue_statistics = avalible_data.order('relate_id').paginate(:page => params[:page], :per_page => per_page)
+    @issue_statistics = avalible_data.order('relate_id, id').paginate(:page => params[:page], :per_page => per_page)
   end
 
   def users_stats
@@ -149,8 +152,8 @@ class IssueStatisticsController < ApplicationController
     @per_page ||= Setting.plugin_redmine_issue_statistics['per_page'].to_i * 4
   end
 
-  def permitted_or_api_request?
-    deny_access unless api_request? && proper_auth_key? || User.current.admin? || has_access?
+  def permitted_to_api?
+    deny_access unless proper_auth_key? || is_admin? || has_access?
   end
 
   def proper_auth_key?

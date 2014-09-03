@@ -43,11 +43,24 @@
             },
             yAxis: {
               title: { text: '' },
+              stackLabels: {
+                style: {
+                    color: 'black'
+                },
+                enabled: true
+            }
             },
             credits: {
               text: ''
             },
             plotOptions: {
+                  column: {
+                    pointPadding: 0,
+                    groupPadding: 0,
+                    dataLabels: {
+                      enabled: true
+                    }
+                  },
                   series: {
                     showInLegend: false,
                     cursor: 'pointer',
