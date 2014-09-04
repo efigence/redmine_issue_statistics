@@ -11,13 +11,18 @@ Redmine::Plugin.register :redmine_issue_statistics do
   author_url 'http://www.efigence.com/'
 
   permission :view_statistics, :issue_statistics => [:index, :users_stats, :projects_stats]
-  menu :top_menu, :issue_statistics, {:controller => 'issue_statistics', :action => 'index'}, :caption => :view_statistics
+  menu :top_menu, 
+    :issue_statistics, { :controller => 'issue_statistics', :action => 'index' },
+    :caption => :view_statistics#,
+    # :if => proc {
+    #   User.current.admin? ||
+    #   !(User.current.groups.pluck(:id).map(&:to_s) & (Setting.plugin_redmine_issue_statistics['groups'] || [])).blank?
+    # }
 
   settings :default =>  {
     'comment_settings' => 5,
     'returned' => 1,
     'per_page' => 1,
-    'groups' => 446, #teamliders
     'returned_table_to' =>  IssueStatus.where(is_closed: false).pluck(:id).map(&:to_s),
     'returned_table_from' => IssueStatus.where(is_closed: true).pluck(:id).map(&:to_s)
   }, :partial => 'settings/issue_statistics_settings'

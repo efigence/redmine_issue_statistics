@@ -131,4 +131,13 @@ class IssueStatisticsControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal true, assigns(:issue_statistics).empty?
   end
+
+  test 'get access to index page without privileges' do
+    @request.session[:user_id] = 2
+      user = User.find(2)
+      user.admin = false
+      user.save
+    get "index"
+    assert_response 403
+  end
 end
