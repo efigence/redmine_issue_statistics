@@ -47,7 +47,7 @@
   <em class="info"><%= l(:example_returned_issue) %></em>
 </p>
 <hr>
-<h3><%= t(:allowed_groups) %></h3>
+<h3><%= l(:allowed_groups_to_stats) %></h3>
 <p>
   <%= select_tag "settings[groups][]",
     options_from_collection_for_select(Group.all.sort, 'id', 'lastname',
@@ -57,9 +57,10 @@
 <hr>
 <h3><%= l(:auth_stats_token) %></h3>
 <p>
-  <%= text_field_tag "settings[[auth_key]]", Setting.plugin_redmine_issue_statistics[:auth_key], class: "basictxt", id: "auth_key", :autocomplete => 'off' %>
-<em class="info">In terminal:<b> curl -x "" --header "Authorization: <%= Setting.plugin_redmine_issue_statistics[:auth_key] %>" 
-<%= "#{statistics_url}.json" %></b></em>
+<em class="info">
+<%= l(:api_information)%> <br/>
+Terminal: curl -x "" --header "Authorization: YOUR API KEY" <%= statistics_url %>.json
+</em>
 </p>
 <hr>
 <% content_for :header_tags do %>

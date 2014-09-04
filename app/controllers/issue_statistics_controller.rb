@@ -34,7 +34,7 @@ class IssueStatisticsController < ApplicationController
         render :json => {
           #@issue_statistics.paginate(:page => params[:page], :per_page => per_page).to_json
           :current_page => @issue_statistics.current_page,
-          :per_page => @issue_statistics.per_page,
+          :per_page => @issue_statistics.per_page/4,
           :total_pages => @issue_statistics.total_pages,
           :entries => @issue_statistics
           }
@@ -166,7 +166,7 @@ class IssueStatisticsController < ApplicationController
 
   def permitted_to_api?
     User.current = User.find_by_api_key(request.headers['Authorization']) || User.find_by_api_key(params[:key])
-    logger.debug "------#{User.current.inspect}"
+    #logger.debug "------#{User.current.inspect}"
   end
 
 

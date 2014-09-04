@@ -34,7 +34,6 @@ en:
   returned_count: Number of returns issue
   returned_info: Here you can set the number of returned issues which defines that with this issue is something wrong
   per_page: Numer of statistics on page
-  per_page_info: "(4 - one statistic, 8 - two statistics, ...)"
   returned_table_from: From status
   returned_table_from_info: "Change status from: "
   returned_table_to: To status
@@ -49,5 +48,7 @@ en:
   opened_in_year: Opened in year
   closed_all: Closed all
   opened_all: Opened all
-  auth_stats_token: Authorization token
+  auth_stats_token: Getting API
   label_no_data_or_access_denied: No data to display or you don't have access to this page
+  api_information: "To get API you can match in url your_path/issue_statistics/index.json?key=YOUR API AUTHORIZATION KEY. If you want add some params like page number ';page=1'"
+  allowed_groups_to_stats: Allowed groups
