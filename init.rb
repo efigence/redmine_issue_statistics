@@ -13,11 +13,11 @@ Redmine::Plugin.register :redmine_issue_statistics do
   permission :view_statistics, :issue_statistics => [:index, :users_stats, :projects_stats]
   menu :top_menu, 
     :issue_statistics, { :controller => 'issue_statistics', :action => 'index' },
-    :caption => :view_statistics#,
-    # :if => proc {
-    #   User.current.admin? ||
-    #   !(User.current.groups.pluck(:id).map(&:to_s) & (Setting.plugin_redmine_issue_statistics['groups'] || [])).blank?
-    # }
+    :caption => :view_statistics,
+    :if => proc {
+      User.current.admin? ||
+      !(User.current.groups.pluck(:id).map(&:to_s) & (Setting.plugin_redmine_issue_statistics['groups'] || [])).blank?
+    }
 
   settings :default =>  {
     'comment_settings' => 5,
