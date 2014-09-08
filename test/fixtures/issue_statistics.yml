@@ -35,3 +35,21 @@ IssueStatistics_002:
   period: week
   comment_max: 6
   old_issues: 2
+IssueStatistics_003:
+  id: 3
+  statisticable_id: 1
+  statisticable_type: Project
+  relate_id: 2
+  relate_type: User 
+  total: 111
+  opened: 61
+  closed: 50
+  opened_to_closed: 0.55
+  returned: 12
+  returned_ratio: 0.1
+  avg_issue_time: 1.5
+  created_at: 2014-09-01 10:39:56.000000000 Z
+  updated_at: 2014-09-02 10:39:56.000000000 Z
+  period: month
+  comment_max: 6
+  old_issues: 2

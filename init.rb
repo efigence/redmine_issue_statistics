@@ -31,4 +31,5 @@ end
 Rails.configuration.to_prepare do
   require "redmine_issue_statistics/patches/project_patch"
   require "redmine_issue_statistics/patches/principal_patch"
+  require "redmine_issue_statistics/patches/issue_query_patch"
 end

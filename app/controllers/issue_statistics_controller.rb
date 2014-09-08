@@ -4,7 +4,7 @@ class IssueStatisticsController < ApplicationController
   skip_before_filter :check_if_login_required, if: :api_request?
   before_filter :permitted_to_api?, if: :api_request?
   before_filter :user_privileges
-
+  before_filter :find_statisticable, :only => [:total_issues, :opened_issues, :closed_issues, :most_commented_issues, :older_issues]
   before_filter :scope_my_groups_data, :only => [:index]
   before_filter :get_periods
   before_filter :set_period, :only => [:total_issues, :opened_issues, :returned_issues, :most_commented_issues, :closed_issues, :older_issues]
@@ -32,7 +32,6 @@ class IssueStatisticsController < ApplicationController
       end
       format.json do 
         render :json => {
-          #@issue_statistics.paginate(:page => params[:page], :per_page => per_page).to_json
           :current_page => @issue_statistics.current_page,
           :per_page => @issue_statistics.per_page/4,
           :total_pages => @issue_statistics.total_pages,
@@ -80,12 +79,25 @@ class IssueStatisticsController < ApplicationController
 
   def total_issues
     @results = base
-    render :results
+    @specified_total_params = {
+      "f" => ["created_on"],
+      "op[created_on]" => "><",
+      "v[created_on]" => [@periods_datetime.to_date, @r.created_at.to_date.strftime("%Y-%m-%d").to_date]
+    }
+    set_path @r, @periods_datetime, @specified_total_params
+
   end
 
   def opened_issues
-    @results = base.open
-    render :results
+    @results1 = base.open
+    @results = @results1.select('id')
+    @specified_open_params = {
+      "f" => ["status_id", "created_on"],
+      "op[status_id]" => "o",
+      "op[created_on]" => "><",
+      "v[created_on]" => [@periods_datetime.to_date, @r.created_at.to_date.strftime("%Y-%m-%d").to_date]
+    }
+    set_path @r, @periods_datetime, @specified_open_params
   end
 
   def closed_issues
@@ -95,7 +107,13 @@ class IssueStatisticsController < ApplicationController
         @results << res
       end
     end
-    render :results
+    @specified_closed_params = {
+      "f" => ["status_id", "created_on"],
+      "op[status_id]" => "c",
+      "op[created_on]" => "><",
+      "v[created_on]" => [@periods_datetime.to_date, @r.created_at.to_date.strftime("%Y-%m-%d").to_date]
+    }
+    set_path @r, @periods_datetime, @specified_closed_params
   end
 
   def returned_issues
@@ -103,7 +121,7 @@ class IssueStatisticsController < ApplicationController
     Queries.returned_query(base).each do |res|
       @results << Issue.find(res.journalized_id)
     end
-    render :results
+    redirect_to_path @results
   end
 
   def most_commented_issues
@@ -112,7 +130,7 @@ class IssueStatisticsController < ApplicationController
       comments = Queries.comment_query(issue.id, @periods_datetime).count
       @results << Issue.find(issue.id) if comments > Setting.plugin_redmine_issue_statistics['comment_settings'].to_i
     end
-    render :results
+    redirect_to_path @results
   end
 
   def older_issues
@@ -121,10 +139,88 @@ class IssueStatisticsController < ApplicationController
     else
       @results = Queries.old_issues_query(IssueStatistic.where(statisticable_id: params[:statisticable_id]).first.statisticable, @periods_datetime)
     end
-    render :results
+    @specified_older_issues_params = {
+      "f" => ["status_id", "created_on"],
+      "op[status_id]" => "o",
+      "op[created_on]" => "<=",
+      "v[created_on][]" => @periods_datetime.to_date
+    }
+    set_path @r, @periods_datetime, @specified_older_issues_params
   end
 
   private
+
+  def find_statisticable
+    @r = IssueStatistic.where(statisticable_id: params[:statisticable_id], relate_id: params[:relate_id]).first
+  end
+
+  def set_default_params r, period
+    @user_default_params =
+      {
+      set_filter: 1,
+      "f" => ["assigned_to_id"],
+      "op[assigned_to_id]" => "=",
+      "v[assigned_to_id][]" => r.statisticable_id
+      }
+    @project_user_default_params = 
+      {
+      set_filter: 1,
+      "f" => ["project_id", "assigned_to_id"],
+      "op[project_id]" => "=",
+      "op[assigned_to_id]" => "=",
+      "v[project_id][]" => r.statisticable_id,
+      "v[assigned_to_id][]" => r.relate_id
+      }
+    @project_default_params =
+      {
+      set_filter: 1,
+      "f" => ["project_id"],
+      "op[project_id]" => "=",
+      "v[project_id][]" => r.statisticable_id
+      }
+  end
+
+  def set_path r, period, specified_params = nil
+    set_default_params r, period
+
+    if r.statisticable_type == "User"
+      redirect_to issues_path(
+        if specified_params != nil
+          @user_default_params["f"] +=  specified_params["f"]
+          specified_params.merge(@user_default_params)
+        else 
+          @user_default_params
+        end
+      )
+    elsif r.statisticable_type == "Project" && r.relate_type == "User"
+      redirect_to issues_path(
+        if specified_params != nil
+          @project_user_default_params["f"] +=  specified_params["f"]
+          specified_params.merge(@project_user_default_params)
+        else 
+          @project_user_default_params
+        end
+      )
+    else 
+      redirect_to issues_path(
+        if specified_params != nil
+          @project_default_params["f"] +=  specified_params["f"]
+          specified_params.merge(@project_default_params)
+        else 
+          @project_default_params
+        end
+      )
+    end
+  end
+
+  def redirect_to_path results
+    redirect_to issues_path({
+      set_filter: 1,  
+      "f[]" => "id", 
+      "op[id]" => "=",
+      "v[id]" => results.collect(&:id)
+    })
+  end
 
   def base
     if !!params[:relate_id]
@@ -166,7 +262,6 @@ class IssueStatisticsController < ApplicationController
 
   def permitted_to_api?
     User.current = User.find_by_api_key(request.headers['Authorization']) || User.find_by_api_key(params[:key])
-    #logger.debug "------#{User.current.inspect}"
   end
 
 

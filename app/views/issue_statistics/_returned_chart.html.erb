@@ -1,0 +1,76 @@
+<script type="text/javascript" charset="utf-8">
+  $(function () {
+    var 
+      ratio_all = Math.round(<%= raw str[:returned_ratio].last.to_json %> * 100 )/ 100;
+      difference_all = 100 - ratio_all;
+      ratio_year = Math.round(<%= raw str[:returned_ratio].last(2).first.to_json %> * 100 )/ 100;
+      difference_year = 100 - ratio_year;
+      ratio_month = Math.round(<%= raw str[:returned_ratio].first(2).last.to_json %> * 100 )/ 100;
+      difference_month = 100 - ratio_month;
+      ratio_week = Math.round(<%= raw str[:returned_ratio].first.to_json %> * 100 )/ 100;
+      difference_week = 100 - ratio_week;
+      link_returned = 'http://localhost:3000/issue_statistics/returned_issues/<%= stat_per_user %>'
+    $('#<%= stat_per_user %>returned').highcharts({
+               chart: {
+            type: 'bar'
+        },
+        title: {
+            text: ''
+        },
+        xAxis: {
+            categories: <%= raw periods.to_json %>
+        },
+        yAxis: {
+            min: 0,
+            max: 100,
+            title: {
+                text: ''
+            }
+        },
+        legend: {
+            reversed: true
+        },
+        credits: {
+          text: ''
+        },
+        tooltip: {
+          formatter: function() {
+                      return this.series.name + ' : ' + this.point.amount + ' (' +  this.y + ' %)' ;
+                    }
+        },
+        plotOptions: {
+            series: {
+                dataLabels: {
+                  enabled: true,
+                  formatter: function() {
+                      return this.point.amount;
+                    }
+                },
+                stacking: 'normal',
+                cursor: 'pointer',
+                point: {
+                  events: {
+                      click: function (event) {
+                          if (event.point.url){
+                            window.location.href = event.point.url + "/" + this.category + '/<%= relate_id && "?relate_id=#{relate_id}" %>';
+                          }
+                      }
+                  }
+              }
+            }
+        },
+        series: [
+                {
+                name: '<%=l(:field_returned)%> ',
+                color: '#f7a35c',
+                data: [
+                      { y: ratio_week, url: link_returned, amount: <%= raw str[:returned].first.to_json %> },
+                      { y: ratio_month, url: link_returned, amount: <%= raw str[:returned][1].to_json %> }, 
+                      { y: ratio_year, url: link_returned, amount: <%= raw str[:returned][2].to_json %> }, 
+                      { y: ratio_all, url: link_returned, amount: <%= raw str[:returned].last.to_json %> }
+                      ]
+                }
+                ]
+    });
+  });
+</script>

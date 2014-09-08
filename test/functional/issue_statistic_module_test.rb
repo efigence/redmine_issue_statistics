@@ -24,28 +24,34 @@ class IssueStatisticTest < ActiveSupport::TestCase
     assert_equal 6, Journal.count, 'should be 5'
     assert_equal 6, JournalDetail.count, 'should be 6'
     assert_equal 0, IssueStatistic.count, 'should be 0'
-    assert_equal 1, Project.count, 'should be 1'
+    assert_equal 3, Project.count, 'should be 1'
     assert_equal 2, TimeEntry.count, 'should be 2'
   end
 
   test 'IssueStatistic should be saved' do
-    assert_difference 'IssueStatistic.count', +12 do
+    assert_difference 'IssueStatistic.count', +20 do
       RedmineIssueStatistics::CalculateStatistic.new.calculate 
     end
   end
 
   test 'Base calculation' do
-    assert_difference 'IssueStatistic.count', +12 do
+    assert_difference 'IssueStatistic.count', +20 do
       RedmineIssueStatistics::CalculateStatistic.new.calculate
       stat_1 = IssueStatistic.last
       RedmineIssueStatistics::CalculateStatistic.new.calculate
-      stat_2 = IssueStatistic.last
+      stat_2 = IssueStatistic.last #user
       assert_equal stat_1.total, stat_2.total, 'Wrong total issues count!'
       assert_equal stat_1.closed, stat_2.closed, 'Wrong closed issues count!'
       assert_equal stat_1.opened, stat_2.opened, 'Wrong opened issues count!'
       assert_equal stat_1.opened_to_closed, stat_2.opened_to_closed, 'Wrong opened_to_closed ratio!'
       assert_equal stat_1.avg_issue_time, stat_2.avg_issue_time, 'Wrong avg_issue_time!'
       assert_equal stat_1.returned, stat_2.returned, 'Wrong returned issues count!'
+      stat_proj_user = IssueStatistic.where(statisticable_type: "Project", relate_type: "User").first
+      #puts stat_proj_user.inspect
+      assert_equal 1, stat_proj_user.opened, 'Wrong opened issues count for user in project!'
+      stat_proj = IssueStatistic.where(statisticable_type: "Project", relate_type: nil).first
+      assert_equal 1, stat_proj.opened, 'Wrong opened count in stat_proj!'
+
     end
   end
 
@@ -74,7 +80,7 @@ class IssueStatisticTest < ActiveSupport::TestCase
   end
 
   test 'returned_issues_for_project' do
-    assert_difference 'IssueStatistic.count', +12 do
+    assert_difference 'IssueStatistic.count', +20 do
       RedmineIssueStatistics::CalculateStatistic.new.calculate
       stat_project = IssueStatistic.where(statisticable_type: "project").first
       assert_not_equal stat_project.total, nil, 'total Should not be null'
@@ -86,7 +92,7 @@ class IssueStatisticTest < ActiveSupport::TestCase
   end
 
   test 'AVG time per issue' do
-    assert_difference 'IssueStatistic.count', +12 do
+    assert_difference 'IssueStatistic.count', +20 do
       RedmineIssueStatistics::CalculateStatistic.new.calculate
       stat_project =  IssueStatistic.where(statisticable_type: "project").first
       assert_equal 170.0, stat_project.avg_issue_time, 'Wrong avg_issue_time for project!' 
@@ -96,7 +102,7 @@ class IssueStatisticTest < ActiveSupport::TestCase
   end
 
   test 'Comment count greater then 5' do
-    assert_difference 'IssueStatistic.count', +12 do
+    assert_difference 'IssueStatistic.count', +20 do
       RedmineIssueStatistics::CalculateStatistic.new.calculate
       stat = IssueStatistic.where(period: 'week').first
       stat_month = IssueStatistic.where(period: 'month').first
@@ -108,7 +114,7 @@ class IssueStatisticTest < ActiveSupport::TestCase
   end
 
   test 'week, month, year, all' do
-    assert_difference 'IssueStatistic.count', +12 do
+    assert_difference 'IssueStatistic.count', +20 do
       RedmineIssueStatistics::CalculateStatistic.new.calculate
       stat_week = IssueStatistic.where(period: 'week').first
       stat_month = IssueStatistic.where(period: 'month').first

@@ -4,7 +4,6 @@ module RedmineIssueStatistics
 
       def base_query statisticable, period_to_datetime
         statisticable.issues.
-          where(project_id: open_projects).
           where('issues.created_on >= ?', period_to_datetime)
       end
 

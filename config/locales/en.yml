@@ -52,3 +52,7 @@ en:
   label_no_data_or_access_denied: No data to display or you don't have access to this page
   api_information: "To get API you can match in url your_path/issue_statistics/index.json?key=YOUR API AUTHORIZATION KEY. If you want add some params like page number ';page=1'"
   allowed_groups_to_stats: Allowed groups
+  helpers:
+    submit:
+      create: Search
+  field: ID
