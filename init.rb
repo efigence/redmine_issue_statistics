@@ -5,7 +5,7 @@ require "redmine_issue_statistics"
 Redmine::Plugin.register :redmine_issue_statistics do
   name 'Redmine Issue Statistics plugin'
   author "Marcin Świątkiewicz"
-  description 'This is a plugin for Redmine'
+  description 'This plugin lets you calculate issues statistics for users, projects and users in projects, divided for periods (week, month, year, all(from the beginning of exists project, user etc..))'
   version '0.0.1'
   url 'https://github.com/efigence/redmine_issue_statistics'
   author_url 'http://www.efigence.com/'
