@@ -9,7 +9,8 @@ class IssueStatisticsControllerTest < ActionController::TestCase
            :users,
            :groups_users,
            :issues,
-           :settings
+           :settings,
+           :tokens
 
   include Redmine::I18n
 
@@ -237,5 +238,15 @@ class IssueStatisticsControllerTest < ActionController::TestCase
       })
     assert_response 302
     assert_equal 1, assigns(:results).count, "This Principal should have 1 opened issue!"
+  end
+
+  test 'api response' do
+    @request.session[:user_id] = 2
+    get :index, :format => 'json', key: "DwMJ2yIxBNeAk26znMYzYmz5dAiIina0GFrPnGTM"
+    assert_response 200
+      body = JSON.parse(response.body)
+      assert_equal 1, body["per_page"], 'Can not read per_page value!'
+      assert_equal 0, body["entries"].first["issue_statistic"]["closed"], 'Can not read closed value!'
+      assert_equal "Project", body["entries"].first["issue_statistic"]["statisticable_type"], 'Can not read statisticable_type!'
   end
 end
