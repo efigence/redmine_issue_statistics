@@ -41,7 +41,7 @@ if you select one of statistics, you will see list of issues that meet the given
 ### Search Stats
 
 You can search stats for User, Project or User per Project
-> PICTURE SEARCH
+![](https://raw.githubusercontent.com/efigence/redmine_plugins_cdn/master/PIC/issue_statistics/search.png)
 
 ### Configuration
 
