@@ -23,4 +23,3 @@ Developed & tested on Redmine 2.5.2
 2. `git clone git@github.com:efigence/redmine_issue_statistics.git && cd ..`
 3. `bundle exec rake redmine:plugins:migrate NAME=redmine_issue_statistics RAILS_ENV=production`
 4. Restart server
-5. See default configuration in Administration -> plugins -> configuration 
