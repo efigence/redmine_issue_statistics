@@ -7,7 +7,7 @@ Stats:
   - Opened
   - Closed
   - Opened to closed (ratio)
-  - Returned - (Issues which changed status for example from resolved to new) (configurable)
+  - Returned - (For example issues which changed status from resolved to new) (configurable)
   - Returned (ratio) - Returned to total
   - Most commented - Issue with a lot of comments (configurable)
   - Older Issues - Issues older then current period
