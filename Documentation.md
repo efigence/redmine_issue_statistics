@@ -17,8 +17,8 @@ Users | Projects | Groups | User-Projects
 
 This gives results:
 
-Stats Count | Process Time
-------------|-------------
+Stats Count | Processing time
+------------|----------------
 53796|~2842.5s(~47.5min)
 
 ### Highcharts charts
