@@ -1,6 +1,21 @@
-#THIS IS WORK IN PROGRESS DO NOT USE IT! 
-
 # Redmine issue statistics plugin
+
+Lets you calculate issues stats for users, projects, users in projects, divided on periods (week, month, year and all).
+
+Stats: 
+  - Total
+  - Opened
+  - Closed
+  - Opened to closed (ratio)
+  - Returned - (Issues which changed status for example from resolved to new) (configurable)
+  - Returned (ratio) - Returned to total
+  - Most commented - Issue with a lot of comments (configurable)
+  - Older Issues - Issues older then current period
+
+
+# Requirements
+
+Developed & tested on Redmine 2.5.2`
 
 # Installation
 
