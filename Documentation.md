@@ -29,11 +29,11 @@ All statistics are represented on charts powered by [Highcharts][bb] library
 [bb]: http://www.highcharts.com/ 
 * Main chart with all stats(total, opened etc.)
 ![](https://raw.githubusercontent.com/efigence/redmine_plugins_cdn/master/PIC/issue_statistics/main_chart.png)
-* Returned chart
+* Returned chart (shows percent of returned issues and count of returned issues)
 
 ![](https://raw.githubusercontent.com/efigence/redmine_plugins_cdn/master/PIC/issue_statistics/returned.png)
-* 
-> PICTURE CLOSED - OPENED 
+* Closed to opened chart (shows ratio closed to opened)
+![](https://raw.githubusercontent.com/efigence/redmine_plugins_cdn/master/PIC/issue_statistics/opened_closed.png)
 
 if you select one of statistics, you will see list of issues that meet the given criteria
 > PICTURE ISSUE LIST
