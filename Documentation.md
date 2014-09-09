@@ -48,16 +48,18 @@ You can search stats for User, Project or User per Project
   You can change default configuration of plugin as you want (administration/plugins/cofigure)
   * **Number of commentes in issue** (ex. if you set 2, then stats will be looking for only this issues where is more then 2 comments)
   * **Number of returns issue** (How many times issue change status on new or something what you set in cofiguration)
-  * **Numer of statistics on page** (Set how many stats you want to see on page)
+  * **Number of statistics on page** (Set how many stats you want to see on page)
   * **Finding returned issues** (Set how you want to search returned issues)
     * Status From (ex. Issue change status from Resolved)
     * Status To (ex. Issue change status to New)
   * **Allowed groups** (Here you can select groups which can see statistics and API)
     * note: User from specified group can see only stats for users/projects from his group!
     (ex. Teamlider Java can see only stats for users and projects in Java Group)
-
+  * 1 
 ![](https://raw.githubusercontent.com/efigence/redmine_plugins_cdn/master/PIC/issue_statistics/main_config.png)
+  * 2
 ![](https://raw.githubusercontent.com/efigence/redmine_plugins_cdn/master/PIC/issue_statistics/returned_config.png)
+  * 3
 ![](https://raw.githubusercontent.com/efigence/redmine_plugins_cdn/master/PIC/issue_statistics/allowed_groups.png)
 ### API
 
