@@ -36,7 +36,7 @@ All statistics are represented on charts powered by [Highcharts][bb] library
 ![](https://raw.githubusercontent.com/efigence/redmine_plugins_cdn/master/PIC/issue_statistics/opened_closed.png)
 
 if you select one of statistics, you will see list of issues that meet the given criteria
-> PICTURE ISSUE LIST
+![](https://raw.githubusercontent.com/efigence/redmine_plugins_cdn/master/PIC/issue_statistics/issue_list_closed.png)
 
 ### Search Stats
 
