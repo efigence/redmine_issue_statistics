@@ -10,14 +10,14 @@ To run calculations paste this line to Rails Console: (This can take a while)
 
 `RedmineIssueStatistics::CalculateStatistic.new.calculate`
 
-#### Processing time:
+#### Processing time(example):
 
 
 Users | Projects | Groups | User-Projects
 ------|----------|--------|--------------
 627|408|44|12344
 
-This gives results:
+  This gives results:
 
 Stats count | Processing time
 ------------|----------------
