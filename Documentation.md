@@ -9,7 +9,7 @@ This is documentation of usage [Redmine Issue Statistic Plugin][bb]
 To run calculations paste this line to Rails Console: (This can take a while)
 `RedmineIssueStatistics::CalculateStatistic.new.calculate`
 
-Processing time:
+#### Processing time:
 
 Users | Projects | Groups | User-Projects
 ------|----------|--------|--------------
