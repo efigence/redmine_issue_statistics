@@ -11,13 +11,14 @@ To run calculations paste this line to Rails Console: (This can take a while)
 
 #### Processing time:
 
+
 Users | Projects | Groups | User-Projects
 ------|----------|--------|--------------
 627|408|44|12344
 
 This gives results:
 
-Stats Count | Processing time
+Stats count | Processing time
 ------------|----------------
 53796|~2842.5s(~47.5min)
 
