@@ -28,7 +28,11 @@ Developed & tested on Redmine 2.5.2
 
   Documentation of usage.
   
-# LICENSE 
+# License 
+
+Highcharts  : Non-profit-license[bb]
+[bb] http://creativecommons.org/licenses/by-nc/3.0/legalcode
+
 
 Redmine context menu log time to project link plugin
 Copyright (C) 2014  efigence S.A.
