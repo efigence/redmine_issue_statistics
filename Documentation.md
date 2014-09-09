@@ -56,8 +56,10 @@ You can search stats for User, Project or User per Project
     * note: User from specified group can see only stats for users/projects from his group!
     (ex. Teamlider Java can see only stats for users and projects in Java Group)
 
+![](https://raw.githubusercontent.com/efigence/redmine_plugins_cdn/master/PIC/issue_statistics/main_config.png)
+![](https://raw.githubusercontent.com/efigence/redmine_plugins_cdn/master/PIC/issue_statistics/returned_config.png)
+![](https://raw.githubusercontent.com/efigence/redmine_plugins_cdn/master/PIC/issue_statistics/allowed_groups.png)
 ### API
 
   If you want get an API, set your path with .json?key=your_api_access_key
   ex.: `www.myamasingstats.com/issue_statistics/index.json?key=12124142juh124h1hiu1h24124ui124h1`
-  * note: Api access ket
