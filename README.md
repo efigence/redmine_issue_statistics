@@ -30,7 +30,7 @@ Developed & tested on Redmine 2.5.2
   
 # License 
 
-Highcharts  : [License][bb]
+        Highcharts  : [License][bb]
 [bb]: http://creativecommons.org/licenses/by-nc/3.0/legalcode
 
 
