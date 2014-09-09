@@ -7,6 +7,7 @@ This is documentation of usage [Redmine Issue Statistic Plugin][bb]
 ### Start calculations
 
 To run calculations paste this line to Rails Console: (This can take a while)
+
 `RedmineIssueStatistics::CalculateStatistic.new.calculate`
 
 #### Processing time:
@@ -26,7 +27,7 @@ Stats count | Processing time
 
 All statistics are represented on charts powered by [Highcharts][bb] library
 [bb]: http://www.highcharts.com/ 
-> PICTURE STAT MAIN
+![](https://raw.githubusercontent.com/efigence/redmine_plugins_cdn/master/PIC/issue_statistics/main_chart.png)
 > PICTURE RETURNED
 > PICTURE CLOSED - OPENED 
 
