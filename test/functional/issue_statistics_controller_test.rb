@@ -50,7 +50,7 @@ class IssueStatisticsControllerTest < ActionController::TestCase
       "f" => ["project_id", "created_on"], 
       "op[created_on]" => "><", 
       "op[project_id]" => "=",
-      "v[created_on]" => ["2014-09-02", "2014-08-13"], 
+      "v[created_on]" => ["2014-09-03",  "2014-08-13"], 
       "v[project_id][]" => "1"
       })
     assert_response 302
@@ -65,7 +65,7 @@ class IssueStatisticsControllerTest < ActionController::TestCase
       "op[created_on]" => "><",
       "op[project_id]" => "=",
       "op[status_id]" => "o",
-      "v[created_on]" => ["2014-09-02", "2014-08-13"], 
+      "v[created_on]" => ["2014-09-03", "2014-08-13"], 
       "v[project_id][]" => "1"
       })
     assert_response 302
@@ -80,7 +80,7 @@ class IssueStatisticsControllerTest < ActionController::TestCase
       "op[created_on]" => "><",
       "op[project_id]" => "=",
       "op[status_id]" => "c",
-      "v[created_on]" => ["2014-09-02", "2014-08-13"], 
+      "v[created_on]" => ["2014-09-03", "2014-08-13"], 
       "v[project_id][]" => "1"
       })
     assert_response 302
@@ -119,7 +119,7 @@ class IssueStatisticsControllerTest < ActionController::TestCase
       "op[created_on]" => "<=",
       "op[project_id]" => "=",
       "op[status_id]" => "o",
-      "v[created_on]" => ["2014-09-02"], 
+      "v[created_on]" => ["2014-09-03"], 
       "v[project_id][]" => "1"
       })
     assert_response 302
@@ -133,7 +133,7 @@ class IssueStatisticsControllerTest < ActionController::TestCase
       "f" => ["assigned_to_id", "created_on"], 
       "op[created_on]" => "><",
       "op[assigned_to_id]" => "=",
-      "v[created_on]" => ["2014-09-02", "2014-08-13"], 
+      "v[created_on]" => ["2014-09-03", "2014-08-13"], 
       "v[assigned_to_id][]" => "2"
       })
     assert_response 302
@@ -148,7 +148,7 @@ class IssueStatisticsControllerTest < ActionController::TestCase
       "op[created_on]" => "><",
       "op[assigned_to_id]" => "=",
       "op[status_id]" => "o",
-      "v[created_on]" => ["2014-09-02", "2014-08-13"], 
+      "v[created_on]" => ["2014-09-03", "2014-08-13"], 
       "v[assigned_to_id][]" => "2"
       })
     assert_response 302
@@ -163,7 +163,7 @@ class IssueStatisticsControllerTest < ActionController::TestCase
       "op[created_on]" => "><",
       "op[assigned_to_id]" => "=",
       "op[status_id]" => "c",
-      "v[created_on]" => ["2014-09-02", "2014-08-13"], 
+      "v[created_on]" => ["2014-09-03", "2014-08-13"], 
       "v[assigned_to_id][]" => "2"
       })
     assert_response 302
@@ -202,7 +202,7 @@ class IssueStatisticsControllerTest < ActionController::TestCase
       "op[created_on]" => "<=",
       "op[assigned_to_id]" => "=",
       "op[status_id]" => "o",
-      "v[created_on]" => ["2014-09-02"], 
+      "v[created_on]" => ["2014-09-03"], 
       "v[assigned_to_id][]" => "2"
       })
     assert_response 302
@@ -233,7 +233,7 @@ class IssueStatisticsControllerTest < ActionController::TestCase
       "op[created_on]" => "><",
       "op[assigned_to_id]" => "=",
       "v[project_id][]" => "1", 
-      "v[created_on]" => ["2014-08-09", "2014-09-01"], 
+      "v[created_on]" => ["2014-08-10", "2014-09-01"], 
       "v[assigned_to_id][]" => "2"
       })
     assert_response 302

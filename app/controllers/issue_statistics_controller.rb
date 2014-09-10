@@ -4,7 +4,7 @@ class IssueStatisticsController < ApplicationController
   skip_before_filter :check_if_login_required, if: :api_request?
   before_filter :permitted_to_api?, if: :api_request?
   before_filter :user_privileges
-  before_filter :find_statisticable, :only => [:total_issues, :opened_issues, :closed_issues, :most_commented_issues, :older_issues]
+  before_filter :find_statisticable, :only => [:total_issues, :opened_issues, :closed_issues, :older_issues]
   before_filter :scope_my_groups_data, :only => [:index]
   before_filter :get_periods
   before_filter :set_period, :only => [:total_issues, :opened_issues, :returned_issues, :most_commented_issues, :closed_issues, :older_issues]
