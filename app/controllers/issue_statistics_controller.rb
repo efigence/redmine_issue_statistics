@@ -89,8 +89,7 @@ class IssueStatisticsController < ApplicationController
   end
 
   def opened_issues
-    @results1 = base.open
-    @results = @results1.select('id')
+    @results = base.open
     @specified_open_params = {
       "f" => ["status_id", "created_on"],
       "op[status_id]" => "o",
@@ -147,79 +146,11 @@ class IssueStatisticsController < ApplicationController
     }
     set_path @r, @periods_datetime, @specified_older_issues_params
   end
-
+     
   private
 
   def find_statisticable
     @r = IssueStatistic.where(statisticable_id: params[:statisticable_id], relate_id: params[:relate_id]).first
-  end
-
-  def set_default_params r, period
-    @user_default_params =
-      {
-      set_filter: 1,
-      "f" => ["assigned_to_id"],
-      "op[assigned_to_id]" => "=",
-      "v[assigned_to_id][]" => r.statisticable_id
-      }
-    @project_user_default_params = 
-      {
-      set_filter: 1,
-      "f" => ["project_id", "assigned_to_id"],
-      "op[project_id]" => "=",
-      "op[assigned_to_id]" => "=",
-      "v[project_id][]" => r.statisticable_id,
-      "v[assigned_to_id][]" => r.relate_id
-      }
-    @project_default_params =
-      {
-      set_filter: 1,
-      "f" => ["project_id"],
-      "op[project_id]" => "=",
-      "v[project_id][]" => r.statisticable_id
-      }
-  end
-
-  def set_path r, period, specified_params = nil
-    set_default_params r, period
-
-    if r.statisticable_type == "User"
-      redirect_to issues_path(
-        if specified_params != nil
-          @user_default_params["f"] +=  specified_params["f"]
-          specified_params.merge(@user_default_params)
-        else 
-          @user_default_params
-        end
-      )
-    elsif r.statisticable_type == "Project" && r.relate_type == "User"
-      redirect_to issues_path(
-        if specified_params != nil
-          @project_user_default_params["f"] +=  specified_params["f"]
-          specified_params.merge(@project_user_default_params)
-        else 
-          @project_user_default_params
-        end
-      )
-    else 
-      redirect_to issues_path(
-        if specified_params != nil
-          @project_default_params["f"] +=  specified_params["f"]
-          specified_params.merge(@project_default_params)
-        else 
-          @project_default_params
-        end
-      )
-    end
-  end
-
-  def redirect_to_path results
-    redirect_to issues_path({
-      set_filter: 1,  
-      "f[]" => "id", 
-      "op[id]" => "=",
-      "v[id]" => results.collect(&:id)
-    })
   end
 
   def base
@@ -263,7 +194,6 @@ class IssueStatisticsController < ApplicationController
   def permitted_to_api?
     User.current = User.find_by_api_key(request.headers['Authorization']) || User.find_by_api_key(params[:key])
   end
-
 
   def has_access?
     !(user_ids & groups_with_access).blank?

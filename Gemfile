@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 gem 'will_paginate', '~> 3.0'
+gem 'pry'
 group :development, :test do
 	gem "rake", "~> 10.1.1"
 	gem 'hirb'
