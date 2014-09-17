@@ -1,5 +1,5 @@
 require File.expand_path('../../test_helper', __FILE__)
-
+require 'pry'
 include RedmineIssueStatistics
 
 class IssueStatisticsControllerTest < ActionController::TestCase
@@ -44,21 +44,21 @@ class IssueStatisticsControllerTest < ActionController::TestCase
   end
 
   test 'project_total_issues' do
-    get :total_issues, statisticable_id: 1, period: 'week'
+    get :total_issues, statisticable_id: 2, statisticable_type: 'Project', period: 'week'
     assert_redirected_to issues_path({
       :set_filter => 1, 
       "f" => ["project_id", "created_on"], 
       "op[created_on]" => "><", 
       "op[project_id]" => "=",
       "v[created_on]" => [Date.today - 7,  "2014-08-13"], 
-      "v[project_id][]" => "1"
+      "v[project_id][]" => "2"
       })
     assert_response 302
     assert_equal 1, assigns(:results).count, "!"
   end
 
   test 'project_opened_issues' do
-    get :opened_issues, statisticable_id: 1, period: 'week'
+    get :opened_issues, statisticable_id: 2, statisticable_type: 'Project', period: 'week'
     assert_redirected_to issues_path({
       :set_filter => 1, 
       "f" => ["project_id", "status_id", "created_on"], 
@@ -66,14 +66,14 @@ class IssueStatisticsControllerTest < ActionController::TestCase
       "op[project_id]" => "=",
       "op[status_id]" => "o",
       "v[created_on]" => [Date.today - 7, "2014-08-13"], 
-      "v[project_id][]" => "1"
+      "v[project_id][]" => "2"
       })
     assert_response 302
     assert_equal 1, assigns(:results).count, "This Project should have 1 opened issue!"
   end
 
   test 'project_closed_issues' do
-    get :closed_issues, statisticable_id: 1, period: 'week'
+    get :closed_issues, statisticable_id: 2, statisticable_type: 'Project', period: 'week'
     assert_redirected_to issues_path({
       :set_filter => 1, 
       "f" => ["project_id", "status_id", "created_on"], 
@@ -81,26 +81,26 @@ class IssueStatisticsControllerTest < ActionController::TestCase
       "op[project_id]" => "=",
       "op[status_id]" => "c",
       "v[created_on]" => [Date.today - 7, "2014-08-13"], 
-      "v[project_id][]" => "1"
+      "v[project_id][]" => "2"
       })
     assert_response 302
     assert_equal 0, assigns(:results).count, "This Project should not have cloased issues!"
   end
 
   test 'project_returned_issues' do
-    get :returned_issues, statisticable_id: 1, period: 'week'
+    get :returned_issues, statisticable_id: 2, statisticable_type: 'Project', period: 'week'
     assert_redirected_to issues_path({
       set_filter: 1,  
       "f[]" => "id", 
       "op[id]" => "=",
-      "v[id]" => ["1"]
+      "v[id]" => [2]
       })
     assert_response 302
     assert_equal 1, assigns(:results).count, "This Project should have 1 returned issue!"
   end
 
   test 'project_most_commented_issues' do
-    get :most_commented_issues, statisticable_id: 1, period: 'week'
+    get :most_commented_issues, statisticable_id: 2, statisticable_type: 'Project', period: 'week'
     assert_redirected_to issues_path({
       set_filter: 1,  
       "f[]" => "id", 
@@ -112,7 +112,7 @@ class IssueStatisticsControllerTest < ActionController::TestCase
   end
 
   test 'project_older_issues' do
-    get :older_issues, statisticable_id: 1, period: 'week'
+    get :older_issues, statisticable_id: 2, statisticable_type: 'Project', period: 'week'
     assert_redirected_to issues_path({
       :set_filter => 1, 
       "f" => ["project_id", "status_id", "created_on"], 
@@ -120,14 +120,14 @@ class IssueStatisticsControllerTest < ActionController::TestCase
       "op[project_id]" => "=",
       "op[status_id]" => "o",
       "v[created_on]" => [Date.today - 7], 
-      "v[project_id][]" => "1"
+      "v[project_id][]" => "2"
       })
     assert_response 302
     assert_equal 0, assigns(:results).count, "This Project should not have older then week issues!"
   end
 
   test 'principal_total_issues' do
-    get :total_issues, statisticable_id: 2, period: 'week'
+    get :total_issues, statisticable_id: 2, statisticable_type: 'User', period: 'week'
     assert_redirected_to issues_path({
       :set_filter => 1, 
       "f" => ["assigned_to_id", "created_on"], 
@@ -141,7 +141,7 @@ class IssueStatisticsControllerTest < ActionController::TestCase
   end
 
   test 'principal_opened_issues' do
-    get :opened_issues, statisticable_id: 2, period: 'week'
+    get :opened_issues, statisticable_id: 2, statisticable_type: 'User', period: 'week'
     assert_redirected_to issues_path({
       :set_filter => 1, 
       "f" => ["assigned_to_id", "status_id", "created_on"], 
@@ -156,7 +156,7 @@ class IssueStatisticsControllerTest < ActionController::TestCase
   end
 
   test 'principal_closed_issues' do
-    get :closed_issues, statisticable_id: 2, period: 'week'
+    get :closed_issues, statisticable_id: 2, statisticable_type: 'User', period: 'week'
     assert_redirected_to issues_path({
       :set_filter => 1, 
       "f" => ["assigned_to_id", "status_id", "created_on"], 
@@ -171,7 +171,7 @@ class IssueStatisticsControllerTest < ActionController::TestCase
   end
 
   test 'principal_returned_issues' do
-    get :returned_issues, statisticable_id: 2, period: 'week'
+    get :returned_issues, statisticable_id: 2, statisticable_type: 'User', period: 'week'
     assert_redirected_to issues_path({
       set_filter: 1,  
       "f[]" => "id", 
@@ -183,7 +183,7 @@ class IssueStatisticsControllerTest < ActionController::TestCase
   end
 
   test 'principal_most_commented_issues' do
-    get :most_commented_issues, statisticable_id: 2, period: 'week'
+    get :most_commented_issues, statisticable_id: 2, statisticable_type: 'User', period: 'week'
     assert_redirected_to issues_path({
       set_filter: 1,  
       "f[]" => "id", 
@@ -195,7 +195,7 @@ class IssueStatisticsControllerTest < ActionController::TestCase
   end
 
   test 'principal_older_issues' do
-    get :older_issues, statisticable_id: 2, period: 'week'
+    get :older_issues, statisticable_id: 2, statisticable_type: 'User', period: 'week'
     assert_redirected_to issues_path({
       :set_filter => 1, 
       "f" => ["assigned_to_id", "status_id", "created_on"], 

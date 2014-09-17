@@ -3,14 +3,16 @@
 <% if @issue_statistics.empty? %>
   <p class="nodata"><%= l(:label_no_data_or_access_denied) %></p>
 <% else %>
-  <% @issue_statistics.group_by(&:statisticable_id).each do |stat_per_user, tab| %>
+  <% @issue_statistics.group_by(&:statisticable_id).each do |id_statisticable, tab| %>
     <% periods = [] %>
     <% str = {} %>
     <% statisticable =  nil %>
     <% relate_id =  nil %>
+    <% type_statisticable = nil %>
     <% tab.each do |stat| %>
       <% statisticable ||=  stat.statisticable %>
       <% relate_id ||=  stat.relate_id %>
+      <% type_statisticable ||= stat.statisticable_type %>
       <% periods.push stat.period %>
       <% str[:total] ||= [] %><% str[:total].push stat.total %>
       <% str[:opened] ||= [] %><% str[:opened].push stat.opened %>
@@ -26,18 +28,18 @@
 
     <% periods.each_with_index do |period, pidx| %>
       <%= render :partial => 'main_chart', 
-                 :locals => {period: period, stat_per_user: stat_per_user, relate_id: relate_id, str: str, pidx: pidx} %>
+                 :locals => {period: period, id_statisticable: id_statisticable, type_statisticable: type_statisticable, relate_id: relate_id, str: str, pidx: pidx} %>
       <%= render :partial => 'returned_chart', 
-                 :locals => { stat_per_user: stat_per_user, relate_id: relate_id, str: str, periods: periods } %>
+                 :locals => { id_statisticable: id_statisticable, type_statisticable: type_statisticable, relate_id: relate_id, str: str, periods: periods } %>
       <%= render :partial => 'opened_to_closed_chart', 
-                 :locals => { stat_per_user: stat_per_user, relate_id: relate_id, str: str, periods: periods } %>
-      <div id="<%= stat_per_user %><%=  period %>" style="width: 250px; height: 300px; position: relative;"></div>
+                 :locals => { id_statisticable: id_statisticable, type_statisticable: type_statisticable, relate_id: relate_id, str: str, periods: periods } %>
+      <div id="<%= id_statisticable %><%=  period %>" style="width: 250px; height: 300px; position: relative;"></div>
     <% end %>
     <div class="clear">
-      <div id="<%= stat_per_user %>returned" style="width: 500px; height: 300px; position: relative; float: left;"></div>
+      <div id="<%= id_statisticable %>returned" style="width: 500px; height: 300px; position: relative; float: left;"></div>
     </div>
     <div>
-      <div id="<%= stat_per_user %>open_close" style="width: 500px; height: 300px; position: relative; float: right;"></div>
+      <div id="<%= id_statisticable %>open_close" style="width: 500px; height: 300px; position: relative; float: right;"></div>
     </div>     
   <% end %>
 <% end %>

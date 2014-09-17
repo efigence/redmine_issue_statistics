@@ -41,3 +41,10 @@ journal_details_006:
   value: 060719210727_picture.jpg
   prop_key: 4
   journal_id: 3
+journal_details_007:
+  old_value: "10"
+  property: attr
+  id: 7
+  value: "1"
+  prop_key: status_id
+  journal_id: 7

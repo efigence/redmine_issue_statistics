@@ -9,8 +9,8 @@
       difference_month = 100 - ratio_month;
       ratio_week = Math.round(<%= raw str[:returned_ratio].first.to_json %> * 100 )/ 100;
       difference_week = 100 - ratio_week;
-      link_returned = '<%= home_url %>/issue_statistics/returned_issues/<%= stat_per_user %>'
-    $('#<%= stat_per_user %>returned').highcharts({
+      link_returned = '<%= home_url %>/issue_statistics/returned_issues/<%= id_statisticable %>'
+    $('#<%= id_statisticable %>returned').highcharts({
                chart: {
             type: 'bar'
         },
@@ -52,7 +52,7 @@
                   events: {
                       click: function (event) {
                           if (event.point.url){
-                            window.location.href = event.point.url + "/" + this.category + '/<%= relate_id && "?relate_id=#{relate_id}" %>';
+                            window.location.href = event.point.url + "/<%= type_statisticable %>" + "/" + this.category + '/<%= relate_id && "?relate_id=#{relate_id}" %>';
                           }
                       }
                   }

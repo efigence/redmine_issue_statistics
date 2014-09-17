@@ -2,7 +2,7 @@
   $(function () {
     var chart;
     chart = new Highcharts.Chart({
-      chart: { renderTo: '<%= stat_per_user %><%= period %>',
+      chart: { renderTo: '<%= id_statisticable %><%= period %>',
                type: 'column',
                 plotBackgroundColor: null,
                 plotBorderWidth: null,
@@ -57,42 +57,42 @@
         name: '<%=l(:field_total)%>',
         data: [{
                 y: <%= raw str[:total][pidx].to_json  %>,
-                url: '<%= home_url %>/issue_statistics/total_issues/<%= stat_per_user %>/'+ <%= raw period.to_json %>
+                url: '<%= home_url %>/issue_statistics/total_issues/<%= id_statisticable %>/<%= type_statisticable %>/'+ <%= raw period.to_json %>
               }]
               },
       {
         name: '<%=l(:field_opened)%>',
         data: [{
                 y: <%= raw str[:opened][pidx].to_json  %>,
-                url: '<%= home_url %>/issue_statistics/opened_issues/<%= stat_per_user %>/'+ <%= raw period.to_json %>
+                url: '<%= home_url %>/issue_statistics/opened_issues/<%= id_statisticable %>/<%= type_statisticable %>/'+ <%= raw period.to_json %>
               }]
       },
       {
         name: '<%=l(:field_closed)%>',
         data: [{
                 y: <%= raw str[:closed][pidx].to_json  %>,
-                url: '<%= home_url %>/issue_statistics/closed_issues/<%= stat_per_user %>/'+ <%= raw period.to_json %>
+                url: '<%= home_url %>/issue_statistics/closed_issues/<%= id_statisticable %>/<%= type_statisticable %>/'+ <%= raw period.to_json %>
               }]
       },
       {
         name: '<%=l(:field_returned)%>',  
         data: [{
                 y: <%= raw str[:returned][pidx].to_json  %>,
-                url: '<%= home_url %>/issue_statistics/returned_issues/<%= stat_per_user %>/'+ <%= raw period.to_json %>
+                url: '<%= home_url %>/issue_statistics/returned_issues/<%= id_statisticable %>/<%= type_statisticable %>/'+ <%= raw period.to_json %>
               }]
       },
       {
         name: '<%= l(:field_comment_max) %>',
         data: [{
                 y: <%= raw str[:comment_max][pidx].to_json  %>,
-                url: '<%= home_url %>/issue_statistics/most_commented_issues/<%= stat_per_user %>/'+ <%= raw period.to_json %>
+                url: '<%= home_url %>/issue_statistics/most_commented_issues/<%= id_statisticable %>/<%= type_statisticable %>/'+ <%= raw period.to_json %>
               }]
       },
       {
         name: '<%= l(:field_old_issues) %>',
         data: [{
                 y: <%= raw str[:old_issues][pidx].to_json  %>,
-                url: '<%= home_url %>/issue_statistics/older_issues/<%= stat_per_user %>/' + <%= raw period.to_json %>
+                url: '<%= home_url %>/issue_statistics/older_issues/<%= id_statisticable %>/<%= type_statisticable %>/' + <%= raw period.to_json %>
               }]
       }
       ]

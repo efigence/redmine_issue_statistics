@@ -1,7 +1,7 @@
 --- 
 IssueStatistics_001:
   id: 1
-  statisticable_id: 1
+  statisticable_id: 2
   statisticable_type: Project
   relate_id: 
   relate_type: 
@@ -20,6 +20,60 @@ IssueStatistics_001:
 IssueStatistics_002:
   id: 2
   statisticable_id: 2
+  statisticable_type: Project
+  relate_id: 
+  relate_type: 
+  total: 3
+  opened: 3
+  closed: 0
+  opened_to_closed: 0
+  returned: 1
+  returned_ratio: 0
+  avg_issue_time: 0
+  created_at: 2014-08-13 10:39:56.000000000 Z
+  updated_at: 2014-08-13 10:39:56.000000000 Z
+  period: month
+  comment_max: 0
+  old_issues: 0
+IssueStatistics_003:
+  id: 3
+  statisticable_id: 2
+  statisticable_type: Project
+  relate_id: 
+  relate_type: 
+  total: 4
+  opened: 4
+  closed: 0
+  opened_to_closed: 0
+  returned: 1
+  returned_ratio: 0
+  avg_issue_time: 0
+  created_at: 2014-08-13 10:39:56.000000000 Z
+  updated_at: 2014-08-13 10:39:56.000000000 Z
+  period: year
+  comment_max: 0
+  old_issues: 0
+IssueStatistics_004:
+  id: 4
+  statisticable_id: 2
+  statisticable_type: Project
+  relate_id: 
+  relate_type: 
+  total: 5
+  opened: 5
+  closed: 0
+  opened_to_closed: 0
+  returned: 1
+  returned_ratio: 0
+  avg_issue_time: 0
+  created_at: 2014-08-13 10:39:56.000000000 Z
+  updated_at: 2014-08-13 10:39:56.000000000 Z
+  period: all
+  comment_max: 0
+  old_issues: 0
+IssueStatistics_005:
+  id: 5
+  statisticable_id: 2
   statisticable_type: User
   relate_id: 
   relate_type: 
@@ -35,12 +89,48 @@ IssueStatistics_002:
   period: week
   comment_max: 6
   old_issues: 2
-IssueStatistics_003:
-  id: 3
-  statisticable_id: 1
-  statisticable_type: Project
-  relate_id: 2
-  relate_type: User 
+IssueStatistics_006:
+  id: 6
+  statisticable_id: 2
+  statisticable_type: User
+  relate_id: 
+  relate_type: 
+  total: 1111
+  opened: 61
+  closed: 50
+  opened_to_closed: 0.55
+  returned: 12
+  returned_ratio: 0.1
+  avg_issue_time: 1.5
+  created_at: 2014-08-13 10:39:56.000000000 Z
+  updated_at: 2014-08-13 10:39:56.000000000 Z
+  period: month
+  comment_max: 6
+  old_issues: 2
+IssueStatistics_007:
+  id: 7
+  statisticable_id: 2
+  statisticable_type: User
+  relate_id: 
+  relate_type: 
+  total: 11155
+  opened: 615
+  closed: 503
+  opened_to_closed: 0.55
+  returned: 12
+  returned_ratio: 0.1
+  avg_issue_time: 1.5
+  created_at: 2014-08-13 10:39:56.000000000 Z
+  updated_at: 2014-08-13 10:39:56.000000000 Z
+  period: year
+  comment_max: 6
+  old_issues: 2
+IssueStatistics_008:
+  id: 8
+  statisticable_id: 2
+  statisticable_type: User
+  relate_id: 
+  relate_type: 
   total: 111
   opened: 61
   closed: 50
@@ -48,8 +138,80 @@ IssueStatistics_003:
   returned: 12
   returned_ratio: 0.1
   avg_issue_time: 1.5
+  created_at: 2014-08-13 10:39:56.000000000 Z
+  updated_at: 2014-08-13 10:39:56.000000000 Z
+  period: all
+  comment_max: 6
+  old_issues: 2
+IssueStatistics_009:
+  id: 9
+  statisticable_id: 1
+  statisticable_type: Project
+  relate_id: 2
+  relate_type: User 
+  total: 2
+  opened: 1
+  closed: 1
+  opened_to_closed: 0.55
+  returned: 12
+  returned_ratio: 0.1
+  avg_issue_time: 1.5
+  created_at: 2014-09-01 10:39:56.000000000 Z
+  updated_at: 2014-09-02 10:39:56.000000000 Z
+  period: week
+  comment_max: 6
+  old_issues: 2
+IssueStatistics_010:
+  id: 10
+  statisticable_id: 1
+  statisticable_type: Project
+  relate_id: 2
+  relate_type: User 
+  total: 10
+  opened: 9
+  closed: 1
+  opened_to_closed: 0.55
+  returned: 12
+  returned_ratio: 0.1
+  avg_issue_time: 1.5
   created_at: 2014-09-01 10:39:56.000000000 Z
   updated_at: 2014-09-02 10:39:56.000000000 Z
   period: month
+  comment_max: 6
+  old_issues: 2
+IssueStatistics_011:
+  id: 11
+  statisticable_id: 1
+  statisticable_type: Project
+  relate_id: 2
+  relate_type: User 
+  total: 11
+  opened: 2
+  closed: 9
+  opened_to_closed: 0.55
+  returned: 12
+  returned_ratio: 0.1
+  avg_issue_time: 1.5
+  created_at: 2014-09-01 10:39:56.000000000 Z
+  updated_at: 2014-09-02 10:39:56.000000000 Z
+  period: year
+  comment_max: 6
+  old_issues: 2
+IssueStatistics_012:
+  id: 12
+  statisticable_id: 1
+  statisticable_type: Project
+  relate_id: 2
+  relate_type: User 
+  total: 12
+  opened: 1
+  closed: 11
+  opened_to_closed: 0.55
+  returned: 12
+  returned_ratio: 0.1
+  avg_issue_time: 1.5
+  created_at: 2014-09-01 10:39:56.000000000 Z
+  updated_at: 2014-09-02 10:39:56.000000000 Z
+  period: all
   comment_max: 6
   old_issues: 2

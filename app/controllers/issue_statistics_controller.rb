@@ -150,7 +150,7 @@ class IssueStatisticsController < ApplicationController
   private
 
   def find_statisticable
-    @r = IssueStatistic.where(statisticable_id: params[:statisticable_id], relate_id: params[:relate_id]).first
+    @r = IssueStatistic.where(statisticable_id: params[:statisticable_id], statisticable_type: params[:statisticable_type], relate_id: params[:relate_id]).first
   end
 
   def base
@@ -158,7 +158,7 @@ class IssueStatisticsController < ApplicationController
       query = Queries.base_query( Principal.find(params[:relate_id]) , @periods_datetime)
       query = Queries.project_scope( query, params[:statisticable_id] )
     else
-      query = Queries.base_query(IssueStatistic.where(statisticable_id: params[:statisticable_id]).first.statisticable, @periods_datetime)  
+      query = Queries.base_query(IssueStatistic.where(statisticable_id: params[:statisticable_id], statisticable_type: params[:statisticable_type]).first.statisticable, @periods_datetime)  
     end
     query
   end

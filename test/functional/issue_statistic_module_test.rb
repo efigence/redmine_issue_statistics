@@ -21,8 +21,8 @@ class IssueStatisticTest < ActiveSupport::TestCase
 
   test 'initial fixtures' do
     assert_equal 1, User.count, 'should be 1'
-    assert_equal 6, Journal.count, 'should be 5'
-    assert_equal 6, JournalDetail.count, 'should be 6'
+    assert_equal 7, Journal.count, 'should be 7'
+    assert_equal 7, JournalDetail.count, 'should be 7'
     assert_equal 0, IssueStatistic.count, 'should be 0'
     assert_equal 3, Project.count, 'should be 1'
     assert_equal 2, TimeEntry.count, 'should be 2'
