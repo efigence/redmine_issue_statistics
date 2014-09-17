@@ -9,8 +9,8 @@
       difference_month = <%= raw str[:closed].first(2).last.to_json %>;
       difference_year = <%= raw str[:closed].last(2).first.to_json %>;
       difference_all = <%= raw str[:closed].last.to_json %>
-      link_closed = 'http://localhost:3000/issue_statistics/closed_issues/<%= stat_per_user %>';
-      link_opened = 'http://localhost:3000/issue_statistics/opened_issues/<%= stat_per_user %>';
+      link_closed = '<%= root_url %>/issue_statistics/closed_issues/<%= stat_per_user %>';
+      link_opened = '<%= root_url %>/issue_statistics/opened_issues/<%= stat_per_user %>';
     
     $('#<%= stat_per_user %>open_close').highcharts({
         chart: {
