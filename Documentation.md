@@ -8,7 +8,7 @@ This is documentation of usage [Redmine Issue Statistic Plugin][bb]
 
 To run calculations paste this line to Rails Console: (This can take a while)
 
-    `~~bundle exec rake issue_statistics:calculate~~`
+ _`bundle exec rake issue_statistics:calculate`_
 
 #### Processing time(example):
 
