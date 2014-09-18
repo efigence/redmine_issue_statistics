@@ -15,6 +15,7 @@ module RedmineIssueStatistics
           @results << ReturnedIssues.new.calculate(principal, period)
           save_results principal, period
         end
+        Progress.instance.increment
       end
     end
 

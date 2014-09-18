@@ -14,6 +14,7 @@ module RedmineIssueStatistics
           save_results project, period
           calculate_principal_per_project(project, period)
         end
+        Progress.instance.increment
       end
     end
 
@@ -29,6 +30,7 @@ module RedmineIssueStatistics
       project.principals.find_each do |principal|
         calculate_with_params(principal, period, project.id)
         save_results_per_project principal, project, period
+        Progress.instance.increment
       end
     end
 
