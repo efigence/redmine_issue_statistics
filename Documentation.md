@@ -8,14 +8,14 @@ This is documentation of usage [Redmine Issue Statistic Plugin][bb]
 
 To run calculations paste this line to Rails Console: (This can take a while)
 
-`RedmineIssueStatistics::CalculateStatistic.new.calculate`
+    `~~bundle exec rake issue_statistics:calculate~~`
 
 #### Processing time(example):
 
 
-Users | Projects | Groups | User-Projects
-------|----------|--------|--------------
-627|408|44|12344
+Principals | Projects | Principals-Projects
+-----------|----------|--------------------
+671|408|12344
 
   This gives results:
 
