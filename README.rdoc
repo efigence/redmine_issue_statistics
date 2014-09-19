@@ -1,3 +1,0 @@
-= redmine_issue_statistics
-
-Description goes here
