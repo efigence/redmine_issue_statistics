@@ -2,11 +2,11 @@ require_relative "calculation/base_calculation"
 require_relative "calculation/returned_issues"
 
 module RedmineIssueStatistics
-  
+
   class CalculateStatisticForPrincipal
 
     attr_reader :results, :period
-    
+
     def calculate periods
       Principal.find_each do |principal|
         periods.each do |period|
@@ -22,7 +22,7 @@ module RedmineIssueStatistics
     private
 
     def merged_results
-      @results.inject do |res, n| 
+      @results.inject do |res, n|
         res ||= {}
         res.merge n
       end
@@ -40,9 +40,9 @@ module RedmineIssueStatistics
     end
 
     def save_results principal, period
-      stat = existing_stats(principal, period) || new_stat(principal) 
+      stat = existing_stats(principal, period) || new_stat(principal)
       stat.period = period
-      stat.update_attributes merged_results 
+      stat.update_attributes merged_results
     end
   end
 end

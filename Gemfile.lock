@@ -10,6 +10,7 @@ GEM
       method_source (~> 0.8.1)
       slop (~> 3.4)
     rake (10.1.1)
+    ruby-progressbar (1.5.1)
     slop (3.6.0)
     will_paginate (3.0.7)
 
@@ -21,4 +22,5 @@ DEPENDENCIES
   hirb
   pry
   rake (~> 10.1.1)
+  ruby-progressbar
   will_paginate (~> 3.0)

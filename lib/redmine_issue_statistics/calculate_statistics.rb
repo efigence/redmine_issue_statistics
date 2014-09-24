@@ -8,14 +8,15 @@ module RedmineIssueStatistics
 
     def increment
       @progress.increment
+      @progress
     end
 
     private
 
     def initialize
       return if @progress
-      total =  Project.select('id').all.map{ |p| p.principals.select('id')}.map(&:count).sum + Principal.count + Project.count
-      @progress = ProgressBar.create(:title => "Calculation in progress: ", :starting_at => 0, :total => total, 
+      total =  Principal.count + Project.count
+      @progress = ProgressBar.create(:title => "Calculation in progress: ", :starting_at => 0, :total => total,
                                      :format => "%t: %c/%C [%b%i] %e ")
     end
   end
