@@ -16,6 +16,7 @@ pl:
   stats_project: Dla Projektów
   stats_project_user: Użytkownik Dla Projektu
   field_comment_max: Najbardziej komentowane
+  resolved_issues: Rozwiązane
   period: Okres
   periods:
     week: Tydzień

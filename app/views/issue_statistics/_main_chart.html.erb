@@ -94,6 +94,13 @@
                 y: <%= raw str[:old_issues][pidx].to_json  %>,
                 url: '<%= home_url %>/issue_statistics/older_issues/<%= id_statisticable %>/<%= type_statisticable %>/' + <%= raw period.to_json %>
               }]
+      },
+      {
+        name: '<%= l(:resolved_issues) %>',
+        data: [{
+                y: <%= raw str[:resolved][pidx].to_json %>,
+                url: '<%= home_url %>/issue_statistics/resolved_issues/<%= id_statisticable %>/<%= type_statisticable %>/' + <%= raw period.to_json %>
+              }]
       }
       ]
     });

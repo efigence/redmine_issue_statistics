@@ -22,6 +22,7 @@
       <% str[:returned_ratio] ||= [] %><% str[:returned_ratio].push stat.returned_ratio %>
       <% str[:old_issues] ||= [] %><% str[:old_issues].push stat.old_issues %>
       <% str[:opened_to_closed] ||= [] %><% str[:opened_to_closed].push stat.opened_to_closed %>
+      <% str[:resolved] ||= [] %><% str[:resolved].push stat.resolved %>
     <% end %>
 
     <h3><%= statisticable.name %>  <%= relate_id && User.find(relate_id).name  %></h3>

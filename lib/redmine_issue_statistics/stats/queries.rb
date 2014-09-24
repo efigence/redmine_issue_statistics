@@ -9,10 +9,10 @@ module RedmineIssueStatistics
 
       def old_issues_query statisticable, period_to_datetime
         Issue.
-        where(project_id: open_projects).
-        where('assigned_to_id = ? AND created_on < ? ', statisticable.id, period_to_datetime).open
-      end 
-      
+          where(project_id: open_projects).
+          where('assigned_to_id = ? AND created_on < ? ', statisticable.id, period_to_datetime).open
+      end
+
       def project_scope query, project_id
         if project_id
           query = query.where(project_id: project_id)
@@ -32,6 +32,29 @@ module RedmineIssueStatistics
 
       def comment_query issue, period_to_datetime
         Journal.where("journalized_id = ? AND notes != ? AND created_on >= ?", issue, "", period_to_datetime)
+      end
+
+      def resolved_query statisticable, period_to_datetime
+        Journal.joins(:details).
+          select('journalized_id').
+          where('prop_key = ?', "status_id").
+          where('user_id = ? AND created_on >= ? ', statisticable.id, period_to_datetime).
+          where('value IN(?)', IssueStatus.where(is_closed: true).select('id').pluck(:id)).
+          group('journalized_id')
+      end
+
+      def resolved_user_per_project statisticable, period_to_datetime, query, project_id
+        query_scoped = Queries.project_scope query, project_id
+        if !query_scoped.nil?
+          query_scoped = query_scoped.collect(&:id)
+          Journal.joins(:details).
+            select('journalized_id').
+            where('prop_key = ?', "status_id").
+            where('journalized_id IN(?)', query_scoped).
+            where('user_id = ? AND created_on >= ? ', statisticable.id, period_to_datetime).
+            where('value IN(?)', IssueStatus.where(is_closed: true).select('id').pluck(:id)).
+            group('journalized_id')
+        end
       end
 
       private

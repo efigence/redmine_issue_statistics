@@ -3,7 +3,7 @@ class IssueStatistic < ActiveRecord::Base
   before_save :recalculate_returned_ratio
   attr_accessible  :object_id, :object_type, :total, :opened, :closed, :opened_to_closed,
     :returned, :from_close_to, :avg_issue_time, :comment_max, :returned_ratio,
-    :old_issues
+    :old_issues, :resolved
 
   belongs_to :statisticable, :polymorphic => true
 

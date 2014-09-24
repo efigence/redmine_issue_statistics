@@ -16,6 +16,7 @@ en:
   stats_project: For Projects
   stats_project_user: User Per Project
   field_comment_max: The most commented
+  resolved_issues: Resolved
   period: Period
   periods:
     week: Week

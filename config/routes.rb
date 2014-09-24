@@ -6,7 +6,8 @@ get "issue_statistics/principal_stats_per_project",  to: 'issue_statistics#princ
 
 get "issue_statistics/total_issues/:statisticable_id/:statisticable_type/:period", to: 'issue_statistics#total_issues'
 get "issue_statistics/opened_issues/:statisticable_id/:statisticable_type/:period", to: 'issue_statistics#opened_issues'
-get "issue_statistics/returned_issues/:statisticable_id/:statisticable_type/:period", to: 'issue_statistics#returned_issues' 
-get "issue_statistics/most_commented_issues/:statisticable_id/:statisticable_type/:period", to: 'issue_statistics#most_commented_issues' 
+get "issue_statistics/returned_issues/:statisticable_id/:statisticable_type/:period", to: 'issue_statistics#returned_issues'
+get "issue_statistics/most_commented_issues/:statisticable_id/:statisticable_type/:period", to: 'issue_statistics#most_commented_issues'
 get "issue_statistics/closed_issues/:statisticable_id/:statisticable_type/:period", to: 'issue_statistics#closed_issues'
-get "issue_statistics/older_issues/:statisticable_id/:statisticable_type/:period", to: 'issue_statistics#older_issues'  
+get "issue_statistics/older_issues/:statisticable_id/:statisticable_type/:period", to: 'issue_statistics#older_issues'
+get "issue_statistics/resolved_issues/:statisticable_id/:statisticable_type/:period", to: 'issue_statistics#resolved_issues'

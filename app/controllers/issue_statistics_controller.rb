@@ -1,20 +1,20 @@
 class IssueStatisticsController < ApplicationController
   unloadable
-  
+
   skip_before_filter :check_if_login_required, if: :api_request?
   before_filter :permitted_to_api?, if: :api_request?
   before_filter :user_privileges
   before_filter :find_statisticable, :only => [:total_issues, :opened_issues, :closed_issues, :older_issues]
   before_filter :scope_my_groups_data, :only => [:index]
   before_filter :get_periods
-  before_filter :set_period, :only => [:total_issues, :opened_issues, :returned_issues, :most_commented_issues, :closed_issues, :older_issues]
+  before_filter :set_period, :only => [:resolved_issues, :total_issues, :opened_issues, :returned_issues, :most_commented_issues, :closed_issues, :older_issues]
 
   include RedmineIssueStatistics
 
-  def is_admin? 
+  def is_admin?
     User.current.admin?
   end
-  
+
   def index
     if !params[:user_id].blank? && !params[:project_id].blank?
       principal_stats_per_project()
@@ -30,28 +30,28 @@ class IssueStatisticsController < ApplicationController
       format.html do
         render :index
       end
-      format.json do 
+      format.json do
         render :json => {
           :current_page => @issue_statistics.current_page,
           :per_page => @issue_statistics.per_page/4,
           :total_pages => @issue_statistics.total_pages,
           :entries => @issue_statistics
-          }
+        }
       end
     end
   end
-  
+
   def avalible_data
     if is_admin?
       @issue_statistics = IssueStatistic.where("")
     else
       @issue_statistics = IssueStatistic.
-                                      where('(statisticable_id IN(?) AND statisticable_type = ? )
+      where('(statisticable_id IN(?) AND statisticable_type = ? )
                                           OR (statisticable_id IN(?) AND statisticable_type = ? AND relate_id IS NULL)
                                           OR statisticable_id IN(?) AND statisticable_type = ? AND relate_id IN(?)',
-                                          @users_tab, 'User',
-                                          @projects_tab, 'Project',
-                                          @projects_tab, 'Project', @users_tab)
+            @users_tab, 'User',
+            @projects_tab, 'Project',
+            @projects_tab, 'Project', @users_tab)
     end
   end
 
@@ -61,20 +61,20 @@ class IssueStatisticsController < ApplicationController
 
   def users_stats
     @issue_statistics = avalible_data.where(statisticable_type: 'User', relate_type: nil, statisticable_id: params[:user_id]).
-                                      paginate(:page => params[:page], :per_page => per_page)
+      paginate(:page => params[:page], :per_page => per_page)
   end
 
   def projects_stats
     @issue_statistics = avalible_data.where(statisticable_type: 'Project', relate_type: nil, statisticable_id: params[:project_id]).
-                                      paginate(:page => params[:page], :per_page => per_page)
+      paginate(:page => params[:page], :per_page => per_page)
   end
 
   def principal_stats_per_project
     @issue_statistics = avalible_data.
-                                      where(relate_type: "User", relate_id: params[:user_id]).
-                                      where(statisticable_type: 'Project', statisticable_id: params[:project_id]).
-                                      order('statisticable_id, statisticable_type, relate_id').
-                                      paginate(:page => params[:page], :per_page => per_page)
+      where(relate_type: "User", relate_id: params[:user_id]).
+      where(statisticable_type: 'Project', statisticable_id: params[:project_id]).
+      order('statisticable_id, statisticable_type, relate_id').
+      paginate(:page => params[:page], :per_page => per_page)
   end
 
   def total_issues
@@ -125,7 +125,7 @@ class IssueStatisticsController < ApplicationController
 
   def most_commented_issues
     @results = []
-    base.each do |issue|    
+    base.each do |issue|
       comments = Queries.comment_query(issue.id, @periods_datetime).count
       @results << Issue.find(issue.id) if comments > Setting.plugin_redmine_issue_statistics['comment_settings'].to_i
     end
@@ -146,7 +146,17 @@ class IssueStatisticsController < ApplicationController
     }
     set_path @r, @periods_datetime, @specified_older_issues_params
   end
-     
+
+  def resolved_issues
+    if !!params[:relate_id]
+      @results = Queries.resolved_user_per_project(Principal.find(params[:relate_id]), @periods_datetime, base, params[:statisticable_id] )
+    else
+      @results = Queries.resolved_query(Principal.find(params[:statisticable_id]), @periods_datetime)
+    end
+    @results.each{|j| j.id = j.journalized_id }
+    redirect_to_path @results
+  end
+
   private
 
   def find_statisticable
@@ -158,24 +168,24 @@ class IssueStatisticsController < ApplicationController
       query = Queries.base_query( Principal.find(params[:relate_id]) , @periods_datetime)
       query = Queries.project_scope( query, params[:statisticable_id] )
     else
-      query = Queries.base_query(IssueStatistic.where(statisticable_id: params[:statisticable_id], statisticable_type: params[:statisticable_type]).first.statisticable, @periods_datetime)  
+      query = Queries.base_query(IssueStatistic.where(statisticable_id: params[:statisticable_id], statisticable_type: params[:statisticable_type]).first.statisticable, @periods_datetime)
     end
     query
   end
 
   def set_period
     @period = params[:period]
-      period = nil
-      case @period
-      when 'week'
-        period = 1.week.ago
-      when 'month'
-        period = 1.month.ago
-      when 'year'
-        period = 1.year.ago
-      when 'all'
-        period = 1000.years.ago
-      end
+    period = nil
+    case @period
+    when 'week'
+      period = 1.week.ago
+    when 'month'
+      period = 1.month.ago
+    when 'year'
+      period = 1.year.ago
+    when 'all'
+      period = 1000.years.ago
+    end
     @periods_datetime = period
   end
 

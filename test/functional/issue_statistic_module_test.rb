@@ -6,31 +6,22 @@ class IssueStatisticTest < ActiveSupport::TestCase
   self.fixture_path = File.join(File.dirname(__FILE__), '../fixtures')
 
   fixtures :issues,
-           :journals, 
-           :journal_details,  
-           :users,
-           :projects,
-           :time_entries,
-           :members,
-           :settings
+    :journals,
+    :journal_details,
+    :users,
+    :projects,
+    :time_entries,
+    :members,
+    :settings
 
-  
+
   def setup
     IssueStatistic.destroy_all
   end
 
-  test 'initial fixtures' do
-    assert_equal 1, User.count, 'should be 1'
-    assert_equal 7, Journal.count, 'should be 7'
-    assert_equal 7, JournalDetail.count, 'should be 7'
-    assert_equal 0, IssueStatistic.count, 'should be 0'
-    assert_equal 3, Project.count, 'should be 1'
-    assert_equal 2, TimeEntry.count, 'should be 2'
-  end
-
   test 'IssueStatistic should be saved' do
     assert_difference 'IssueStatistic.count', +20 do
-      RedmineIssueStatistics::CalculateStatistic.new.calculate 
+      RedmineIssueStatistics::CalculateStatistic.new.calculate
     end
   end
 
@@ -47,7 +38,6 @@ class IssueStatisticTest < ActiveSupport::TestCase
       assert_equal stat_1.avg_issue_time, stat_2.avg_issue_time, 'Wrong avg_issue_time!'
       assert_equal stat_1.returned, stat_2.returned, 'Wrong returned issues count!'
       stat_proj_user = IssueStatistic.where(statisticable_type: "Project", relate_type: "User").first
-      #puts stat_proj_user.inspect
       assert_equal 1, stat_proj_user.opened, 'Wrong opened issues count for user in project!'
       stat_proj = IssueStatistic.where(statisticable_type: "Project", relate_type: nil).first
       assert_equal 1, stat_proj.opened, 'Wrong opened count in stat_proj!'
@@ -95,7 +85,7 @@ class IssueStatisticTest < ActiveSupport::TestCase
     assert_difference 'IssueStatistic.count', +20 do
       RedmineIssueStatistics::CalculateStatistic.new.calculate
       stat_project =  IssueStatistic.where(statisticable_type: "project").first
-      assert_equal 170.0, stat_project.avg_issue_time, 'Wrong avg_issue_time for project!' 
+      assert_equal 170.0, stat_project.avg_issue_time, 'Wrong avg_issue_time for project!'
       stat_user = IssueStatistic.where(statisticable_type: "user").first
       assert_equal 170.0, stat_user.avg_issue_time, 'Wrong avg_issue_timem for user!'
     end
@@ -108,8 +98,8 @@ class IssueStatisticTest < ActiveSupport::TestCase
       stat_month = IssueStatistic.where(period: 'month').first
       stat_year = IssueStatistic.where(period: 'year').first
       assert_equal 0, stat.comment_max, 'Wrong comment count for week!'
-      assert_equal 1, stat_month.comment_max, 'Wrong comment count for month!' 
-      assert_equal 1, stat_year.comment_max, 'Wrong comment count for year!' 
+      assert_equal 1, stat_month.comment_max, 'Wrong comment count for month!'
+      assert_equal 1, stat_year.comment_max, 'Wrong comment count for year!'
     end
   end
 
@@ -126,7 +116,7 @@ class IssueStatisticTest < ActiveSupport::TestCase
       assert_equal 1, stat_all.returned, "Wrong returned count for stat_all"
     end
   end
-  
+
   test 'Statistics for principal per project' do
     RedmineIssueStatistics::CalculateStatistic.new.calculate
     stat_week = IssueStatistic.where("period = ? AND relate_type = ?", "week", "User").first
@@ -149,7 +139,7 @@ class IssueStatisticTest < ActiveSupport::TestCase
     stat_week = IssueStatistic.where("period = ? AND relate_type = ?", "week", "User").first
     stat_month = IssueStatistic.where("period = ? AND relate_type = ?", "month", "User").first
     stat_year = IssueStatistic.where("period = ? AND relate_type = ?", "year", "User").first
-    stat_all = IssueStatistic.where("period = ? AND relate_type = ?", "all", "User").first 
+    stat_all = IssueStatistic.where("period = ? AND relate_type = ?", "all", "User").first
     assert_equal 100.0, stat_week.returned_ratio
     assert_equal 100.0, stat_month.returned_ratio
     assert_equal 100.0, stat_year.returned_ratio
@@ -160,5 +150,12 @@ class IssueStatisticTest < ActiveSupport::TestCase
     RedmineIssueStatistics::CalculateStatistic.new.calculate
     stat_week = IssueStatistic.where("period = ? AND relate_type = ?", "week", "User").first
     assert_equal 0, stat_week.old_issues, "Wrong older then week issues count"
+  end
+
+  test 'resolved issues' do
+    RedmineIssueStatistics::CalculateStatistic.new.calculate
+    stat_user = IssueStatistic.where('statisticable_type = ? AND period = ?', "User", "week").first
+    assert_equal 1, stat_user.resolved, "WRONG!"
+    # puts stat_user.inspect
   end
 end

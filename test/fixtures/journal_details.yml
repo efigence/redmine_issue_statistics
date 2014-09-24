@@ -48,3 +48,10 @@ journal_details_007:
   value: "1"
   prop_key: status_id
   journal_id: 7
+journal_details_008:
+  old_value: 1
+  property: attr
+  id: 8
+  value: 5
+  prop_key: status_id
+  journal_id: 7
