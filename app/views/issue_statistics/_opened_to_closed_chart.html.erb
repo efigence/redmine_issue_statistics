@@ -1,6 +1,9 @@
 <script type="text/javascript" charset="utf-8">
   $(function () {
     var 
+      data_closed;
+      pie_name = "<%=l(:resolved_issues)%>";
+      pie_color = '#90ed7d';
       ratio_week = <%= raw str[:opened].first.to_json %>
       ratio_month = <%= raw str[:opened][1].to_json %>;
       ratio_year = <%= raw str[:opened][2].to_json %>;
@@ -9,9 +12,29 @@
       difference_month = <%= raw str[:closed].first(2).last.to_json %>;
       difference_year = <%= raw str[:closed].last(2).first.to_json %>;
       difference_all = <%= raw str[:closed].last.to_json %>
+      resolved_week = <%= raw str[:resolved].first.to_json %>
+      resolved_month = <%= raw str[:resolved].first(2).last.to_json %>;
+      resolved_year = <%= raw str[:resolved].last(2).first.to_json %>
+      resolved_all = <%= raw str[:resolved].last.to_json %>
       link_closed = '<%= home_url %>/issue_statistics/closed_issues/<%= id_statisticable %>';
       link_opened = '<%= home_url %>/issue_statistics/opened_issues/<%= id_statisticable %>';
-    
+      link_to_resolved = '<%= home_url %>/issue_statistics/resolved_issues/<%= id_statisticable %>';
+    if('<%= type_statisticable %>' == "Project" && '<%= relate_id %>'.length === 0){
+      pie_name = "<%=l(:field_closed)%>";
+      pie_color = '#966FD6';
+      data_closed = [{ y: difference_week, url: link_closed },
+                  { y: difference_month, url: link_closed },
+                  { y: difference_year, url: link_closed },
+                  { y: difference_all, url: link_closed }]
+    }else{
+      pie_name = "<%=l(:resolved_issues)%>"
+      pie_color = '#836953',
+      data_closed = [{ y: resolved_week, url: link_to_resolved },
+                  { y: resolved_month, url: link_to_resolved },
+                  { y: resolved_year, url: link_to_resolved },
+                  { y: resolved_all, url: link_to_resolved }]
+
+    }
     $('#<%= id_statisticable %>open_close').highcharts({
         chart: {
             type: 'bar'
@@ -56,7 +79,7 @@
         },
         series: [
             {
-            color: '#434348',
+            color: '#FF6961',
             name: "<%=l(:field_opened)%>",
             data: [
                   { y: ratio_week, url: link_opened  }, 
@@ -65,13 +88,9 @@
                   { y: ratio_all, url: link_opened }]
             },
             {
-            color: '#90ed7d',
-            name: "<%=l(:field_closed)%>",
-            data: [
-                  { y: difference_week, url: link_closed },
-                  { y: difference_month, url: link_closed },
-                  { y: difference_year, url: link_closed },
-                  { y: difference_all, url: link_closed }]
+            color: pie_color,
+            name: pie_name,
+            data: data_closed
             }]
     });
   });

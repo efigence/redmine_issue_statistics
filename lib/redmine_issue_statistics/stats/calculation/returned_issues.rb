@@ -5,7 +5,6 @@ module RedmineIssueStatistics
     attr_reader :results, :period
 
     def calculate statisticable, period, scope = nil
-      #binding.pry
       @periods_datetime = nil
       @period = period
       @scope = scope
@@ -43,7 +42,7 @@ module RedmineIssueStatistics
     end
 
     def resolved_issues statisticable, period_to_datetime
-      if statisticable.class.name == "User" && @scope == nil
+      if (statisticable.class.name == "User" || statisticable.class.name == "Group") && @scope == nil
         @resolved = Queries.resolved_query statisticable, period_to_datetime
         @results[:resolved] = @resolved.all.count
       elsif statisticable.class.name == "User" && @scope != nil

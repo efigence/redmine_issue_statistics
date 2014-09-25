@@ -1,5 +1,6 @@
 require_relative "calculation/base_calculation"
 require_relative "calculation/returned_issues"
+require_relative "calculation/journal_calculation"
 
 module RedmineIssueStatistics
 
@@ -24,6 +25,7 @@ module RedmineIssueStatistics
       @results = []
       @results << BaseCalculation.new.calculate(value, period, scope)
       @results << ReturnedIssues.new.calculate(value, period, scope)
+      @results << JournalCalculation.new.calculate(value, period, scope)
     end
 
     def calculate_principal_per_project project, period

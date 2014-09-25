@@ -8,7 +8,7 @@ en:
   field_avg: AVG issue time
   field_type: Type
   field_assign: Assigned to
-  field_old_issues: Older issues
+  field_old_issues: Older
   view_statistics: Statistics
   view_statistics_from: Statistics from
   stats_all: All

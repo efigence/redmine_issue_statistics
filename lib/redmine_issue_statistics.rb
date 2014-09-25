@@ -68,6 +68,15 @@ module RedmineIssueStatistics
     end
   end
 
+  def redirect_to_total_logged_path results
+    redirect_to issues_path({
+                              set_filter: 1,
+                              "f[]" => "id",
+                              "op[id]" => "=",
+                              "v[id]" => results
+    })
+  end
+
   def redirect_to_path results
     redirect_to issues_path({
                               set_filter: 1,

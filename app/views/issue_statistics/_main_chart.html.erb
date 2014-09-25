@@ -1,12 +1,41 @@
 <script type="text/javascript" charset="utf-8">
   $(function () {
+    var data_to_show;
+    var visibility;
+    check_variable: true;
+    var visibility_resolved;
+    if('<%= type_statisticable %>' == "Project" && '<%= relate_id %>'.length === 0)
+    {
+      data_to_show = <%= raw str[:total][pidx].to_json  %>;
+      url = '<%= home_url %>/issue_statistics/total_issues/<%= id_statisticable %>/<%= type_statisticable %>/'+ <%= raw period.to_json %>;
+      visibility = true;
+      visibility_resolved = false;
+    }else{
+      data_to_show = <%= raw str[:total_assigned][pidx].to_json  %>;
+      url = '<%= home_url %>/issue_statistics/total_logged_issues/<%= id_statisticable %>/<%= type_statisticable %>/'+ <%= raw period.to_json %>;
+      visibility = false;
+      visibility_resolved = true;
+    }
     var chart;
     chart = new Highcharts.Chart({
       chart: { renderTo: '<%= id_statisticable %><%= period %>',
                type: 'column',
                 plotBackgroundColor: null,
                 plotBorderWidth: null,
-                plotShadow: false
+                plotShadow: false,
+                events: {
+                load: function () {
+                    var chart = this;
+                    $(chart.series).each(function (i, serie) {
+                        var link = $('.'+serie.name.split(" ").join("-"));
+                        if (link.length){
+                          link.click(function(){
+                            serie.visible ? serie.hide() : serie.show();
+                          });
+                        }
+                    });
+                }
+            }
       },
       title: { text: ''  },
       xAxis: {
@@ -53,14 +82,18 @@
               }
             }
       },
-      series: [{
+      series: [
+
+      {
+        color: '#FFB347',
         name: '<%=l(:field_total)%>',
         data: [{
-                y: <%= raw str[:total][pidx].to_json  %>,
-                url: '<%= home_url %>/issue_statistics/total_issues/<%= id_statisticable %>/<%= type_statisticable %>/'+ <%= raw period.to_json %>
+                y: data_to_show,
+                url: url
               }]
-              },
+      },
       {
+        color: '#FF6961',
         name: '<%=l(:field_opened)%>',
         data: [{
                 y: <%= raw str[:opened][pidx].to_json  %>,
@@ -68,27 +101,32 @@
               }]
       },
       {
+        color: '#966FD6',
         name: '<%=l(:field_closed)%>',
         data: [{
                 y: <%= raw str[:closed][pidx].to_json  %>,
                 url: '<%= home_url %>/issue_statistics/closed_issues/<%= id_statisticable %>/<%= type_statisticable %>/'+ <%= raw period.to_json %>
-              }]
+              }],
+        visible: visibility
       },
       {
+        color: '#FFC87C',
         name: '<%=l(:field_returned)%>',  
         data: [{
                 y: <%= raw str[:returned][pidx].to_json  %>,
                 url: '<%= home_url %>/issue_statistics/returned_issues/<%= id_statisticable %>/<%= type_statisticable %>/'+ <%= raw period.to_json %>
               }]
-      },
-      {
+      },{
+        color: '#F49AC2',
         name: '<%= l(:field_comment_max) %>',
         data: [{
                 y: <%= raw str[:comment_max][pidx].to_json  %>,
                 url: '<%= home_url %>/issue_statistics/most_commented_issues/<%= id_statisticable %>/<%= type_statisticable %>/'+ <%= raw period.to_json %>
-              }]
+              }],
+        visible: visibility
       },
       {
+        color: '#77DD77',
         name: '<%= l(:field_old_issues) %>',
         data: [{
                 y: <%= raw str[:old_issues][pidx].to_json  %>,
@@ -96,11 +134,13 @@
               }]
       },
       {
+        color: '#836953',
         name: '<%= l(:resolved_issues) %>',
         data: [{
                 y: <%= raw str[:resolved][pidx].to_json %>,
                 url: '<%= home_url %>/issue_statistics/resolved_issues/<%= id_statisticable %>/<%= type_statisticable %>/' + <%= raw period.to_json %>
-              }]
+              }],
+        visible: visibility_resolved
       }
       ]
     });

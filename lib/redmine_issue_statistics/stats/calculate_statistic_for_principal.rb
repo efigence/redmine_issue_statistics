@@ -1,5 +1,6 @@
 require_relative "calculation/base_calculation"
 require_relative "calculation/returned_issues"
+require_relative "calculation/journal_calculation"
 
 module RedmineIssueStatistics
 
@@ -13,6 +14,7 @@ module RedmineIssueStatistics
           @results = []
           @results << BaseCalculation.new.calculate(principal, period)
           @results << ReturnedIssues.new.calculate(principal, period)
+          @results << JournalCalculation.new.calculate(principal, period)
           save_results principal, period
         end
         Progress.instance.increment

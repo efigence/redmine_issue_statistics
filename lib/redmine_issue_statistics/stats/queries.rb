@@ -7,6 +7,12 @@ module RedmineIssueStatistics
           where('issues.created_on >= ?', period_to_datetime)
       end
 
+      def base_query_to_log statisticable, period_to_datetime
+        TimeEntry.select('issue_id').
+          where('user_id = ? AND spent_on >= ? AND issue_id IS NOT NULL', statisticable.id, period_to_datetime).
+          uniq('issue_id')
+      end
+
       def old_issues_query statisticable, period_to_datetime
         Issue.
           where(project_id: open_projects).
@@ -55,6 +61,23 @@ module RedmineIssueStatistics
             where('value IN(?)', IssueStatus.where(is_closed: true).select('id').pluck(:id)).
             group('journalized_id')
         end
+      end
+
+      def total_logged_to statisticable, period_to_datetime, scope = nil
+        if scope == nil
+          query = Queries.base_query_to_log statisticable, period_to_datetime
+          query2 = Journal.where('user_id = ? AND created_on >= ?', statisticable.id, period_to_datetime)
+          query, query2 = query.map(&:issue_id), query2.map(&:journalized_id)
+          query = query.zip(query2).flatten.uniq
+        else
+          query = Queries.base_query_to_log statisticable, period_to_datetime
+          query = query.where('project_id = ?', scope)
+          query = query.map(&:issue_id)
+          query2 = Journal.where('user_id = ? AND created_on >= ? AND journalized_id IN(?)',
+                                 statisticable.id, period_to_datetime, Project.find(scope).issues.collect(&:id)).map(&:journalized_id)
+          query = query.zip(query2).flatten.uniq
+        end
+        query
       end
 
       private

@@ -7,7 +7,7 @@ class IssueStatisticsController < ApplicationController
   before_filter :find_statisticable, :only => [:total_issues, :opened_issues, :closed_issues, :older_issues]
   before_filter :scope_my_groups_data, :only => [:index]
   before_filter :get_periods
-  before_filter :set_period, :only => [:resolved_issues, :total_issues, :opened_issues, :returned_issues, :most_commented_issues, :closed_issues, :older_issues]
+  before_filter :set_period, :only => [:total_logged_issues, :resolved_issues, :total_issues, :opened_issues, :returned_issues, :most_commented_issues, :closed_issues, :older_issues]
 
   include RedmineIssueStatistics
 
@@ -85,7 +85,6 @@ class IssueStatisticsController < ApplicationController
       "v[created_on]" => [@periods_datetime.to_date, @r.created_at.to_date.strftime("%Y-%m-%d").to_date]
     }
     set_path @r, @periods_datetime, @specified_total_params
-
   end
 
   def opened_issues
@@ -156,6 +155,17 @@ class IssueStatisticsController < ApplicationController
     @results.each{|j| j.id = j.journalized_id }
     redirect_to_path @results
   end
+
+  def total_logged_issues
+    if !!params[:relate_id]
+      @results = Queries.total_logged_to(Principal.find(params[:relate_id]), @periods_datetime, params[:statisticable_id])
+    else
+      @results = Queries.total_logged_to(Principal.find(params[:statisticable_id]), @periods_datetime)
+    end
+    binding.pry
+    redirect_to_total_logged_path @results
+  end
+
 
   private
 

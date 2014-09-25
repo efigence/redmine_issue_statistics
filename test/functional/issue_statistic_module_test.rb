@@ -35,7 +35,6 @@ class IssueStatisticTest < ActiveSupport::TestCase
       assert_equal stat_1.closed, stat_2.closed, 'Wrong closed issues count!'
       assert_equal stat_1.opened, stat_2.opened, 'Wrong opened issues count!'
       assert_equal stat_1.opened_to_closed, stat_2.opened_to_closed, 'Wrong opened_to_closed ratio!'
-      assert_equal stat_1.avg_issue_time, stat_2.avg_issue_time, 'Wrong avg_issue_time!'
       assert_equal stat_1.returned, stat_2.returned, 'Wrong returned issues count!'
       stat_proj_user = IssueStatistic.where(statisticable_type: "Project", relate_type: "User").first
       assert_equal 1, stat_proj_user.opened, 'Wrong opened issues count for user in project!'
@@ -78,16 +77,6 @@ class IssueStatisticTest < ActiveSupport::TestCase
       assert_not_equal stat_project.closed, nil, 'closed Should not be null'
       assert_not_equal stat_project.opened, nil, 'opened Should not be null'
       assert_equal 1, stat_project.returned, 'Wrong returned count'
-    end
-  end
-
-  test 'AVG time per issue' do
-    assert_difference 'IssueStatistic.count', +20 do
-      RedmineIssueStatistics::CalculateStatistic.new.calculate
-      stat_project =  IssueStatistic.where(statisticable_type: "project").first
-      assert_equal 170.0, stat_project.avg_issue_time, 'Wrong avg_issue_time for project!'
-      stat_user = IssueStatistic.where(statisticable_type: "user").first
-      assert_equal 170.0, stat_user.avg_issue_time, 'Wrong avg_issue_timem for user!'
     end
   end
 

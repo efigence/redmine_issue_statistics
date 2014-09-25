@@ -10,20 +10,19 @@ module RedmineIssueStatistics
       @periods_datetime = nil
       @period = period
       @scope = scope
-      
+
       @query = Queries.base_query statisticable, period_to_datetime
       @old_issues = Queries.old_issues_query statisticable, period_to_datetime
-      
-      calculate_total_issues_for statisticable
+
+      calculate_total_issues_for statisticable if statisticable.class.name == "Project"
       calculate_opened_issues_for statisticable
-      calculate_closed_issues_for statisticable
-      calculate_done_for statisticable
-      calculate_avg_issue_time_for statisticable
+      calculate_closed_issues_for statisticable if statisticable.class.name == "Project"
+      calculate_done_for statisticable if statisticable.class.name == "Project"
       calculate_old_issues_for statisticable
       return @results
     end
 
-    private 
+    private
 
     def initialize
       @results = {}
@@ -34,7 +33,7 @@ module RedmineIssueStatistics
         @query = @query.where(project_id: @scope)
       end
     end
-    
+
     def calculate_total_issues_for(statisticable)
       project_scope
       @results[:total] = @query.count
@@ -54,11 +53,11 @@ module RedmineIssueStatistics
       closed = 0
       project_scope
       @query.each do |issue|
-        if issue.closed?  
+        if issue.closed?
           closed += 1
-        end  
+        end
       end
-      @results[:closed] = closed 
+      @results[:closed] = closed
     end
 
     def calculate_done_for(statisticable)
@@ -74,11 +73,5 @@ module RedmineIssueStatistics
       end
     end
 
-    def calculate_avg_issue_time_for(statisticable)
-      project_scope
-      spent_hours_sum = @query.map(&:spent_hours).reduce(:+)
-      total = @results[:total]
-      @results[:avg_issue_time] = total > 0 ? spent_hours_sum/total : 0
-    end
   end
 end

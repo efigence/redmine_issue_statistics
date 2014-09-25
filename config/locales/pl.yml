@@ -8,7 +8,7 @@ pl:
   field_avg: Średni czas zagadnienia
   field_type: Typ
   field_assign: Przypisany do
-  field_old_issues: Starsze zagadnienia
+  field_old_issues: Starsze
   view_statistics: Statystyki
   view_statistics_from: Statystyki z
   stats_all: Wszystkie
