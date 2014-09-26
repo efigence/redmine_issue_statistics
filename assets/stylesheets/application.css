@@ -4,3 +4,24 @@ div#content > div{
 div#content > div.clear{
   clear: both;
 }
+ul.legend {
+	  list-style: square outside none;
+	  font-size: 40px;
+	  line-height: 9px; 
+	  font-weight: bold;
+	}
+ul.legend li span{
+	  top: -7px;
+	  position: relative;
+	  color: #333;
+	  cursor: pointer;
+	  font-family: "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, sans-serif;
+	  font-size: 12px;
+	}
+ul.legend li  span.disabled{
+	  color: #ccc;
+	}
+ul.legend em{
+	  font-size: 8px;
+	  font-weight: normal;
+	}

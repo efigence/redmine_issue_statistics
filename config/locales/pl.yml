@@ -17,6 +17,7 @@ pl:
   stats_project_user: Użytkownik Dla Projektu
   field_comment_max: Najbardziej komentowane
   resolved_issues: Rozwiązane
+  date_of_stat: "Data obliczenia:"
   period: Okres
   periods:
     week: Tydzień
@@ -68,3 +69,12 @@ pl:
     submit:
       create: Szukaj
   field: ID
+  desc_total_user: "Taski do których zaraportował czas pracy w danym okresie plus zmodyfikowane przez danego użytkownika"
+  desc_total_project: "Wszystkie utworzone taski w danym okresie przypisane do projektu"
+  desc_closed: "Wszystkie zakmnięte taski w danym okresie i przypisane do projektu"
+  desc_commented: "Wszystkie utworzone taski w danym okresie, które mają więcej niż określona w settingsach liczba komentarzy"
+  desc_returned: "Taski, które wg. dziennika zostały zwrócone nie koniecznie do tego samego użytkownika użytkownikowi"
+  desc_opened_user: "Taski, które były przypięte do użytkownika w danym okresie, nie koniecznie są dalej, ale mogą"
+  desc_opened_project: "Wszystkie utworzone taski w danym okresie i aktualnie otwarte przypisane do projektu"
+  desc_older: "Taski przypisane do, starsze niż dany okres statystyki"
+  desc_resolved: "Taski, które zostały rozwiązanie (zmieniony status na resolved etc. przez bieżącego użytkownika), aktualnie może już nie być do niego przypięty"

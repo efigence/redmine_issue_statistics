@@ -13,11 +13,11 @@ module RedmineIssueStatistics
 
       @query = Queries.base_query statisticable, period_to_datetime
       @old_issues = Queries.old_issues_query statisticable, period_to_datetime
-
-      calculate_total_issues_for statisticable if statisticable.class.name == "Project"
-      calculate_opened_issues_for statisticable
-      calculate_closed_issues_for statisticable if statisticable.class.name == "Project"
-      calculate_done_for statisticable if statisticable.class.name == "Project"
+      if statisticable.class.name == "Project"
+        calculate_total_issues_for statisticable
+        calculate_opened_issues_for statisticable
+        calculate_closed_issues_for statisticable
+      end
       calculate_old_issues_for statisticable
       return @results
     end
@@ -59,19 +59,5 @@ module RedmineIssueStatistics
       end
       @results[:closed] = closed
     end
-
-    def calculate_done_for(statisticable)
-      opened = @results[:opened]
-      closed = @results[:closed]
-      if opened != 0 && closed != 0
-        ratio = opened/(opened+closed).to_f
-        @results[:opened_to_closed] = 100 - ratio * 100
-      elsif opened == 0 && closed != 0
-        @results[:opened_to_closed] = 100
-      else
-        @results[:opened_to_closed] = 0
-      end
-    end
-
   end
 end

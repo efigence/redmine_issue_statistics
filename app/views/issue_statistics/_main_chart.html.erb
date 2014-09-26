@@ -8,11 +8,13 @@
     {
       data_to_show = <%= raw str[:total][pidx].to_json  %>;
       url = '<%= home_url %>/issue_statistics/total_issues/<%= id_statisticable %>/<%= type_statisticable %>/'+ <%= raw period.to_json %>;
+      url_opened = '<%= home_url %>/issue_statistics/opened_issues/<%= id_statisticable %>/<%= type_statisticable %>/'+ <%= raw period.to_json %>;
       visibility = true;
       visibility_resolved = false;
     }else{
       data_to_show = <%= raw str[:total_assigned][pidx].to_json  %>;
       url = '<%= home_url %>/issue_statistics/total_logged_issues/<%= id_statisticable %>/<%= type_statisticable %>/'+ <%= raw period.to_json %>;
+      url_opened = '<%= home_url %>/issue_statistics/opened_from_journal/<%= id_statisticable %>/<%= type_statisticable %>/'+ <%= raw period.to_json %>;
       visibility = false;
       visibility_resolved = true;
     }
@@ -31,6 +33,7 @@
                         if (link.length){
                           link.click(function(){
                             serie.visible ? serie.hide() : serie.show();
+                            link.find('span').toggleClass('disabled', !serie.visible);
                           });
                         }
                     });
@@ -97,7 +100,7 @@
         name: '<%=l(:field_opened)%>',
         data: [{
                 y: <%= raw str[:opened][pidx].to_json  %>,
-                url: '<%= home_url %>/issue_statistics/opened_issues/<%= id_statisticable %>/<%= type_statisticable %>/'+ <%= raw period.to_json %>
+                url: url_opened
               }]
       },
       {

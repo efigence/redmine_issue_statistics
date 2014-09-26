@@ -4,12 +4,14 @@ GEM
     awesome_print (1.2.0)
     coderay (1.1.0)
     hirb (0.7.2)
+    htmlbeautifier (0.0.9)
     method_source (0.8.2)
     pry (0.10.1)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
     rake (10.1.1)
+    ruby-beautify (0.92.2)
     ruby-progressbar (1.5.1)
     slop (3.6.0)
     will_paginate (3.0.7)
@@ -20,7 +22,9 @@ PLATFORMS
 DEPENDENCIES
   awesome_print
   hirb
+  htmlbeautifier (~> 0.0.9)
   pry
   rake (~> 10.1.1)
+  ruby-beautify (~> 0.92.2)
   ruby-progressbar
   will_paginate (~> 3.0)

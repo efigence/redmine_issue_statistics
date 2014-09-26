@@ -17,6 +17,7 @@ en:
   stats_project_user: User Per Project
   field_comment_max: The most commented
   resolved_issues: Resolved
+  date_of_stat: "Date of calculation:"
   period: Period
   periods:
     week: Week
@@ -57,3 +58,12 @@ en:
     submit:
       create: Search
   field: ID
+  desc_total_user: "Tasks where current users logged spent time in current period or modified by this user"
+  desc_total_project: "All tasks assigned to current project in current period"
+  desc_closed: "All tasks closed in current period assigned to current project"
+  desc_commented: "All tasks with count of comments greater then value in settings"
+  desc_returned: "Returned in curent period by Journal"
+  desc_opened_user: "Tasks assigned to user with status open and which was assigned and still has status open"
+  desc_opened_project: "All tasks assigned to current project with stutus open"
+  desc_older: "Tasks older then current period, which has status opened"
+  desc_resolved: "Tasks which has been change status on resolved etc. by current user and actualy can not be assigned to current user"

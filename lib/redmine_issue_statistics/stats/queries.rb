@@ -80,6 +80,25 @@ module RedmineIssueStatistics
         query
       end
 
+      def query_for_opened_by_journal statisticable, period_to_datetime
+        issue_journal = Journal.joins(:details).
+          select('journalized_id').
+          where('prop_key = ? AND value = ? AND created_on >= ?', "assigned_to_id", statisticable.id, period_to_datetime).map(&:journalized_id)
+        issue = Issue.where('status_id IN(?) AND (id IN(?) OR assigned_to_id = ? AND created_on >= ?)', [1,2,4,7,8,11,12], issue_journal, statisticable.id, period_to_datetime)
+        return issue
+      end
+
+      def opened_by_journal_query statisticable, period_to_datetime, scope = nil
+        if scope == nil
+          query = query_for_opened_by_journal statisticable, period_to_datetime
+          query = query.map(&:id).uniq unless query.nil?
+        else
+          query = query_for_opened_by_journal statisticable, period_to_datetime
+          query = query.where('project_id = ?', scope).map(&:id).uniq
+        end
+        query
+      end
+
       private
 
       def open_projects

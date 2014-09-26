@@ -1,5 +1,3 @@
-<%= render :partial => 'search' %>
-<hr />
 <% if @issue_statistics.empty? %>
   <p class="nodata"><%= l(:label_no_data_or_access_denied) %></p>
 <% else %>
@@ -27,9 +25,12 @@
       <% str[:resolved] ||= [] %><% str[:resolved].push stat.resolved %>
       <% str[:total_assigned] ||= [] %><% str[:total_assigned].push stat.total_assigned %>
     <% end %>
+<h3 style="color: #333;"><%=l(:date_of_stat)%> <%= statisticable.updated_on.strftime('%D %H:%M:%S') unless statisticable.blank? %></h3>
+<hr />
+<%= render :partial => 'search' %>
+<hr />
 
-    <h3><%= statisticable.name %>  <%= relate_id && User.find(relate_id).name  %></h3>
-
+    <h3 style="color: #333"><%= statisticable.name %>  <%= relate_id && User.find(relate_id).name  %></h3>
     <% periods.each_with_index do |period, pidx| %>
       <%= render :partial => 'main_chart', 
                  :locals => {period: period, id_statisticable: id_statisticable, type_statisticable: type_statisticable, relate_id: relate_id, str: str, pidx: pidx} %>
@@ -39,18 +40,34 @@
                  :locals => { id_statisticable: id_statisticable, type_statisticable: type_statisticable, relate_id: relate_id, str: str, periods: periods } %>
       <div id="<%= id_statisticable %><%=  period %>" style="width: 250px; height: 300px; position: relative;"></div>
     <% end %>
-    <div id="legend" style="font-weight: bold; font-size: 150%">
-     <li class="<%=l(:field_total).split(" ").join("-") %>" style="color: #FFB347 "><%=l(:field_total)%></li>
-     <% if @type_statisticable == "Project" && @relate_id == nil  %>
-       <li class="<%=l(:field_closed).split(" ").join("-") %>" style="color: #966FD6"><%=l(:field_closed)%></li>
-       <li class="<%= l(:field_comment_max).split(" ").join("-") %>" style="color: #F49AC2"><%= l(:field_comment_max) %></li>
-     <% end %>
-     <li class="<%=l(:field_returned).split(" ").join("-") %>" style="color: #FFC87C"><%=l(:field_returned)%></li>
-     <li class="<%=l(:field_opened).split(" ").join("-") %>" style="color: #FF6961"><%=l(:field_opened)%></li>
-     <li class="<%= l(:field_old_issues).split(" ").join("-") %>" style="color: #77DD77"><%= l(:field_old_issues) %></li>
-     <% if @type_statisticable != "Project" || @relate_id != nil %> 
-      <li class="<%= l(:resolved_issues).split(" ").join("-") %>" style="color: #836953"><%= l(:resolved_issues) %></li>
-     <% end %>
+    <div id="legend">
+      <ul class="legend">
+        
+        <li class="<%=l(:field_total).split(" ").join("-") %>" style="color: #FFB347 "><span><%=l(:field_total)%></span></li>
+          <em class="info"><%=l(:desc_total_project)  if  @type_statisticable == "Project" && @relate_id == nil   %></em>
+          <em class="info"><%=l(:desc_total_user)  if  @type_statisticable != "Project" || @relate_id != nil   %></em>
+        
+        <% if @type_statisticable == "Project" && @relate_id == nil  %>
+          <li class="<%=l(:field_closed).split(" ").join("-") %>" style="color: #966FD6"><span><%=l(:field_closed)%></span></li>
+            <em class="info"><%=l(:desc_closed)%></em>
+          <li class="<%= l(:field_comment_max).split(" ").join("-") %>" style="color: #F49AC2"><span><%= l(:field_comment_max) %></span></li>
+            <em class="info"><%=l(:desc_commented)%></em>
+        <% end %>
+
+        <li class="<%=l(:field_returned).split(" ").join("-") %>" style="color: #FFC87C"><span><%=l(:field_returned)%></span></li>
+          <em class="info"><%=l(:desc_returned)%></em>
+        <li class="<%=l(:field_opened).split(" ").join("-") %>" style="color: #FF6961"><span><%=l(:field_opened)%></span></li>
+          <em class="info"><%=l(:desc_opened_project) if  @type_statisticable == "Project" && @relate_id == nil   %></em>
+          <em class="info"><%=l(:desc_opened_user)  if  @type_statisticable != "Project" || @relate_id != nil  %></em>
+        <li class="<%= l(:field_old_issues).split(" ").join("-") %>" style="color: #77DD77"><span><%= l(:field_old_issues) %></span></li>
+          <em class="info"><%=l(:desc_older)%></em>
+        
+        <% if @type_statisticable != "Project" || @relate_id != nil %> 
+          <li class="<%= l(:resolved_issues).split(" ").join("-") %>" style="color: #836953"><span><%= l(:resolved_issues) %></span></li>
+            <em class="info"><%=l(:desc_resolved)%></em>
+        <% end %>
+
+      </ul>
     </div>
     <div class="clear">
       <div id="<%= id_statisticable %>returned" style="width: 500px; height: 300px; position: relative; float: left;"></div>

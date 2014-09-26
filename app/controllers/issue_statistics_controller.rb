@@ -7,7 +7,7 @@ class IssueStatisticsController < ApplicationController
   before_filter :find_statisticable, :only => [:total_issues, :opened_issues, :closed_issues, :older_issues]
   before_filter :scope_my_groups_data, :only => [:index]
   before_filter :get_periods
-  before_filter :set_period, :only => [:total_logged_issues, :resolved_issues, :total_issues, :opened_issues, :returned_issues, :most_commented_issues, :closed_issues, :older_issues]
+  before_filter :set_period, :only => [:opened_from_journal, :total_logged_issues, :resolved_issues, :total_issues, :opened_issues, :returned_issues, :most_commented_issues, :closed_issues, :older_issues]
 
   include RedmineIssueStatistics
 
@@ -162,7 +162,15 @@ class IssueStatisticsController < ApplicationController
     else
       @results = Queries.total_logged_to(Principal.find(params[:statisticable_id]), @periods_datetime)
     end
-    binding.pry
+    redirect_to_total_logged_path @results
+  end
+
+  def opened_from_journal
+    if !!params[:relate_id]
+      @results = Queries.opened_by_journal_query(Principal.find(params[:relate_id]), @periods_datetime, params[:statisticable_id])
+    else
+      @results = Queries.opened_by_journal_query(Principal.find(params[:statisticable_id]), @periods_datetime)
+    end
     redirect_to_total_logged_path @results
   end
 
@@ -175,7 +183,7 @@ class IssueStatisticsController < ApplicationController
 
   def base
     if !!params[:relate_id]
-      query = Queries.base_query( Principal.find(params[:relate_id]) , @periods_datetime)
+      query = Queries.base_query(Principal.find(params[:relate_id]) , @periods_datetime)
       query = Queries.project_scope( query, params[:statisticable_id] )
     else
       query = Queries.base_query(IssueStatistic.where(statisticable_id: params[:statisticable_id], statisticable_type: params[:statisticable_type]).first.statisticable, @periods_datetime)

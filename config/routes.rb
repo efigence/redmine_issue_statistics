@@ -12,3 +12,4 @@ get "issue_statistics/closed_issues/:statisticable_id/:statisticable_type/:perio
 get "issue_statistics/older_issues/:statisticable_id/:statisticable_type/:period", to: 'issue_statistics#older_issues'
 get "issue_statistics/resolved_issues/:statisticable_id/:statisticable_type/:period", to: 'issue_statistics#resolved_issues'
 get "issue_statistics/total_logged_issues/:statisticable_id/:statisticable_type/:period", to: 'issue_statistics#total_logged_issues'
+get "issue_statistics/opened_from_journal/:statisticable_id/:statisticable_type/:period", to: 'issue_statistics#opened_from_journal'
