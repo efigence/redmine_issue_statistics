@@ -112,10 +112,10 @@ class IssueStatisticTest < ActiveSupport::TestCase
     stat_month = IssueStatistic.where("period = ? AND relate_type = ?", "month", "User").first
     stat_year = IssueStatistic.where("period = ? AND relate_type = ?", "year", "User").first
     stat_all = IssueStatistic.where("period = ? AND relate_type = ?", "all", "User").first
-    assert_equal 1, stat_week.total, "Wrong total count in stat_week!"
-    assert_equal 1, stat_month.total, "Wrong total count in stat_month!"
-    assert_equal 1, stat_year.total, "Wrong total count in stat_year!"
-    assert_equal 1, stat_all.total, "Wrong total count in stat_all!"
+    assert_equal nil, stat_week.total, "Wrong total count in stat_week!"
+    assert_equal nil, stat_month.total, "Wrong total count in stat_month!"
+    assert_equal nil, stat_year.total, "Wrong total count in stat_year!"
+    assert_equal 1, stat_all.total_assigned, "Wrong total count in stat_all!"
     assert_equal 0, stat_week.comment_max, "Wrong comment count in stat_week!"
     assert_equal 1, stat_month.comment_max, "Wrong comment count in stat_month!"
     assert_equal 1, stat_year.comment_max, "Wrong comment count in stat_year!"
@@ -125,13 +125,16 @@ class IssueStatisticTest < ActiveSupport::TestCase
 
   test 'Recalculete statistic for returned issues ratio' do
     RedmineIssueStatistics::CalculateStatistic.new.calculate
-    stat_week = IssueStatistic.where("period = ? AND relate_type = ?", "week", "User").first
-    stat_month = IssueStatistic.where("period = ? AND relate_type = ?", "month", "User").first
-    stat_year = IssueStatistic.where("period = ? AND relate_type = ?", "year", "User").first
-    stat_all = IssueStatistic.where("period = ? AND relate_type = ?", "all", "User").first
-    assert_equal 100.0, stat_week.returned_ratio
-    assert_equal 100.0, stat_month.returned_ratio
-    assert_equal 100.0, stat_year.returned_ratio
+    stat_week = IssueStatistic.where("period = ? AND statisticable_type = ? AND statisticable_id = ?", "week", "User", 2).first
+    stat_month = IssueStatistic.where("period = ? AND statisticable_type = ? AND statisticable_id = ?", "month", "User", 2).first
+    stat_year = IssueStatistic.where("period = ? AND statisticable_type = ? AND statisticable_id = ?", "year", "User", 2).first
+    stat_all = IssueStatistic.where("period = ? AND statisticable_type = ? AND statisticable_id = ?", "all", "User", 2).first
+    assert_equal 0, stat_week.total_assigned
+    assert_equal 0.0, stat_week.returned_ratio
+    assert_equal 0, stat_month.total_assigned
+    assert_equal 0.0, stat_month.returned_ratio
+    assert_equal 0.0, stat_year.returned_ratio
+    assert_equal 1, stat_all.total_assigned
     assert_equal 100.0, stat_all.returned_ratio
   end
 
