@@ -11,7 +11,7 @@ module RedmineIssueStatistics
       @query = Queries.base_query statisticable, period_to_datetime
       most_commented statisticable
       returned statisticable
-      resolved_issues statisticable, period_to_datetime
+      resolved_issues statisticable, period_to_datetime if statisticable.class.name != "Project"
       return @results
     end
 
@@ -42,13 +42,11 @@ module RedmineIssueStatistics
     end
 
     def resolved_issues statisticable, period_to_datetime
-      if (statisticable.class.name == "User" || statisticable.class.name == "Group") && @scope == nil
+      if @scope == nil
         @resolved = Queries.resolved_query statisticable, period_to_datetime
         @results[:resolved] = @resolved.all.count
-      elsif statisticable.class.name == "User" && @scope != nil
+      else
         resolved_user_per_project statisticable, period_to_datetime
-      elsif statisticable.class.name == "Project"
-        @results[:resolved] = 0
       end
     end
 

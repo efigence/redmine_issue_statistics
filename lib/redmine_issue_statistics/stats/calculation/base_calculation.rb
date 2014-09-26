@@ -1,4 +1,3 @@
-#redmine_issue_statistics/stats/calculation/base_calculation
 require_relative "./basic_calculation"
 require_relative "../queries"
 
