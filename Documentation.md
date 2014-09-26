@@ -25,8 +25,8 @@ Stats count | Processing time
 
 ### Highcharts charts
 
-All statistics are represented on charts powered by [Highcharts][bb] library
-[bb]: http://www.highcharts.com/ 
+All statistics are represented on charts powered by [Highcharts][bh] library
+[bh]: http://www.highcharts.com/ 
 * Main charts with all stats(total, opened etc.)
 ![](https://raw.githubusercontent.com/efigence/redmine_plugins_cdn/master/PIC/issue_statistics/main_chart.png)
 * Returned chart (shows percent of returned issues and count of returned issues)
