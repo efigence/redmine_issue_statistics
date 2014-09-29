@@ -10,7 +10,8 @@ module RedmineIssueStatistics
       @scope = scope
       @query = Queries.base_query statisticable, period_to_datetime
       most_commented statisticable
-      returned statisticable
+      returned statisticable if statisticable.class.name == "Project"
+      returned_for_users statisticable, period_to_datetime if statisticable.class.name != "Project"
       resolved_issues statisticable, period_to_datetime if statisticable.class.name != "Project"
       return @results
     end
@@ -41,10 +42,22 @@ module RedmineIssueStatistics
       end
     end
 
+    def  returned_for_users statisticable, period_to_datetime
+      if @scope == nil
+        @returned_usr = Queries.returned_for_users( statisticable, period_to_datetime )
+        @results[:returned] = @returned_usr.count if @returned_usr != []
+        @results[:returned] = 0 if @returned_usr == []
+      else
+        @returned_usr = Queries.returned_for_users( statisticable, period_to_datetime, @scope )
+        @results[:returned] = @returned_usr.count if @returned_usr != []
+        @results[:returned] = 0 if @returned_usr == []
+      end
+    end
+
     def resolved_issues statisticable, period_to_datetime
       if @scope == nil
-        @resolved = Queries.resolved_query statisticable, period_to_datetime
-        @results[:resolved] = @resolved.all.count
+        resolved = Queries.resolved_query statisticable, period_to_datetime
+        @results[:resolved] = resolved.all.count
       else
         resolved_user_per_project statisticable, period_to_datetime
       end

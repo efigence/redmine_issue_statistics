@@ -115,11 +115,22 @@ class IssueStatisticsController < ApplicationController
   end
 
   def returned_issues
-    @results = []
-    Queries.returned_query(base).each do |res|
-      @results << Issue.find(res.journalized_id)
+    if !!params[:statisticable_type] == "Project" && !params[:relate_id]
+      binding.pry
+      Queries.returned_query(base).each do |res|
+        @results << Issue.find(res.journalized_id)
+      end
+      redirect_to_path @results
+    elsif !!params[:relate_id]
+      binding.pry
+      @results = Queries.returned_for_users(Principal.find(params[:relate_id]), @periods_datetime, params[:statisticable_id])
+      redirect_to_total_logged_path @results
+    elsif !params[:relate_id] && params[:statisticable_type] != "Project"
+      binding.pry
+      @results = Queries.returned_for_users(Principal.find(params[:statisticable_id]), @periods_datetime)
+      redirect_to_total_logged_path @results
     end
-    redirect_to_path @results
+
   end
 
   def most_commented_issues

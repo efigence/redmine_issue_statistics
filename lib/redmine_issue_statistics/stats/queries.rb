@@ -36,6 +36,21 @@ module RedmineIssueStatistics
           where('old_value IN(?) AND value IN(?) AND prop_key = ?', Setting.plugin_redmine_issue_statistics['returned_table_from'], Setting.plugin_redmine_issue_statistics['returned_table_to'], "status_id").all
       end
 
+      def returned_for_users statisticable, period_to_datetime, scope = nil
+        if scope == nil
+          query = queries_for_logged_and_returned statisticable, period_to_datetime
+        else
+          query = queries_for_logged_and_returned statisticable, period_to_datetime, scope
+        end
+        query
+        returned = Journal.joins(:details).select('journalized_id').
+          group('journalized_id').
+          having('count(journalized_id) >= ?', Setting.plugin_redmine_issue_statistics['returned'].to_i).
+          where('old_value IN(?) AND value IN(?) AND prop_key = ? AND journalized_id IN(?)',
+                Setting.plugin_redmine_issue_statistics['returned_table_from'],
+                Setting.plugin_redmine_issue_statistics['returned_table_to'], "status_id", query).all.map(&:journalized_id)
+      end
+
       def comment_query issue, period_to_datetime
         Journal.where("journalized_id = ? AND notes != ? AND created_on >= ?", issue, "", period_to_datetime)
       end
@@ -63,7 +78,7 @@ module RedmineIssueStatistics
         end
       end
 
-      def total_logged_to statisticable, period_to_datetime, scope = nil
+      def queries_for_logged_and_returned statisticable, period_to_datetime, scope = nil
         if scope == nil
           query = Queries.base_query_to_log statisticable, period_to_datetime
           query2 = Journal.where('user_id = ? AND created_on >= ?', statisticable.id, period_to_datetime)
@@ -76,6 +91,15 @@ module RedmineIssueStatistics
           query2 = Journal.where('user_id = ? AND created_on >= ? AND journalized_id IN(?)',
                                  statisticable.id, period_to_datetime, Project.find(scope).issues.collect(&:id)).map(&:journalized_id)
           query = query.zip(query2).flatten.uniq
+        end
+        query
+      end
+
+      def total_logged_to statisticable, period_to_datetime, scope = nil
+        if scope == nil
+          query = queries_for_logged_and_returned statisticable, period_to_datetime
+        else
+          query = queries_for_logged_and_returned statisticable, period_to_datetime, scope
         end
         query
       end
