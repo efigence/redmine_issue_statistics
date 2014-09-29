@@ -64,4 +64,4 @@ You can search stats for User, Project or User per Project
 ### API
 
   If you want get an API, set your path with .json?key=your_api_access_key
-  ex.: `www.myamasingstats.com/issue_statistics/index.json?key=12124142juh124h1hiu1h24124ui124h1`
+  ex.: `www.myamasingstats.com/statistics.json?key=ee710ac2854asdads12330c097098d862b4982c3493c0`
