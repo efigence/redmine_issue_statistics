@@ -3,14 +3,21 @@
 Lets you calculate issues stats for users, projects, users in projects, divided on periods (week, month, year and all).
 
 Stats: 
-  - Total
-  - Opened
-  - Closed
-  - Opened to closed (ratio)
-  - Returned - (For example issues which changed status from resolved to new) (configurable)
-  - Returned (ratio) - Returned to total
-  - Most commented - Issue with a lot of comments (configurable)
-  - Older Issues - Issues older then current period
+  1. For Project's : 
+    - Total (- all assigned to current project)
+    - Opened (- all assigned to current project with status open)
+    - Closed (- all assigned to currnet project with status closed)
+    - Returned - (For example issues which changed status from resolved to new) (configurable)
+    - Returned (ratio) - Returned to total
+    - Most commented - Issue with a lot of comments (configurable)
+    - Older Issues - Issues older then current period
+  2. For User's and User's per Project
+    - Total (total_assigned) - ( - Tasks where current users logged spent time in current period or modified by this user)
+    - Opened ( - Tasks assigned to user with status open and which was assigned and still has status open
+)
+    - Resolved ( - Tasks which has been change status on resolved etc. by current user and actualy can not be assigned to current user)
+    - Older ( - Tasks older then current period, which has status opened)
+    - Returned ( - Returned in curent period by Journal)
 
 
 # Requirements
