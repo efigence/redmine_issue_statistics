@@ -18,6 +18,22 @@
       visibility = false;
       visibility_resolved = true;
     }
+    var spec_date = " No data";
+    if("<%= period %>" === "week"){
+      spec_date = "<%= t('periods.week')%> (<%= (stat_date - 1.week).strftime('%d/%m/%Y') %> - <%= stat_date.strftime('%d/%m/%Y') %>)";
+    }
+    else if("<%= period %>" === "month"){
+      spec_date = "<%=t('periods.month')%> (<%= (stat_date - 1.month).strftime('%d/%m/%Y') %> - <%= stat_date.strftime('%d/%m/%Y') %>)";
+    }
+    else if("<%= period %>" === "year"){
+      spec_date = "<%=t('periods.year')%> (<%= (stat_date - 1.year).strftime('%d/%m/%Y') %> - <%= stat_date.strftime('%d/%m/%Y') %>)";
+    }
+    else if("<%= period %>" === "all"){
+      spec_date = "<%=t('periods.all')%> <%= stat_date.strftime('%d/%m/%Y') %>";
+    }else{
+      spec_date;
+    }
+
     var chart;
     chart = new Highcharts.Chart({
       chart: { renderTo: '<%= id_statisticable %><%= period %>',
@@ -42,7 +58,7 @@
       },
       title: { text: ''  },
       xAxis: {
-        categories: [<%= raw period.to_json %>]
+        categories: [spec_date] // <%= raw period.to_json %>
       },
       yAxis: {
         title: { text: '' },

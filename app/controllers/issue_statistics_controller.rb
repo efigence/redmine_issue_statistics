@@ -115,7 +115,8 @@ class IssueStatisticsController < ApplicationController
   end
 
   def returned_issues
-    if !!params[:statisticable_type] == "Project" && !params[:relate_id]
+    if params[:statisticable_type] == "Project" && !params[:relate_id]
+      @results = []
       Queries.returned_query(base).each do |res|
         @results << Issue.find(res.journalized_id)
       end

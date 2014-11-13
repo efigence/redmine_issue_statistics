@@ -83,14 +83,14 @@ module RedmineIssueStatistics
           query = Queries.base_query_to_log statisticable, period_to_datetime
           query2 = Journal.where('user_id = ? AND created_on >= ?', statisticable.id, period_to_datetime)
           query, query2 = query.map(&:issue_id), query2.map(&:journalized_id)
-          query = query.zip(query2).flatten.uniq
+          query = query | query2
         else
           query = Queries.base_query_to_log statisticable, period_to_datetime
           query = query.where('project_id = ?', scope)
           query = query.map(&:issue_id)
           query2 = Journal.where('user_id = ? AND created_on >= ? AND journalized_id IN(?)',
                                  statisticable.id, period_to_datetime, Project.find(scope).issues.collect(&:id)).map(&:journalized_id)
-          query = query.zip(query2).flatten.uniq
+          query = query | query2
         end
         query
       end

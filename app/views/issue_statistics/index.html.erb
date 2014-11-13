@@ -33,7 +33,7 @@
     <h3 style="color: #333"><%= statisticable.name %>  <%= relate_id && User.find(relate_id).name  %></h3>
     <% periods.each_with_index do |period, pidx| %>
       <%= render :partial => 'main_chart', 
-                 :locals => {period: period, id_statisticable: id_statisticable, type_statisticable: type_statisticable, relate_id: relate_id, str: str, pidx: pidx} %>
+                 :locals => {period: period, id_statisticable: id_statisticable, type_statisticable: type_statisticable, relate_id: relate_id, str: str, pidx: pidx, stat_date: statisticable.updated_on } %>
       <%= render :partial => 'returned_chart', 
                  :locals => { id_statisticable: id_statisticable, type_statisticable: type_statisticable, relate_id: relate_id, str: str, periods: periods } %>
       <%= render :partial => 'opened_to_closed_chart', 

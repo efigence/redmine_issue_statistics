@@ -12,7 +12,8 @@ class IssueStatisticTest < ActiveSupport::TestCase
     :projects,
     :time_entries,
     :members,
-    :settings
+    :settings,
+    :issue_statuses
 
 
   def setup
@@ -40,7 +41,6 @@ class IssueStatisticTest < ActiveSupport::TestCase
       assert_equal 1, stat_proj_user.opened, 'Wrong opened issues count for user in project!'
       stat_proj = IssueStatistic.where(statisticable_type: "Project", relate_type: nil).first
       assert_equal 1, stat_proj.opened, 'Wrong opened count in stat_proj!'
-
     end
   end
 
@@ -64,7 +64,7 @@ class IssueStatisticTest < ActiveSupport::TestCase
 
       RedmineIssueStatistics::CalculateStatistic.new.calculate
       stat = IssueStatistic.last
-      assert_equal 1, stat.returned, 'Wrong returned count!'
+      assert_equal 2, stat.returned, 'Wrong returned count!'
     end
   end
 
@@ -125,16 +125,17 @@ class IssueStatisticTest < ActiveSupport::TestCase
 
   test 'Recalculete statistic for returned issues ratio' do
     RedmineIssueStatistics::CalculateStatistic.new.calculate
+
     stat_week = IssueStatistic.where("period = ? AND statisticable_type = ? AND statisticable_id = ?", "week", "User", 2).first
     stat_month = IssueStatistic.where("period = ? AND statisticable_type = ? AND statisticable_id = ?", "month", "User", 2).first
     stat_year = IssueStatistic.where("period = ? AND statisticable_type = ? AND statisticable_id = ?", "year", "User", 2).first
     stat_all = IssueStatistic.where("period = ? AND statisticable_type = ? AND statisticable_id = ?", "all", "User", 2).first
-    assert_equal 0, stat_week.total_assigned
-    assert_equal 0.0, stat_week.returned_ratio
-    assert_equal 0, stat_month.total_assigned
-    assert_equal 0.0, stat_month.returned_ratio
-    assert_equal 0.0, stat_year.returned_ratio
-    assert_equal 1, stat_all.total_assigned
+    assert_equal 2, stat_week.total_assigned
+    assert_equal 100.0, stat_week.returned_ratio
+    assert_equal 2, stat_month.total_assigned
+    assert_equal 100.0, stat_month.returned_ratio
+    assert_equal 100.0, stat_year.returned_ratio
+    assert_equal 2, stat_all.total_assigned
     assert_equal 100.0, stat_all.returned_ratio
   end
 

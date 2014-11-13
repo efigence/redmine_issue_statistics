@@ -172,14 +172,15 @@ class IssueStatisticsControllerTest < ActionController::TestCase
 
   test 'principal_returned_issues' do
     get :returned_issues, statisticable_id: 2, statisticable_type: 'User', period: 'week'
+    
     assert_redirected_to issues_path({
       set_filter: 1,  
       "f[]" => "id", 
       "op[id]" => "=",
-      "v[id]" => ["1"]
+      "v[id]" => ["1", "2"]
       })
     assert_response 302
-    assert_equal 1, assigns(:results).count, "This Principal should have 1 returned issue!"
+    assert_equal 2, assigns(:results).count, "This Principal should have 2 returned issue!"
   end
 
   test 'principal_most_commented_issues' do

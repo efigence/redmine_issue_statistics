@@ -11,7 +11,6 @@ IssueStatistics_001:
   opened_to_closed: 0
   returned: 1
   returned_ratio: 0
-  avg_issue_time: 0
   created_at: 2014-08-13 10:39:56.000000000 Z
   updated_at: 2014-08-13 10:39:56.000000000 Z
   period: week
@@ -29,7 +28,6 @@ IssueStatistics_002:
   opened_to_closed: 0
   returned: 1
   returned_ratio: 0
-  avg_issue_time: 0
   created_at: 2014-08-13 10:39:56.000000000 Z
   updated_at: 2014-08-13 10:39:56.000000000 Z
   period: month
@@ -47,7 +45,6 @@ IssueStatistics_003:
   opened_to_closed: 0
   returned: 1
   returned_ratio: 0
-  avg_issue_time: 0
   created_at: 2014-08-13 10:39:56.000000000 Z
   updated_at: 2014-08-13 10:39:56.000000000 Z
   period: year
@@ -65,7 +62,6 @@ IssueStatistics_004:
   opened_to_closed: 0
   returned: 1
   returned_ratio: 0
-  avg_issue_time: 0
   created_at: 2014-08-13 10:39:56.000000000 Z
   updated_at: 2014-08-13 10:39:56.000000000 Z
   period: all
@@ -83,7 +79,6 @@ IssueStatistics_005:
   opened_to_closed: 0.55
   returned: 12
   returned_ratio: 0.1
-  avg_issue_time: 1.5
   created_at: 2014-08-13 10:39:56.000000000 Z
   updated_at: 2014-08-13 10:39:56.000000000 Z
   period: week
@@ -101,7 +96,6 @@ IssueStatistics_006:
   opened_to_closed: 0.55
   returned: 12
   returned_ratio: 0.1
-  avg_issue_time: 1.5
   created_at: 2014-08-13 10:39:56.000000000 Z
   updated_at: 2014-08-13 10:39:56.000000000 Z
   period: month
@@ -119,7 +113,6 @@ IssueStatistics_007:
   opened_to_closed: 0.55
   returned: 12
   returned_ratio: 0.1
-  avg_issue_time: 1.5
   created_at: 2014-08-13 10:39:56.000000000 Z
   updated_at: 2014-08-13 10:39:56.000000000 Z
   period: year
@@ -137,7 +130,6 @@ IssueStatistics_008:
   opened_to_closed: 0.55
   returned: 12
   returned_ratio: 0.1
-  avg_issue_time: 1.5
   created_at: 2014-08-13 10:39:56.000000000 Z
   updated_at: 2014-08-13 10:39:56.000000000 Z
   period: all
@@ -155,7 +147,6 @@ IssueStatistics_009:
   opened_to_closed: 0.55
   returned: 12
   returned_ratio: 0.1
-  avg_issue_time: 1.5
   created_at: 2014-09-01 10:39:56.000000000 Z
   updated_at: 2014-09-02 10:39:56.000000000 Z
   period: week
@@ -173,7 +164,6 @@ IssueStatistics_010:
   opened_to_closed: 0.55
   returned: 12
   returned_ratio: 0.1
-  avg_issue_time: 1.5
   created_at: 2014-09-01 10:39:56.000000000 Z
   updated_at: 2014-09-02 10:39:56.000000000 Z
   period: month
@@ -191,7 +181,6 @@ IssueStatistics_011:
   opened_to_closed: 0.55
   returned: 12
   returned_ratio: 0.1
-  avg_issue_time: 1.5
   created_at: 2014-09-01 10:39:56.000000000 Z
   updated_at: 2014-09-02 10:39:56.000000000 Z
   period: year
@@ -209,7 +198,6 @@ IssueStatistics_012:
   opened_to_closed: 0.55
   returned: 12
   returned_ratio: 0.1
-  avg_issue_time: 1.5
   created_at: 2014-09-01 10:39:56.000000000 Z
   updated_at: 2014-09-02 10:39:56.000000000 Z
   period: all
