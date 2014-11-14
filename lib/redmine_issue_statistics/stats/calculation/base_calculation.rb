@@ -5,13 +5,13 @@ module RedmineIssueStatistics
   class BaseCalculation < BasicCalculation
     attr_reader :results, :period
 
-    def calculate statisticable, period, scope = nil
+    def calculate statisticable, period, scope = nil, class_name = nil
       @periods_datetime = nil
       @period = period
       @scope = scope
 
       @query = Queries.base_query statisticable, period_to_datetime
-      @old_issues = Queries.old_issues_query statisticable, period_to_datetime
+      @old_issues = Queries.old_issues_query statisticable, period_to_datetime, scope, class_name
       if statisticable.class.name == "Project"
         calculate_total_issues_for statisticable
         calculate_opened_issues_for statisticable

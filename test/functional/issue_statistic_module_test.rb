@@ -121,6 +121,8 @@ class IssueStatisticTest < ActiveSupport::TestCase
     assert_equal 1, stat_year.comment_max, "Wrong comment count in stat_year!"
     assert_equal 1, stat_all.comment_max, "Wrong comment count in stat_all!"
     assert_equal 1, stat_all.returned, "Wrong returned count in stat_all!"
+    assert_equal 0, stat_week.old_issues, "Wrong old issues count in stat_week!"
+    assert_equal 0, stat_month.old_issues, "Wrong old issues count in stat_month!"
   end
 
   test 'Recalculete statistic for returned issues ratio' do

@@ -23,7 +23,7 @@ module RedmineIssueStatistics
 
     def calculate_with_params value, period, scope = nil
       @results = []
-      @results << BaseCalculation.new.calculate(value, period, scope)
+      @results << BaseCalculation.new.calculate(value, period, scope, value.class.name)
       @results << ReturnedIssues.new.calculate(value, period, scope)
       @results << JournalCalculation.new.calculate(value, period, scope)
     end

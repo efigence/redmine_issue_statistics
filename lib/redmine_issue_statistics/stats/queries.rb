@@ -13,10 +13,21 @@ module RedmineIssueStatistics
           uniq('issue_id')
       end
 
-      def old_issues_query statisticable, period_to_datetime
-        Issue.
-          where(project_id: open_projects).
-          where('assigned_to_id = ? AND created_on < ? ', statisticable.id, period_to_datetime).open
+      def old_issues_query statisticable, period_to_datetime, scope = nil, class_name = nil
+        if scope == nil && class_name != "Project" #user
+          issues = Issue.
+            where(project_id: open_projects).
+            where('assigned_to_id = ? AND created_on < ? ', statisticable.id, period_to_datetime).open
+        elsif scope == nil && class_name == "Project" #project
+          issues = Issue.
+            where(project_id: open_projects).
+            where('project_id = ? AND created_on < ? ', statisticable.id, period_to_datetime).open  
+        elsif scope != nil #project-user
+          issues = Issue.
+            where(project_id: open_projects).
+            where('assigned_to_id = ? AND created_on < ? AND project_id = ?', statisticable.id, period_to_datetime, scope).open
+        end
+        issues
       end
 
       def project_scope query, project_id
