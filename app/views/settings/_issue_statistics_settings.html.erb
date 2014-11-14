@@ -1,3 +1,5 @@
+<%= javascript_include_tag '/plugin_assets/redmine_issue_statistics/javascripts/selectize' %>
+<%= stylesheet_link_tag '/plugin_assets/redmine_issue_statistics/stylesheets/selectize.default.css' %>
 <p>
   <label for="comment_settings"><%=l(:comments_count)%></label>
   <%= text_field_tag 'settings[comment_settings]', @settings['comment_settings'] %><br/>
@@ -48,13 +50,10 @@
 </p>
 <hr>
 <h3><%= l(:allowed_groups_to_stats) %></h3>
-<p>
   <%= select_tag "settings[groups][]",
-    options_from_collection_for_select(Group.all.sort, 'id', 'lastname',
-      Setting.plugin_redmine_issue_statistics[:groups]
-      ), :multiple => true, :id => "groups" %>
-</p>
-<hr>
+    options_from_collection_for_select(Group.all.sort, 'id', 'lastname', @settings['groups']
+      ), :multiple => true, class: "selectize" %>
+
 <h3><%= l(:auth_stats_token) %></h3>
 <p>
 <em class="info">
@@ -63,6 +62,13 @@ Terminal: curl -x "" --header "Authorization: YOUR API KEY" <%= statistics_url %
 </em>
 </p>
 <hr>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('.selectize').selectize({
+      plugins: ['remove_button']
+    });
+  });
+</script>
 <% content_for :header_tags do %>
   <%= javascript_include_tag 'configuration_checkbox', :plugin => 'redmine_issue_statistics' %>
 <% end %>
